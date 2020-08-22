@@ -66,7 +66,6 @@ export default class NewPost extends Component {
          alert('Some error occurred. Please try again. ' + error + Parse);
       });
    }
-   
    }
 
  render() {
