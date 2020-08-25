@@ -8,11 +8,11 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
+ 
 import {Parse,User} from 'parse/react-native'
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL='https://parse.sushant.xyz:1304/';
-
 
 export default class LoginScreen extends Component {
 
@@ -24,11 +24,13 @@ export default class LoginScreen extends Component {
     };
   }
 
+ 
   onPress = () => {
     const user = User.logIn(this.state.username,this.state.password);
 
     user.then(()=>{
       alert("Signed In");
+      this.props.navigation.navigate('NewUser');
     },()=>{
       ToastAndroid.show("Login failed",ToastAndroid.SHORT);
       this.state.password="";

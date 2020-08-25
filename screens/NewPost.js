@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-Alert,
  Text,
  View,
  ScrollView,
  TextInput,
  TouchableOpacity,
  AsyncStorage,
- ToastAndroid,
 } from 'react-native';
 import {Parse} from "parse/react-native"
 Parse.setAsyncStorage(AsyncStorage);
@@ -63,7 +61,7 @@ export default class NewPost extends Component {
          this.state.workexperience = '';
          this.state.description = '';
       },(error) => {
-         alert('Some error occurred. Please try again. ' + error + Parse);
+         alert('Some error occurred. Please try again. ' + error);
       });
    }
    }
