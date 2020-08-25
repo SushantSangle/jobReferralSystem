@@ -20,9 +20,6 @@ const Details = ({ navigation }) => {
                 <Text>
                     Heading: {navigation.getParam('head')}
                 </Text>
-                <Text>
-                    ID: {navigation.getParam('id')}
-                </Text>
             </View>
         </>
     );
