@@ -25,6 +25,8 @@ const Data = [
         jobLocation: 'PUNE',
         jobAuthor: 'HR',
         jobTechnology: 'PYTHON',
+        jobWorkExperience: 'aaaaaaa',
+        jobDescription: 'aaaaaaa',
         jobDate: '20/08/2020'
     },
     {
@@ -34,6 +36,8 @@ const Data = [
         jobLocation: 'MUMBAI',
         jobAuthor: 'HR',
         jobTechnology: 'PYTHON',
+        jobWorkExperience: 'aaaaaaa',
+        jobDescription: 'aaaaaaa',
         jobDate: '20/08/2020'
     }, {
         jobId: '3',
@@ -42,6 +46,8 @@ const Data = [
         jobLocation: 'NASHIK',
         jobAuthor: 'HR',
         jobTechnology: 'PYTHON',
+        jobWorkExperience: 'aaaaaaa',
+        jobDescription: 'aaaaaaa',
         jobDate: '20/08/2020'
     }, {
         jobId: '4',
@@ -50,6 +56,8 @@ const Data = [
         jobLocation: 'NAGPUR',
         jobAuthor: 'HR',
         jobTechnology: 'PYTHON',
+        jobWorkExperience: 'aaaaaaa',
+        jobDescription: 'aaaaaaa',
         jobDate: '20/08/2020'
     }, {
         jobId: '5',
@@ -58,6 +66,8 @@ const Data = [
         jobLocation: 'AKOLA',
         jobAuthor: 'HR',
         jobTechnology: 'PYTHON',
+        jobWorkExperience: 'aaaaaaa',
+        jobDescription: 'aaaaaaa',
         jobDate: '20/08/2020'
     }
 ];

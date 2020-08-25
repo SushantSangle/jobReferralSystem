@@ -21,7 +21,16 @@ const width = Dimensions.get("window").width;
 const JobCard = (props) => {
 
     const onPress = () => {
-        props.navigation.navigate("Details", { head: props.jobHead, id: props.jobId });
+        props.navigation.navigate("Details", {
+            jobHead: props.jobHead,
+            jobType: props.jobType,
+            jobLocation: props.jobLocation,
+            jobAuthor: props.jobAuthor,
+            jobTechnology: props.jobTechnology,
+            jobWorkExperience: props.jobWorkExperience,
+            jobDescription: props.jobDescription,
+            jobDate: props.jobDate,
+        });
     }
 
     return (
