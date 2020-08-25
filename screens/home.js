@@ -11,7 +11,8 @@ import {
     StyleSheet,
     View,
     Text,
-    Button
+    Button, TouchableOpacity,
+    Image
 } from 'react-native';
 
 import JobCard from '../components/job_card';
@@ -72,9 +73,11 @@ const Data = [
     }
 ];
 
-
-
 const Home = ({ navigation }) => {
+
+    const clickHandler = () => {
+        navigation.navigate("NewPost");
+    };
 
     const renderItem = ({ item }) => (
         <JobCard
@@ -94,11 +97,38 @@ const Home = ({ navigation }) => {
                 data={Data}
                 renderItem={renderItem}
                 keyExtractor={item => item.jobId} />
+
+            <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={clickHandler}
+                style={styles.TouchableOpacityStyle}>
+                <Image
+                    source={{
+                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
+                    }}
+                    style={styles.FloatingButtonStyle}
+                />
+            </TouchableOpacity>
         </>
     );
 };
 
 const styles = StyleSheet.create({
+    TouchableOpacityStyle: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+    },
+
+    FloatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+    },
 });
 
 export default Home;

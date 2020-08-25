@@ -1,6 +1,8 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/home';
 import Details from '../screens/details';
+import EditPost from '../screens/EditPost';
+import NewPost from '../screens/NewPost';
 
 const screens = {
     Home: {
@@ -15,6 +17,19 @@ const screens = {
             title: "Details"
         }
     },
+    EditPost: {
+        screen: EditPost,
+        navigationOptions: {
+            title: "Edit Post Details"
+        }
+    },
+    NewPost: {
+        screen: NewPost,
+        navigationOptions: {
+            title: "Add New Post"
+        }
+    },
+
 }
 
 const HomeStack = createStackNavigator(screens, {

@@ -13,9 +13,9 @@ import {
     Text,
     Dimensions,
     TextInput,
-    FlatList
+    FlatList,
 } from 'react-native';
-
+import PopupMenu from '../components/popup_menu';
 import Comment from '../components/comment';
 import Button from '../components/button';
 
@@ -40,6 +40,16 @@ export default class Details extends Component {
         this.navigation = this.props.navigation;
     }
 
+    onPopupEvent = (eventName, index) => {
+        if (eventName !== 'itemSelected') return
+        if (index == 0) {
+            this.navigation.navigate("EditPost",);
+        }
+        if (index == 1) {
+            alert("Pressed Delete Post");
+        }
+    }
+
     getHeader = () => {
         return (
             <>
@@ -53,7 +63,9 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>Description: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <Text style={{ color: "#606770" }}>{this.navigation.getParam('jobDate')}</Text>
+                        <PopupMenu actions={['Edit', 'Remove']}
+                            onPress={this.onPopupEvent} />
+                        <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
