@@ -30,7 +30,7 @@ export default class LoginScreen extends Component {
 
     user.then(()=>{
       alert("Signed In");
-      this.props.navigation.navigate('NewUser');
+     
     },()=>{
       ToastAndroid.show("Login failed",ToastAndroid.SHORT);
       this.state.password="";
