@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -8,15 +8,16 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
-import {Parse,User} from 'parse/react-native'
+import {Parse, User} from 'parse/react-native';
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
-Parse.serverURL='https://parse.sushant.xyz:1304/';
-
+Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 export default class LoginScreen extends Component {
-
   constructor(props) {
+    if (Parse.User.getSessionToken()) {
+      //switch to other screen here
+    }
     super(props);
     this.state = {
       username: '',
@@ -25,16 +26,19 @@ export default class LoginScreen extends Component {
   }
 
   onPress = () => {
-    const user = User.logIn(this.state.username,this.state.password);
+    const user = User.logIn(this.state.username, this.state.password);
 
-    user.then(()=>{
-      alert("Signed In");
-    },()=>{
-      ToastAndroid.show("Login failed",ToastAndroid.SHORT);
-      this.state.password="";
-      this.state.username="";
-    });
-  }
+    user.then(
+      () => {
+        alert('Signed In');
+      },
+      () => {
+        ToastAndroid.show('Login failed', ToastAndroid.SHORT);
+        this.state.password = '';
+        this.state.username = '';
+      },
+    );
+  };
 
   render() {
     return (
@@ -46,7 +50,7 @@ export default class LoginScreen extends Component {
 
         <TextInput
           value={this.state.username}
-          onChangeText={(username) => this.setState({ username })}
+          onChangeText={(username) => this.setState({username})}
           label="Username"
           style={styles.inputext}
           placeholder={'Username'}
@@ -55,22 +59,21 @@ export default class LoginScreen extends Component {
         <TextInput
           placeholder={'Password'}
           value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
+          onChangeText={(password) => this.setState({password})}
           label="Password"
           secureTextEntry={true}
           style={styles.inputext}
         />
 
-        <TouchableOpacity onPress={this.onPress} >
+        <TouchableOpacity onPress={this.onPress}>
           <View style={styles.signin}>
-            <Text style={{ color: "#ffffff" }}>
-              Sign In
-            </Text>
+            <Text style={{color: '#ffffff'}}>Sign In</Text>
           </View>
         </TouchableOpacity>
-      </View >
+      </View>
     );
   }
 }
 
 const styles = require('../stylesheets/loginScreen');
+
