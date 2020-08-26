@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
  Text,
@@ -129,8 +128,7 @@ export default class NewPost extends Component {
         onChangeText={(email) => this.setState({ email })}
         label="email"
         style={styles.inputext}
-        placeholder={'Enter email'} 
-        
+        placeholder={'Enter email'}        
         />
 
         <Text style={styles.text}>Department*</Text>
@@ -159,7 +157,6 @@ export default class NewPost extends Component {
         style={styles.inputext}
         placeholder={'Enter designation'} 
         />
-
 
         <Text style={styles.text}>Qualification*</Text>
         <TextInput 

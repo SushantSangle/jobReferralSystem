@@ -35,8 +35,7 @@ export default class NewPost extends Component {
     || this.state.description == '') {
       alert('Please enter all the feilds');
     }
-    else{
-      
+    else{    
       var PostDetails = Parse.Object.extend("jobPosts");
       var postDetails = new PostDetails();
       var user = Parse.User.current();
