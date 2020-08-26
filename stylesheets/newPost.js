@@ -17,12 +17,11 @@ const newPost=StyleSheet.create({
  fontSize: 10,
  paddingLeft: 10,
  marginLeft:10,
- justifyContent:"center"
  },
  signin: { 
  borderRadius: 20, 
  backgroundColor: "#3ab795", 
- height: 50, width: 170, 
+ height: 50, width: 150, 
  justifyContent: "center", 
  alignItems: "center", 
  marginBottom: 20,
