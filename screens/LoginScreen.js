@@ -9,22 +9,38 @@ import {
   ToastAndroid,
 } from 'react-native';
 import {Parse, User} from 'parse/react-native';
+Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 export default class LoginScreen extends Component {
-  constructor(props) {
-    if (Parse.User.getSessionToken()) {
-      //switch to other screen here
+  setVisibility(VISIBILITY){
+    this.setState={
+      loggedIn: !VISIBILITY
     }
+  }
+  constructor(props) {
+    User.logOut();
     super(props);
     this.state = {
       username: '',
       password: '',
+      loggedIn: false
     };
+    User.currentAsync().then((user)=>{
+      if(user!=null){
+        ToastAndroid.show("Logged In",ToastAndroid.LONG);
+        this.setVisibility(false);
+        //redirect from here
+      }else{
+        this.setVisibility(true);
+      }
+    },(error)=>{
+      this.setVisibility(true);
+      console.log("Error with logging in"+error);
+    });
   }
-
   onPress = () => {
     const user = User.logIn(this.state.username, this.state.password);
 
@@ -47,29 +63,29 @@ export default class LoginScreen extends Component {
           source={require('../images/snack-icon.png')}
           style={styles.logoContainer}
         />
-
-        <TextInput
+        {!this.state.loggedIn && <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({username})}
           label="Username"
           style={styles.inputext}
           placeholder={'Username'}
-        />
+        />}
 
-        <TextInput
+        {!this.state.loggedIn && <TextInput
           placeholder={'Password'}
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
           label="Password"
           secureTextEntry={true}
           style={styles.inputext}
-        />
-
-        <TouchableOpacity onPress={this.onPress}>
-          <View style={styles.signin}>
-            <Text style={{color: '#ffffff'}}>Sign In</Text>
-          </View>
-        </TouchableOpacity>
+        />}
+        {!this.state.loggedIn && <TouchableOpacity onPress={this.onPress}>
+              <View style={styles.signin}>
+                <Text style={{color: '#ffffff'}}>Sign In</Text>
+              </View>
+            </TouchableOpacity>
+        }
+         
       </View>
     );
   }
