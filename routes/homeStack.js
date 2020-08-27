@@ -3,12 +3,21 @@ import Home from '../screens/home';
 import Details from '../screens/details';
 import EditPost from '../screens/EditPost';
 import NewPost from '../screens/NewPost';
+import LoginScreen from '../screens/LoginScreen';
 
 const screens = {
+    LoginScreen: {
+        screen: LoginScreen,
+        navigationOptions: {
+            title: "Login",
+            headerLeft: null
+        }
+    },
     Home: {
         screen: Home,
         navigationOptions: {
-            title: "Home"
+            title: "Home",
+            headerLeft: null
         }
     },
     Details: {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -8,18 +8,14 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
-import {Parse, User} from 'parse/react-native';
+import { Parse, User } from 'parse/react-native';
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 export default class LoginScreen extends Component {
-  setVisibility(VISIBILITY){
-    this.setState={
-      loggedIn: !VISIBILITY
-    }
-  }
+
   constructor(props) {
     User.logOut();
     super(props);
@@ -28,17 +24,23 @@ export default class LoginScreen extends Component {
       password: '',
       loggedIn: false
     };
-    User.currentAsync().then((user)=>{
-      if(user!=null){
-        ToastAndroid.show("Logged In",ToastAndroid.LONG);
-        this.setVisibility(false);
-        //redirect from here
-      }else{
-        this.setVisibility(true);
+    this.navigation = this.props.navigation;
+
+    this.checkLoggedIn = () => {
+      if (loggedIn) {
+        this.navigation.navigate("Home");
       }
-    },(error)=>{
+    }
+
+    User.currentAsync().then((user) => {
+      if (user != null) {
+        this.navigation.navigate("Home");
+        ToastAndroid.show("Logged In", ToastAndroid.LONG);
+
+      }
+    }, (error) => {
       this.setVisibility(true);
-      console.log("Error with logging in"+error);
+      console.log("Error with logging in" + error);
     });
   }
   onPress = () => {
@@ -46,6 +48,7 @@ export default class LoginScreen extends Component {
 
     user.then(
       () => {
+        this.navigation.navigate("Home");
         alert('Signed In');
       },
       () => {
@@ -63,29 +66,29 @@ export default class LoginScreen extends Component {
           source={require('../images/snack-icon.png')}
           style={styles.logoContainer}
         />
-        {!this.state.loggedIn && <TextInput
+        <TextInput
           value={this.state.username}
-          onChangeText={(username) => this.setState({username})}
+          onChangeText={(username) => this.setState({ username })}
           label="Username"
           style={styles.inputext}
           placeholder={'Username'}
-        />}
+        />
 
-        {!this.state.loggedIn && <TextInput
+        <TextInput
           placeholder={'Password'}
           value={this.state.password}
-          onChangeText={(password) => this.setState({password})}
+          onChangeText={(password) => this.setState({ password })}
           label="Password"
           secureTextEntry={true}
           style={styles.inputext}
-        />}
-        {!this.state.loggedIn && <TouchableOpacity onPress={this.onPress}>
-              <View style={styles.signin}>
-                <Text style={{color: '#ffffff'}}>Sign In</Text>
-              </View>
-            </TouchableOpacity>
-        }
-         
+        />
+        <TouchableOpacity onPress={this.onPress}>
+          <View style={styles.signin}>
+            <Text style={{ color: '#ffffff' }}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
+
+
       </View>
     );
   }
