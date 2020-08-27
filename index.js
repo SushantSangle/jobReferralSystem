@@ -14,4 +14,5 @@ import ReferPerson from './screens/ReferPerson';
 import Button from './components/button';
 import UserManagement from './screens/UserManagement';
 import PropTypes from 'prop-types';
-AppRegistry.registerComponent(appName, () => App);
+import RefferedPeople from './screens/RefferedPeople.js';
+AppRegistry.registerComponent(appName, () => RefferedPeople);

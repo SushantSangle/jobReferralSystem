@@ -17,7 +17,6 @@ Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 export default class LoginScreen extends Component {
 
   constructor(props) {
-    User.logOut();
     super(props);
     this.state = {
       username: '',

@@ -10,14 +10,14 @@ const screens = {
         screen: LoginScreen,
         navigationOptions: {
             title: "Login",
-            headerLeft: null
+            headerLeft: () => null
         }
     },
     Home: {
         screen: Home,
         navigationOptions: {
             title: "Home",
-            headerLeft: null
+            headerLeft: () => null
         }
     },
     Details: {
