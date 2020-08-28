@@ -4,13 +4,14 @@ import Details from '../screens/details';
 import EditPost from '../screens/EditPost';
 import NewPost from '../screens/NewPost';
 import LoginScreen from '../screens/LoginScreen';
+import ReferPerson from '../screens/ReferPerson';
+import ReferredPeople from '../screens/ReferredPeople';
 
 const screens = {
     LoginScreen: {
         screen: LoginScreen,
         navigationOptions: {
-            title: "Login",
-            headerLeft: () => null
+            title: "Login"
         }
     },
     Home: {
@@ -38,6 +39,18 @@ const screens = {
             title: "Add New Post"
         }
     },
+    ReferPerson: {
+        screen: ReferPerson,
+        navigationOptions: {
+            title: "Refer Person"
+        }
+    },
+    ReferredPeople: {
+        screen: ReferredPeople,
+        navigationOptions: {
+            title: "Referred People"
+        }
+    }
 
 }
 

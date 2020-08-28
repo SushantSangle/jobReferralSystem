@@ -8,8 +8,8 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { Parse, User } from 'parse/react-native';
-Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
@@ -18,27 +18,20 @@ export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.navigation = this.props.navigation;
+
     this.state = {
       username: '',
       password: '',
       loggedIn: false
     };
-    this.navigation = this.props.navigation;
-
-    this.checkLoggedIn = () => {
-      if (loggedIn) {
-        this.navigation.navigate("Home");
-      }
-    }
 
     User.currentAsync().then((user) => {
       if (user != null) {
         this.navigation.navigate("Home");
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
-
       }
     }, (error) => {
-      this.setVisibility(true);
       console.log("Error with logging in" + error);
     });
   }
@@ -65,6 +58,7 @@ export default class LoginScreen extends Component {
           source={require('../images/snack-icon.png')}
           style={styles.logoContainer}
         />
+
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -81,13 +75,12 @@ export default class LoginScreen extends Component {
           secureTextEntry={true}
           style={styles.inputext}
         />
+
         <TouchableOpacity onPress={this.onPress}>
           <View style={styles.signin}>
             <Text style={{ color: '#ffffff' }}>Sign In</Text>
           </View>
         </TouchableOpacity>
-
-
       </View>
     );
   }

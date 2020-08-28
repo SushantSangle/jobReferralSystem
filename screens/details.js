@@ -43,11 +43,18 @@ export default class Details extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost",);
+            this.navigation.navigate("EditPost");
         }
         if (index == 1) {
             alert("Pressed Delete Post");
         }
+        if (index == 2) {
+            this.navigation.navigate("ReferPerson");
+        }
+        if (index == 3) {
+            this.navigation.navigate("ReferredPeople");
+        }
+
     }
 
     getHeader = () => {
@@ -63,7 +70,7 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>Description: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <PopupMenu actions={['Edit', 'Remove']}
+                        <PopupMenu actions={['Edit', 'Remove', 'Refer Person', 'Referred People']}
                             onPress={this.onPopupEvent} />
                         <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
                     </View>

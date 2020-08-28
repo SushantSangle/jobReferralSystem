@@ -58,7 +58,7 @@ export default class NewPost extends Component {
                     <TextInput
                         value={this.state.contact}
                         onChangeText={(contact) => this.setState({ contact })}
-                        label="techncontactology"
+                        label="contact"
                         style={styles.inputext}
                         placeholder={'Enter contact'}
                     />
@@ -67,9 +67,9 @@ export default class NewPost extends Component {
                     <TextInput
                         value={this.state.contact}
                         onChangeText={(linkedin) => this.setState({ linkedin })}
-                        label="technology"
+                        label="linkedin"
                         style={styles.inputext}
-                        placeholder={'Enter Technology'}
+                        placeholder={'Enter LinkedIn Profile URL'}
                     />
 
                     <Text style={styles.text}>Type*</Text>
