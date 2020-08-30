@@ -4,7 +4,15 @@ import Details from '../screens/details';
 import EditPost from '../screens/EditPost';
 import NewPost from '../screens/NewPost';
 import LoginScreen from '../screens/LoginScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import changeTheme from '../screens/changeTheme';
+
 import DynamicStyle from '../utils/DyamicStyle';
+
+// import ReferPerson from '../screens/ReferPerson';
+// import ReferredPeople from '../screens/ReferredPeople';
+
+
 
 const screens = {
     LoginScreen: {
@@ -49,7 +57,19 @@ const screens = {
     //     navigationOptions: {
     //         title: "Referred People"
     //     }
-    // }
+    // },
+    Settings: {
+        screen: SettingsScreen,
+        navigationOptions: {
+            title: "Settings"
+        }
+    },
+    changeTheme: {
+        screen: changeTheme,
+        navigationOptions: {
+            title: "Change Theme"
+        }
+    }
 
 }
 
@@ -63,3 +83,4 @@ const HomeStack = createStackNavigator(screens, {
 });
 
 export default HomeStack;
+
