@@ -20,8 +20,8 @@ import {
 import JobCard from '../components/job_card';
 import { FlatList } from 'react-native-gesture-handler';
 
-class Home extends Component{
-    constructor(props){
+class Home extends Component {
+    constructor(props) {
         super(props);
         this.navigation = this.props.navigation;
         this.state = {
@@ -31,46 +31,50 @@ class Home extends Component{
             seed: 1,
             error: null,
             refreshing: false,
-          };
+        };
+
     }
-    componentDidMount(){
+
+    componentDidMount() {
         this.makeRemoteRequest();
     }
-    makeRemoteRequest = () =>{
-        this.setState({loading:true});
+    makeRemoteRequest = () => {
+        this.setState({ loading: true });
         var query = new Query("jobPosts");
-        var eachPromise = query.each((result)=>{
+        var eachPromise = query.each((result) => {
             this.state.data.push({
-                jobId : result.id,
-                jobHead : result.get('jobPosition'),
+                jobId: result.get('objectId'),
+                jobHead: result.get('jobPosition'),
                 jobType: result.get("jobType"),
-                jobLocation : result.get("location"),
-                jobAuthor : result.get("postedBy").get("username"),
-                jobTechnology : result.get("technology"),
-                jobDate : result.get("createdAt"),
+                jobLocation: result.get("location"),
+                jobAuthor: result.get("postedBy").get("username"),
+                jobTechnology: result.get("technology"),
+                jobDate: result.get("createdAt"),
             });
             console.log("data read");
         })
-        eachPromise.then((result)=>{
-            this.setState({loading:false,refreshing:false});
+        eachPromise.then((result) => {
+            this.setState({ loading: false, refreshing: false });
             console.log("data promise fulfilled");
             console.log(this.state.data);
-        },(errorin)=>{
-            this.setState({error:errorin,loading:false});
-            console.log("data Promise ERROR:"+error);
-        }).catch((errorin)=>{
-            this.setState({error:errorin,loading:false});
-            console.log("data Promise ERROR:"+error);
+        }, (errorin) => {
+            this.setState({ error: errorin, loading: false });
+            console.log("data Promise ERROR:" + error);
+        }).catch((errorin) => {
+            this.setState({ error: errorin, loading: false });
+            console.log("data Promise ERROR:" + error);
         })
     }
-    render(){
+
+    render() {
         return (
             <>
                 {!this.state.loading && <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
-                    keyExtractor={item => item.jobId} 
+                    keyExtractor={item => item.jobId}
                 />}
+                {console.log("in render data:" + this.state.data)}
 
                 <TouchableOpacity
                     activeOpacity={0.7}
@@ -86,22 +90,22 @@ class Home extends Component{
             </>
         )
     }
-    
-    clickHandler(){
+
+    clickHandler() {
         this.navigation.navigate("NewPost");
     };
 
-    renderItem(item){
-        return(
+    renderItem = (item) => {
+        return (
             <JobCard
-            jobId={item.jobId}
-            jobHead={item.jobHead}
-            jobType={item.jobType}
-            jobLocation={item.jobLocation}
-            jobAuthor={item.jobAuthor}
-            jobTechnology={item.jobTechnology}
-            jobDate={item.jobDate}
-            navigation={this.navigation} />
+                jobId={item.jobId}
+                jobHead={item.jobHead}
+                jobType={item.jobType}
+                jobLocation={item.jobLocation}
+                jobAuthor={item.jobAuthor}
+                jobTechnology={item.jobTechnology}
+                jobDate={item.jobDate}
+                navigation={this.navigation} />
         )
     }
 }
