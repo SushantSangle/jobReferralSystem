@@ -1,7 +1,6 @@
+import DynamicStyle from '../utils/DyamicStyle';
 
-import { StyleSheet } from 'react-native';
-
-const loginstyle=StyleSheet.create({
+const loginstyle=DynamicStyle.create({
     container: {
       flex: 1,
       alignItems: 'center',
@@ -38,7 +37,7 @@ const loginstyle=StyleSheet.create({
     },
   signin: { 
     borderRadius: 20, 
-    backgroundColor: "#3ab795", 
+    backgroundColor: DynamicStyle.bgColor, 
     height: 40, width: 150, 
     justifyContent: "center", 
     alignItems: "center" },

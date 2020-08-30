@@ -8,7 +8,7 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
-import { Parse, User } from 'parse/react-native';
+import { Parse, User,Config } from 'parse/react-native';
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
@@ -18,29 +18,38 @@ export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
+
+    this.navigation = this.props.navigation;
     this.state = {
       username: '',
       password: '',
       loggedIn: false
     };
-    this.navigation = this.props.navigation;
 
     this.checkLoggedIn = () => {
       if (loggedIn) {
+        ToastAndroid("Logged In",ToastAndroid.SHORT);
         this.navigation.navigate("Home");
       }
     }
 
     User.currentAsync().then((user) => {
       if (user != null) {
-        this.navigation.navigate("Home");
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
-
+        this.navigation.navigate("Home");
       }
     }, (error) => {
       this.setVisibility(true);
       console.log("Error with logging in" + error);
     });
+    Config.get().then((config)=>{
+      console.log("\nAccent_color:"+config.get("accent_color"));
+      config.get("logo").getData().then((data)=>{
+        console.log("data:"+data);
+      }).catch((error)=>{
+        console.log("ERROR with file:"+error);
+      })
+    })
   }
   onPress = () => {
     const user = User.logIn(this.state.username, this.state.password);
@@ -55,7 +64,9 @@ export default class LoginScreen extends Component {
         this.state.password = '';
         this.state.username = '';
       },
-    );
+    ).catch((error)=>{
+      console.log("Error Loggin IN:"+error);
+    });
   };
 
   render() {

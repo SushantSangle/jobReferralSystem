@@ -4,6 +4,7 @@ import Details from '../screens/details';
 import EditPost from '../screens/EditPost';
 import NewPost from '../screens/NewPost';
 import LoginScreen from '../screens/LoginScreen';
+import DynamicStyle from '../utils/DyamicStyle';
 
 const screens = {
     LoginScreen: {
@@ -44,7 +45,7 @@ const screens = {
 const HomeStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
         headerStyle: {
-            backgroundColor: "#88b972",
+            backgroundColor: DynamicStyle.bgColor,
             height: 50
         }
     }
