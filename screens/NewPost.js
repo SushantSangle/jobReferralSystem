@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import {
-    Alert,
     Text,
     View,
     ScrollView,
     TextInput,
-    Image,
     TouchableOpacity,
     AsyncStorage,
-    ToastAndroid,
 } from 'react-native';
-
+import { Parse } from "parse/react-native"
+Parse.setAsyncStorage(AsyncStorage);
+Parse.initialize('job-Referral-System');
+Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 
 export default class NewPost extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,25 +23,48 @@ export default class NewPost extends Component {
             location: '',
             qualification: '',
             workexperience: '',
-            description: '',
+            description: ''
         };
     }
 
     onPress = () => {
-        if (this.state.position == ''
-            || this.state.technology == ''
-            || this.state.type == ''
-            || this.state.location == ''
-            || this.state.qualification == ''
-            || this.state.workexperience == ''
+
+        if (this.state.position == '' || this.state.technology == ''
+            || this.state.type == '' || this.state.location == ''
+            || this.state.qualification == '' || this.state.workexperience == ''
             || this.state.description == '') {
             alert('Please enter all the feilds');
         }
         else {
-            alert('Done')
+
+            var PostDetails = Parse.Object.extend("jobPosts");
+            var postDetails = new PostDetails();
+            var user = Parse.User.current();
+            postDetails.save({
+                jobPosition: this.state.position,
+                technology: this.state.technology,
+                jobType: this.state.type,
+                location: this.state.location,
+                educationQualification: this.state.qualification,
+                workEx: this.state.workexperience,
+                description: this.state.description,
+                createdAt: new Date(),
+                postedBy: user
+
+            }).then((postDetails) => {
+                alert('Post Successfully Uploaded.');
+                this.state.position = '';
+                this.state.technology = '';
+                this.state.jobType = '';
+                this.state.location = '';
+                this.state.qualification = '';
+                this.state.workexperience = '';
+                this.state.description = '';
+            }, (error) => {
+                alert('Some error occurred. Please try again. ' + error);
+            });
         }
     }
-
 
     render() {
         return (
@@ -119,16 +141,14 @@ export default class NewPost extends Component {
                         placeholder={'Enter Description'}
                     />
 
+                    <TouchableOpacity onPress={this.onPress} >
+                        <View style={styles.signin}>
+                            <Text style={{ color: "#ffffff" }}>
+                                Post
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </ScrollView>
-                <TouchableOpacity onPress={this.onPress} >
-                    <View style={styles.signin}>
-                        <Text style={{ color: "#ffffff" }}>
-                            Post
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-
             </View>
         );
     }

@@ -8,8 +8,13 @@ import {
   AsyncStorage,
   ToastAndroid,
 } from 'react-native';
+<<<<<<< HEAD
 import { Parse, User,Config } from 'parse/react-native';
 Parse.User.enableUnsafeCurrentUser()
+=======
+import PropTypes from 'prop-types';
+import { Parse, User } from 'parse/react-native';
+>>>>>>> 8366da6701953cb94ca34b11d23c229f8caea081
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
@@ -18,13 +23,19 @@ export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
+<<<<<<< HEAD
 
     this.navigation = this.props.navigation;
+=======
+    this.navigation = this.props.navigation;
+
+>>>>>>> 8366da6701953cb94ca34b11d23c229f8caea081
     this.state = {
       username: '',
       password: '',
       loggedIn: false
     };
+<<<<<<< HEAD
 
     this.checkLoggedIn = () => {
       if (loggedIn) {
@@ -32,14 +43,18 @@ export default class LoginScreen extends Component {
         this.navigation.navigate("Home");
       }
     }
+=======
+>>>>>>> 8366da6701953cb94ca34b11d23c229f8caea081
 
     User.currentAsync().then((user) => {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
+<<<<<<< HEAD
         this.navigation.navigate("Home");
+=======
+>>>>>>> 8366da6701953cb94ca34b11d23c229f8caea081
       }
     }, (error) => {
-      this.setVisibility(true);
       console.log("Error with logging in" + error);
     });
     Config.get().then((config)=>{
@@ -76,6 +91,7 @@ export default class LoginScreen extends Component {
           source={require('../images/snack-icon.png')}
           style={styles.logoContainer}
         />
+
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -92,13 +108,12 @@ export default class LoginScreen extends Component {
           secureTextEntry={true}
           style={styles.inputext}
         />
+
         <TouchableOpacity onPress={this.onPress}>
           <View style={styles.signin}>
             <Text style={{ color: '#ffffff' }}>Sign In</Text>
           </View>
         </TouchableOpacity>
-
-
       </View>
     );
   }

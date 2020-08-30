@@ -17,13 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import OptionsMenu from "react-native-options-menu";
 
-const width = Dimensions.get("window").width;
-
 const JobCard = (props) => {
-    const myIcon = (
-        <Icon name="more-vert" size={20} />
-    );
-
     const onPress = () => {
         props.navigation.navigate("Details", {
             jobHead: props.jobHead,
@@ -86,27 +80,6 @@ const JobCard = (props) => {
     );
 };
 
-const styles = StyleSheet.create({
-    jobcard_view: {
-        width: "95%",
-        backgroundColor: "#efefef",
-        alignSelf: "center",
-        padding: 10,
-        elevation: 10,
-        marginVertical: "1%"
-    },
-    jobcard_head: {
-        color: "#69a74e",
-        fontSize: width / 18,
-        fontWeight: "bold",
-        marginBottom: 5
-    },
-    jobcard_details: {
-        fontSize: width / 28,
-        fontWeight: "bold",
-        padding: 1,
-        color: "#606770"
-    }
-});
+const styles = require('../stylesheets/job_card_style');
 
 export default JobCard;

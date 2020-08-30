@@ -4,16 +4,16 @@ import {
     View,
     ScrollView,
     TextInput,
-    Image,
     TouchableOpacity,
     AsyncStorage,
-    ToastAndroid,
 } from 'react-native';
-
+import { Parse } from "parse/react-native"
+Parse.setAsyncStorage(AsyncStorage);
+Parse.initialize('job-Referral-System');
+Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 
 export default class EditPost extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,24 +24,60 @@ export default class EditPost extends Component {
             qualification: '',
             workexperience: '',
             description: '',
-        };
+        }
+
+        this.printDetails();
     }
 
+    printDetails() {
+
+        var PostDetails = Parse.Object.extend('jobPosts');
+        var query = new Parse.Query(PostDetails);
+
+        query.get('RTwMBYYik9')
+            .then((postDetails) => {
+
+                this.setState({
+                    position: postDetails.get('jobPosition'),
+                    technology: postDetails.get('technology'),
+                    type: postDetails.get('jobType'),
+                    location: postDetails.get('location'),
+                    qualification: postDetails.get('educationQualification'),
+                    workexperience: postDetails.get('workEx'),
+                    description: postDetails.get('description'),
+                });
+            }, (error) => {
+                alert('Could not retrieve the data.')
+            });
+    }
 
     onPress = () => {
-        if ((this.state.position == '') & (this.state.technology == '')
-            || this.state.type == ''
-            || this.state.location == ''
-            || this.state.qualification == ''
-            || this.state.workexperience == ''
-            || this.state.description == '') {
-            alert('Please enter all the feilds');
-        }
-        else {
-            alert('Done')
-        }
-    }
+        var PostDetails = Parse.Object.extend('jobPosts');
+        var query = new Parse.Query(PostDetails);
+        var user = Parse.User.current();
+        query.get('RTwMBYYik9')
+            .then((postDetails) => {
 
+                postDetails.save({
+                    jobPosition: this.state.position,
+                    technology: this.state.technology,
+                    jobType: this.state.type,
+                    location: this.state.location,
+                    educationQualification: this.state.qualification,
+                    workEx: this.state.workexperience,
+                    description: this.state.description,
+                    updatedAt: new Date(),
+                    editedBy: user
+
+                }).then((postDetails) => {
+                    alert('Post Successfully Updated.');
+                }, (error) => {
+                    alert('Some error occurred. Please try again. ' + error);
+                });
+            }, (error) => {
+                alert("Updation Failed.");
+            });
+    }
 
     render() {
         return (
@@ -114,20 +150,18 @@ export default class EditPost extends Component {
                         value={this.state.description}
                         onChangeText={text => this.setState({ description: text })}
                         label="description"
-                        style={styles.description}
+                        style={styles.inputext}
                         placeholder={'Enter Description'}
                     />
 
+                    <TouchableOpacity onPress={this.onPress} >
+                        <View style={styles.signin}>
+                            <Text style={{ color: "#ffffff" }}>
+                                Post
+    </Text>
+                        </View>
+                    </TouchableOpacity>
                 </ScrollView>
-                <TouchableOpacity onPress={this.onPress} >
-                    <View style={styles.signin}>
-                        <Text style={{ color: "#ffffff" }}>
-                            Update
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-
             </View>
         );
     }
