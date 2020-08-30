@@ -8,6 +8,7 @@ import HomeStack from './homeStack';
 import AboutStack from './aboutStack';
 import userManagementStack from './userManagementStack';
 import postManagementStack from './postManagementStack';
+import SettingsStack from './SettingsStack';
 
 const CustomDrawerComponent = props => (
     <SafeAreaView style={{ flex: 1 }}>
@@ -69,6 +70,14 @@ const screens = {
         navigationOptions: {
             drawerIcon: (
                 <Icon name="information-circle-outline" size={20} />
+            )
+        }
+    },
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            drawerIcon: (
+                <Icon name="settings" size={20} />
             )
         }
     }
