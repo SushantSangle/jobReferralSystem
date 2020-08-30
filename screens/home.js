@@ -12,99 +12,128 @@ import {
     View,
     Text,
     Button, TouchableOpacity,
-    Image
+    Image,
+    ActivityIndicator
 } from 'react-native';
 import {
     Query
 } from 'parse/react-native';
-import JobCard from '../components/job_card';
-import { FlatList } from 'react-native-gesture-handler';
+import OptionsMenu from "react-native-options-menu";
 
-class Home extends Component{
-    constructor(props){
+export default class Home extends Component {
+    constructor(props) {
         super(props);
         this.navigation = this.props.navigation;
         this.state = {
-            loading: false,
+            loading: true,
             data: [],
             page: 1,
             seed: 1,
             error: null,
             refreshing: false,
-          };
+        };
     }
-    componentDidMount(){
+    componentDidMount() {
         this.makeRemoteRequest();
     }
-    makeRemoteRequest = () =>{
-        this.setState({loading:true});
+    makeRemoteRequest = () => {
+        this.setState({ loading: true });
         var query = new Query("jobPosts");
-        var eachPromise = query.each((result)=>{
+        var eachPromise = query.each((result) => {
             this.state.data.push({
-                jobId : result.id,
-                jobHead : result.get('jobPosition'),
+                jobId: result.id,
+                jobHead: result.get('jobPosition'),
                 jobType: result.get("jobType"),
-                jobLocation : result.get("location"),
-                jobAuthor : result.get("postedBy").get("username"),
-                jobTechnology : result.get("technology"),
-                jobDate : result.get("createdAt"),
+                jobLocation: result.get("location"),
+                jobAuthor: result.get("postedBy").get("username"),
+                jobTechnology: result.get("technology"),
+                jobDate: result.get("createdAt"),
             });
             console.log("data read");
         })
-        eachPromise.then((result)=>{
-            this.setState({loading:false,refreshing:false});
+        eachPromise.then((result) => {
+            this.setState({ loading: false, refreshing: false });
             console.log("data promise fulfilled");
             console.log(this.state.data);
-        },(errorin)=>{
-            this.setState({error:errorin,loading:false});
-            console.log("data Promise ERROR:"+error);
-        }).catch((errorin)=>{
-            this.setState({error:errorin,loading:false});
-            console.log("data Promise ERROR:"+error);
+        }, (errorin) => {
+            this.setState({ error: errorin, loading: false });
+            console.log("data Promise ERROR:" + error);
+        }).catch((errorin) => {
+            this.setState({ error: errorin, loading: false });
+            console.log("data Promise ERROR:" + error);
         })
     }
-    render(){
-        return (
-            <>
-                {!this.state.loading && <FlatList
-                    data={this.state.data}
-                    renderItem={this.renderItem}
-                    keyExtractor={item => item.jobId} 
-                />}
 
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={this.clickHandler}
-                    style={styles.TouchableOpacityStyle}>
-                    <Image
-                        source={{
-                            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
-                        }}
-                        style={styles.FloatingButtonStyle}
-                    />
-                </TouchableOpacity>
-            </>
-        )
+
+
+
+
+    render() {
+        if (!this.state.loading) {
+            let movies = this.state.data.map((val, key) => {
+                return (
+                    <>
+                        <TouchableOpacity key={key}
+                            onPress={() =>
+                                this.navigation.navigate("Details", {
+                                    jobHead: val.jobHead,
+                                    jobType: val.jobType,
+                                    jobLocation: val.jobLocation,
+                                    jobAuthor: val.jobAuthor,
+                                    jobTechnology: val.jobTechnology,
+                                    jobWorkExperience: val.jobWorkExperience,
+                                    jobDescription: val.jobDescription,
+                                    jobDate: val.jobDate.toString(),
+                                })
+                            }
+                        >
+                            <View style={styles1.jobcard_view}>
+
+                                <Text style={styles1.jobcard_head}>{val.jobHead}</Text>
+                                <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
+                                <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
+                                <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
+                                <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
+
+                                <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
+                                    <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </>
+                );
+            });
+            return (
+                <>
+                    {movies}
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={this.clickHandler}
+                        style={styles.TouchableOpacityStyle}>
+                        <Image
+                            source={{
+                                uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
+                            }}
+                            style={styles.FloatingButtonStyle}
+                        />
+                    </TouchableOpacity>
+                </>
+            );
+        }
+        else {
+            return (
+                <Text>Loading...</Text>
+            );
+        }
+
     }
-    
-    clickHandler(){
+
+    clickHandler = () => {
         this.navigation.navigate("NewPost");
     };
-
-    renderItem(item){
-        return(
-            <JobCard
-            jobId={item.jobId}
-            jobHead={item.jobHead}
-            jobType={item.jobType}
-            jobLocation={item.jobLocation}
-            jobAuthor={item.jobAuthor}
-            jobTechnology={item.jobTechnology}
-            jobDate={item.jobDate}
-            navigation={this.navigation} />
-        )
-    }
 }
+
+const styles1 = require('../stylesheets/job_card_style');
 
 const styles = StyleSheet.create({
     TouchableOpacityStyle: {
@@ -124,4 +153,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
