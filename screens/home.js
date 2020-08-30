@@ -70,7 +70,7 @@ export default class Home extends Component {
 
     render() {
         if (!this.state.loading) {
-            let movies = this.state.data.map((val, key) => {
+            let posts = this.state.data.map((val, key) => {
                 return (
                     <>
                         <TouchableOpacity key={key}
@@ -105,7 +105,7 @@ export default class Home extends Component {
             });
             return (
                 <>
-                    {movies}
+                    {posts}
                     <TouchableOpacity
                         activeOpacity={0.7}
                         onPress={this.clickHandler}
