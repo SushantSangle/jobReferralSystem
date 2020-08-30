@@ -41,7 +41,7 @@ class Home extends Component{
         var query = new Query("jobPosts");
         var eachPromise = query.each((result)=>{
             this.state.data.push({
-                jobId : result.get('objectId'),
+                jobId : result.id,
                 jobHead : result.get('jobPosition'),
                 jobType: result.get("jobType"),
                 jobLocation : result.get("location"),
@@ -66,11 +66,11 @@ class Home extends Component{
     render(){
         return (
             <>
-                <FlatList
+                {!this.state.loading && <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.jobId} 
-                />
+                />}
 
                 <TouchableOpacity
                     activeOpacity={0.7}
@@ -91,7 +91,7 @@ class Home extends Component{
         this.navigation.navigate("NewPost");
     };
 
-    renderItem = (item) =>{
+    renderItem(item){
         return(
             <JobCard
             jobId={item.jobId}
