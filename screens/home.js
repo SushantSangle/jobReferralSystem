@@ -25,9 +25,19 @@ class Home extends Component{
         super(props);
         this.navigation = this.props.navigation;
         this.state = {
-            data : [],
-            dataAvailable : false,
-        }
+            loading: false,
+            data: [],
+            page: 1,
+            seed: 1,
+            error: null,
+            refreshing: false,
+          };
+    }
+    componentDidMount(){
+        this.makeRemoteRequest();
+    }
+    makeRemoteRequest = () =>{
+        this.setState({loading:true});
         var query = new Query("jobPosts");
         var eachPromise = query.each((result)=>{
             this.state.data.push({
@@ -39,28 +49,29 @@ class Home extends Component{
                 jobTechnology : result.get("technology"),
                 jobDate : result.get("createdAt"),
             });
-            this.dataAvailable=true;
             console.log("data read");
         })
         eachPromise.then((result)=>{
+            this.setState({loading:false,refreshing:false});
             console.log("data promise fulfilled");
             console.log(this.state.data);
-        },(error)=>{
+        },(errorin)=>{
+            this.setState({error:errorin,loading:false});
             console.log("data Promise ERROR:"+error);
-        }).catch((error)=>{
+        }).catch((errorin)=>{
+            this.setState({error:errorin,loading:false});
             console.log("data Promise ERROR:"+error);
         })
     }
     render(){
         return (
             <>
-                {   
-                    this.dataAvailable &&
-                    <FlatList
+                <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
-                    keyExtractor={item => item.jobId} />
-                }
+                    keyExtractor={item => item.jobId} 
+                />
+
                 <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
@@ -75,7 +86,12 @@ class Home extends Component{
             </>
         )
     }
-    renderItem(item){
+    
+    clickHandler(){
+        this.navigation.navigate("NewPost");
+    };
+
+    renderItem = (item) =>{
         return(
             <JobCard
             jobId={item.jobId}
@@ -85,12 +101,9 @@ class Home extends Component{
             jobAuthor={item.jobAuthor}
             jobTechnology={item.jobTechnology}
             jobDate={item.jobDate}
-            navigation={navigation} />
+            navigation={this.navigation} />
         )
     }
-    clickHandler(){
-        navigation.navigate("NewPost");
-    };
 }
 
 const styles = StyleSheet.create({
