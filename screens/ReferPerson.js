@@ -12,7 +12,7 @@ Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
-export default class NewPost extends Component {
+export default class ReferPerson extends Component {
 
     constructor(props) {
         super(props);

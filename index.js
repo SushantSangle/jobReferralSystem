@@ -14,9 +14,6 @@ import ReferPerson from './screens/ReferPerson';
 import Button from './components/button';
 import UserManagement from './screens/UserManagement';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-import RefferedPeople from './screens/RefferedPeople.js';
-=======
+import ReferredPeople from './screens/ReferredPeople'
 import SettingsScreen from './screens/SettingsScreen'
->>>>>>> 8366da6701953cb94ca34b11d23c229f8caea081
 AppRegistry.registerComponent(appName, () => App);
