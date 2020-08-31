@@ -48,6 +48,7 @@ export default class Home extends Component {
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
                 jobDate: result.get("createdAt"),
+                jobDescription: result.get("description"),
             });
             console.log("data read");
         })
@@ -90,7 +91,7 @@ export default class Home extends Component {
                                 <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
                                 <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
                                 <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
-                                <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
+                                <Text style={styles1.jobcard_details}>TECHNOLOGY: {val.jobTechnology}</Text>
 
                                 <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
                                     <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
