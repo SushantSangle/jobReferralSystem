@@ -14,45 +14,19 @@ import {
     FlatList,
     Dimensions
 } from 'react-native';
+import{Parse,Object,Query} from 'parse/react-native';
 
 const width = Dimensions.get("window").width;
 
-const refs = [
-    {
-        referId: '1',
-        referName: "Atharva Borekar",
-        referJob: "Assistant Software Engineer",
-        referWorkExperience: "0 years",
-        referLinkedin: "aaasaadadads"
-    },
-    {
-        referId: '2',
-        referName: "Priya Ghayal",
-        referJob: "Assistant Software Engineer",
-        referWorkExperience: "01 years",
-        referLinkedin: "aaasaadadasdasdadadadadadadads"
-    },
-    {
-        referId: '3',
-        referName: "Hardika Doshi",
-        referJob: "Assistant Software Engineer",
-        referWorkExperience: "02 years",
-        referLinkedin: "aaasaadadads"
-    },
-    {
-        referId: '4',
-        referName: "Sushant Sangle",
-        referJob: "Assistant Software Engineer",
-        referWorkExperience: "03 years",
-        referLinkedin: "aaasaadadads"
-    }
-];
 
 export default class ReferredPeople extends Component {
 
     constructor(props) {
         super(props);
         this.navigation = this.props.navigation;
+        this.state = {
+            data : [],
+        }
     }
 
     renderItem = ({ item }) => {
@@ -65,6 +39,30 @@ export default class ReferredPeople extends Component {
             </View>
         );
 
+    }
+
+    ComponentDidMount(){
+        var query = new Query("referredPerson");
+        var eachPromise = query.each((result) => {
+            this.state.data.push({
+                referJob : result.get("forJob").get("jobPosition"),
+                referName : result.get('name'),
+                referWorkExperience : result.get("workExperience"),
+                referLinkedin : result.get('link'),
+            });
+            this.setState({
+                data : this.state.data,
+            })
+            console.log("data read");
+        })
+        eachPromise.then((result) => {
+            console.log("data promise fulfilled");
+            console.log(this.state.data);
+        }, (errorin) => {
+            console.log("data Promise ERROR:" + error);
+        }).catch((errorin) => {
+            console.log("data Promise ERROR:" + error);
+        })
     }
 
     render() {

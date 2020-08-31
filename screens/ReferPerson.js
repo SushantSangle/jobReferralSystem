@@ -21,61 +21,35 @@ export default class ReferPerson extends Component {
             Contact: '',
             gender: '',
             email: '',
-            dob: new Date(),
             workexperience: '',
             department: '',
             organization: '',
             qualification: '',
             designation: '',
             description: '',
-            status: ''
+            status: '',
+            link: ''
         };
     }
 
     onPress = () => {
 
 
-        if (this.state.name == '' || this.state.Contact == '' || this.state.gender == ''
-            || this.state.email == '' || this.state.dob == '' || this.state.department == '' || this.state.organization == ''
-            || this.state.qualification == '' || this.state.workexperience == '' || this.state.designation == ''
-            || this.state.description == '' || this.state.status == '') {
-            alert('Please enter all the feilds');
-        }
-        else {
-
-            var nameArray = this.state.name.split(" ");
+        
+        {
             var PersonDetails = Parse.Object.extend("employeeData");
             var personDetails = new PersonDetails();
             var user = Parse.User.current();
-
-            if (nameArray.length != 3) {
-                alert('Enter name in correct format.');
-            }
-            if (this.state.Contact.length != 10) {
-                alert('Enter correct contact information.');
-            }
-
-
             personDetails.save({
-                firstName: nameArray[0],
-                fathersName: nameArray[1],
-                lastName: nameArray[2],
-                phone: this.state.Contact,
-                gender: this.state.gender,
-                dob: this.state.dob,
-                address: this.state.email,
-                Department: this.state.department,
-                organization: this.state.organization,
-                Designation: this.state.designation,
-                qualification: this.state.qualification,
-                workEx: this.state.workexperience,
-                status: this.state.status,
-                description: this.state.description,
-                auth: user,
-                createdAt: new Date()
-
+                name : this.state.name,
+                workExperience : this.state.workexperience,
+                forJob : this.state.job,
+                link : this.state.link,
+                Discription : this.state.Discription,
+                qualification : this.state.qualification,
+                email : this.state.email
             }).then((postDetails) => {
-                alert('Post Successfully Uploaded.');
+                alert('Person successfully referred');
 
             }, (error) => {
                 alert('Some error occurred. Please try again. ' + error);
@@ -106,15 +80,6 @@ export default class ReferPerson extends Component {
                         placeholder={'Enter Contact'}
                     />
 
-                    <Text style={styles.text}>Gender*</Text>
-                    <TextInput
-                        value={this.state.gender}
-                        onChangeText={(gender) => this.setState({ gender })}
-                        label="gender"
-                        style={styles.inputext}
-                        placeholder={'Enter gender'}
-                    />
-
                     <Text style={styles.text}>Date of Birth*</Text>
                     <TextInput
                         value={this.state.dob}
@@ -134,34 +99,6 @@ export default class ReferPerson extends Component {
 
                     />
 
-                    <Text style={styles.text}>Department*</Text>
-                    <TextInput
-                        value={this.state.department}
-                        onChangeText={(department) => this.setState({ department })}
-                        label="department"
-                        style={styles.inputext}
-                        placeholder={'Enter Department'}
-                    />
-
-                    < Text style={styles.text}>Organization*</Text>
-                    <TextInput
-                        value={this.state.organization}
-                        onChangeText={(organization) => this.setState({ organization })}
-                        label="Organization"
-                        style={styles.inputext}
-                        placeholder={'Enter Organization'}
-                    />
-
-                    < Text style={styles.text}>Designation*</Text>
-                    <TextInput
-                        value={this.state.designation}
-                        onChangeText={(designation) => this.setState({ designation })}
-                        label="designation"
-                        style={styles.inputext}
-                        placeholder={'Enter designation'}
-                    />
-
-
                     <Text style={styles.text}>Qualification*</Text>
                     <TextInput
                         value={this.state.qualification}
@@ -180,15 +117,6 @@ export default class ReferPerson extends Component {
                         placeholder={'Enter Work Experience'}
                     />
 
-                    < Text style={styles.text}>Status*</Text>
-                    <TextInput
-                        value={this.state.status}
-                        onChangeText={(status) => this.setState({ status })}
-                        label="status"
-                        style={styles.inputext}
-                        placeholder={'Enter status'}
-                    />
-
                     <Text style={styles.text}>Description*</Text>
                     <TextInput
                         multiline={true}
@@ -198,6 +126,16 @@ export default class ReferPerson extends Component {
                         label="description"
                         style={styles.description}
                         placeholder={'Enter Description'}
+                    />
+
+                    <Text style={styles.text}>Link</Text>
+                    <TextInput
+                        multiline={false}
+                        value={this.state.link}
+                        onChangeText={text => this.setState({ link: text })}
+                        label="link"
+                        style={styles.inputext}
+                        placeholder={'Enter an optional link (LinkedIn),(gitHub)'}
                     />
 
                     <TouchableOpacity onPress={this.onPress} >

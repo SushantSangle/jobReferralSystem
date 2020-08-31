@@ -65,7 +65,6 @@ export default class Home extends Component {
     }
 
     render() {
-        if (true) {
             let posts = this.state.data.map((val, key) => {
                 console.log(key);
                 return (
@@ -117,18 +116,11 @@ export default class Home extends Component {
                 </>
             );
         }
-        else {
-            return (
-                <Text>Loading...</Text>
-            );
-        }
-
+        clickHandler = () => {
+            this.navigation.navigate("NewPost");
+        };
     }
 
-    clickHandler = () => {
-        this.navigation.navigate("NewPost");
-    };
-}
 
 const styles1 = require('../stylesheets/job_card_style');
 
