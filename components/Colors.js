@@ -1,5 +1,5 @@
 // This file defines all the color constants
-export const current_theme = 1
+export const current_theme = 0
 
 export const PRIMARY_THEME = {
     name: 'dark',

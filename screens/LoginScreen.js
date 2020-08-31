@@ -18,28 +18,26 @@ export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
-
     this.navigation = this.props.navigation;
     this.state = {
       username: '',
       password: '',
-      loggedIn: false
+      loggedIn: true,
+      img: ""
     };
-
-    this.checkLoggedIn = () => {
-      if (loggedIn) {
-        ToastAndroid("Logged In",ToastAndroid.SHORT);
-        this.navigation.navigate("Home");
-      }
-    }
 
     User.currentAsync().then((user) => {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
-        this.navigation.navigate("Home");
+        setTimeout(async()=>{
+          this.navigation.navigate("Home");
+        },500);
+      }else{
+        this.state.loggedIn=false;
       }
     }, (error) => {
       console.log("Error with logging in" + error);
+      this.state.loggedIn=false;
     });
   }
   onPress = () => {
@@ -59,37 +57,57 @@ export default class LoginScreen extends Component {
       console.log("Error Loggin IN:"+error);
     });
   };
-
+  componentDidMount(){
+    Config.get().then((result)=>{
+      result.get("logo").getData().then((result)=>{
+        console.log(result);
+        this.renderBackupImg();       
+      }).catch((error)=>{
+        this.renderBackupImg();
+      })
+    }).catch((error)=>{
+        this.renderBackupImg();
+    })
+  }
+  renderBackupImg(){
+    this.setState({
+        password : '',
+        username : '',
+        loggedIn : this.state.loggedIn,
+        img : "" 
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
         <Image
-          source={require('../images/snack-icon.png')}
-          style={styles.logoContainer}
+            source={require('../images/snack-icon.png')} 
+            style={styles.logoContainer}
         />
 
-        <TextInput
+        {!this.state.loggedIn && <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
           label="Username"
           style={styles.inputext}
           placeholder={'Username'}
-        />
+        />}
 
-        <TextInput
+        {!this.state.loggedIn && <TextInput
           placeholder={'Password'}
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
           label="Password"
           secureTextEntry={true}
           style={styles.inputext}
-        />
+        />}
 
-        <TouchableOpacity onPress={this.onPress}>
+        {!this.state.loggedIn && <TouchableOpacity onPress={this.onPress}>
           <View style={styles.signin}>
             <Text style={{ color: '#ffffff' }}>Sign In</Text>
           </View>
         </TouchableOpacity>
+        }
       </View>
     );
   }

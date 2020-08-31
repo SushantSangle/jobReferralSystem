@@ -65,8 +65,9 @@ export default class Home extends Component {
     }
 
     render() {
-        if (!this.state.loading) {
+        if (true) {
             let posts = this.state.data.map((val, key) => {
+                console.log(key);
                 return (
                     <>
                         <TouchableOpacity key={key}
