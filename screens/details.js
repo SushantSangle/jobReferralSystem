@@ -26,6 +26,10 @@ const comments = [
     { userId: '2', userName: 'piyu g', userComment: 'good luck' },
     { userId: '3', userName: 'sushi s', userComment: 'yes, maam' },
     { userId: '4', userName: 'hardy d', userComment: 'udya sagla ready pahije' },
+    { userId: '5', userName: 'athu b', userComment: 'good luck have fun' },
+    { userId: '6', userName: 'piyu g', userComment: 'good luck' },
+    { userId: '7', userName: 'sushi s', userComment: 'yes, maam' },
+    { userId: '8', userName: 'hardy d', userComment: 'udya sagla ready pahije' },
 ];
 
 export default class Details extends Component {
@@ -43,7 +47,7 @@ export default class Details extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost",{objectId: this.navigation.getParam('objectId')});
+            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('objectId') });
         }
         if (index == 1) {
             alert("Pressed Delete Post");

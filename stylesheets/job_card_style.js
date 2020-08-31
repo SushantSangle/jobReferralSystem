@@ -1,18 +1,10 @@
 import { StyleSheet, Dimensions } from 'react-native';
 const width = Dimensions.get("window").width;
-import { PRIMARY_THEME, DARK_THEME, current_theme } from '../components/Colors';
-
-if (current_theme == 1) {
-    var colors = PRIMARY_THEME;
-}
-else {
-    var colors = DARK_THEME;
-}
 
 const job_card_style = StyleSheet.create({
     jobcard_view: {
         width: "95%",
-        backgroundColor: colors.secondary_background,
+        backgroundColor: "#222629",
         alignSelf: "center",
         padding: 10,
         elevation: 10,

@@ -33,21 +33,18 @@ export default class ReferPerson extends Component {
     }
 
     onPress = () => {
-
-
-        
         {
-            var PersonDetails = Parse.Object.extend("employeeData");
+            var PersonDetails = Parse.Object.extend("referredPerson");
             var personDetails = new PersonDetails();
             var user = Parse.User.current();
             personDetails.save({
-                name : this.state.name,
-                workExperience : this.state.workexperience,
-                forJob : this.state.job,
-                link : this.state.link,
-                Discription : this.state.Discription,
-                qualification : this.state.qualification,
-                email : this.state.email
+                name: this.state.name,
+                workExperience: this.state.workexperience,
+                forJob: this.state.job,
+                link: this.state.link,
+                Discription: this.state.Discription,
+                qualification: this.state.qualification,
+                email: this.state.email
             }).then((postDetails) => {
                 alert('Person successfully referred');
 
