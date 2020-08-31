@@ -43,7 +43,7 @@ export default class Details extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost");
+            this.navigation.navigate("EditPost",{objectId: this.navigation.getParam('objectId')});
         }
         if (index == 1) {
             alert("Pressed Delete Post");

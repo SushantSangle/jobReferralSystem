@@ -25,7 +25,7 @@ export default class EditPost extends Component {
             workexperience: '',
             description: '',
         }
-
+        this.navigation = this.props.navigation;
         this.printDetails();
     }
 
@@ -34,7 +34,7 @@ export default class EditPost extends Component {
         var PostDetails = Parse.Object.extend('jobPosts');
         var query = new Parse.Query(PostDetails);
 
-        query.get('RTwMBYYik9')
+        query.get(this.navigation.getParam('objectId'))
             .then((postDetails) => {
 
                 this.setState({
@@ -55,7 +55,7 @@ export default class EditPost extends Component {
         var PostDetails = Parse.Object.extend('jobPosts');
         var query = new Parse.Query(PostDetails);
         var user = Parse.User.current();
-        query.get('RTwMBYYik9')
+        query.get(this.navigation.getParam('objectId'))
             .then((postDetails) => {
 
                 postDetails.save({

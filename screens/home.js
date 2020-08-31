@@ -81,6 +81,7 @@ export default class Home extends Component {
                                     jobWorkExperience: val.jobWorkExperience,
                                     jobDescription: val.jobDescription,
                                     jobDate: val.jobDate.toString(),
+                                    objectId: val.jobId
                                 })
                             }
                         >
