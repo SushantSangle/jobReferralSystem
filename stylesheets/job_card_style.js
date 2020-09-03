@@ -3,7 +3,9 @@ const width = Dimensions.get("window").width;
 
 const job_card_style = StyleSheet.create({
     jobcard_view: {
+        shadowColor : "#020202",
         width: "95%",
+        borderRadius: 5,
         backgroundColor: "#222629",
         alignSelf: "center",
         padding: 10,

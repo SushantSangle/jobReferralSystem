@@ -2,13 +2,14 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaView, ScrollView, View, Image } from 'react-native';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer,createSwitchNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeStack from './homeStack';
 import AboutStack from './aboutStack';
 import userManagementStack from './userManagementStack';
 import postManagementStack from './postManagementStack';
 import SettingsStack from './SettingsStack';
+import LoginScreen from '../screens/LoginScreen';
 
 const CustomDrawerComponent = props => (
     <SafeAreaView style={{ flex: 1 }}>
@@ -98,4 +99,11 @@ const RootDrawerNavigator = createDrawerNavigator(hide(), {
     contentComponent: CustomDrawerComponent
 });
 
-export default createAppContainer(RootDrawerNavigator);
+const RootNavigation = createSwitchNavigator({
+    Auth: {screen: LoginScreen, navigationOptions: {header:null}},
+    App:RootDrawerNavigator
+},{
+    initialRouteName: 'Auth'
+})
+
+export default createAppContainer(RootNavigation);

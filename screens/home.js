@@ -13,12 +13,14 @@ import {
     Text,
     Button, TouchableOpacity,
     Image,
-    ActivityIndicator
+    ActivityIndicator,
+    scrollView
 } from 'react-native';
 import {
     Query
 } from 'parse/react-native';
 import OptionsMenu from "react-native-options-menu";
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Home extends Component {
     constructor(props) {
@@ -40,6 +42,7 @@ export default class Home extends Component {
         this.setState({ loading: true });
         var query = new Query("jobPosts");
         var eachPromise = query.each((result) => {
+            const date=result.get("createdAt").toString().substring(0,24);
             this.state.data.push({
                 jobId: result.id,
                 jobHead: result.get('jobPosition'),
@@ -47,14 +50,13 @@ export default class Home extends Component {
                 jobLocation: result.get("location"),
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
-                jobDate: result.get("createdAt"),
+                jobDate: date,
             });
+            this.setState(this.state);
             console.log("data read");
         })
         eachPromise.then((result) => {
-            this.setState({ loading: false, refreshing: false });
             console.log("data promise fulfilled");
-            console.log(this.state.data);
         }, (errorin) => {
             this.setState({ error: errorin, loading: false });
             console.log("data Promise ERROR:" + error);
@@ -80,7 +82,7 @@ export default class Home extends Component {
                                 jobWorkExperience: val.jobWorkExperience,
                                 jobDescription: val.jobDescription,
                                 jobDate: val.jobDate.toString(),
-                                objectId: val.jobId
+                                jobId: val.jobId
                             })
                         }
                     >
@@ -102,15 +104,15 @@ export default class Home extends Component {
         });
         return (
             <>
-                {posts}
+                <ScrollView>
+                    {posts}
+                </ScrollView>
                 <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
                     style={styles.TouchableOpacityStyle}>
                     <Image
-                        source={{
-                            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
-                        }}
+                        source={require('../images/add_icon.png')}
                         style={styles.FloatingButtonStyle}
                     />
                 </TouchableOpacity>

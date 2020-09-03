@@ -13,12 +13,6 @@ import ReferPerson from '../screens/ReferPerson';
 import ReferredPeople from '../screens/ReferredPeople';
 
 const screens = {
-    LoginScreen: {
-        screen: LoginScreen,
-        navigationOptions: {
-            title: "Login"
-        }
-    },
     Home: {
         screen: Home,
         navigationOptions: {

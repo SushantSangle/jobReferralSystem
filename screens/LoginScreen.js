@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   AsyncStorage,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import { Parse, User,Config } from 'parse/react-native';
 Parse.User.enableUnsafeCurrentUser()
@@ -31,9 +32,10 @@ export default class LoginScreen extends Component {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
         setTimeout(async()=>{
           this.navigation.navigate("Home");
-        },500);
+        },1000);
       }else{
         this.state.loggedIn=false;
+        this.setState(this.state);
       }
     }, (error) => {
       console.log("Error with logging in" + error);
@@ -58,24 +60,7 @@ export default class LoginScreen extends Component {
     });
   };
   componentDidMount(){
-    Config.get().then((result)=>{
-      result.get("logo").getData().then((result)=>{
-        console.log(result);
-        this.renderBackupImg();       
-      }).catch((error)=>{
-        this.renderBackupImg();
-      })
-    }).catch((error)=>{
-        this.renderBackupImg();
-    })
-  }
-  renderBackupImg(){
-    this.setState({
-        password : '',
-        username : '',
-        loggedIn : this.state.loggedIn,
-        img : "" 
-    })
+    this.setState(this.state);
   }
   render() {
     return (
@@ -84,7 +69,11 @@ export default class LoginScreen extends Component {
             source={require('../images/snack-icon.png')} 
             style={styles.logoContainer}
         />
-
+        {this.state.loggedIn && <ActivityIndicator 
+          size='large'
+          color='#69a74e'
+          />
+        }
         {!this.state.loggedIn && <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
