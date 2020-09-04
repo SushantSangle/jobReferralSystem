@@ -54,10 +54,10 @@ export default class Home extends Component {
                 jobDescription: result.get('description'),
                 jobDate: date,
             });
+            this.setState(this.state);
             console.log("data read");
         })
         eachPromise.then((result) => {
-            this.setState(this.state);
             console.log("data promise fulfilled");
         }, (errorin) => {
             this.setState({ error: errorin, loading: false });

@@ -14,23 +14,19 @@ import {
     Dimensions,
     TextInput,
     FlatList,
+    ToastAndroid,
 } from 'react-native';
 import PopupMenu from '../components/popup_menu';
 import Comment from '../components/comment';
 import Button from '../components/button';
+import {
+    Query,
+    Relation,
+    User,
+    Object
+} from 'parse/react-native';
 
 const width = Dimensions.get("window").width;
-
-const comments = [
-    { userId: '1', userName: 'athu b', userComment: 'good luck have fun' },
-    { userId: '2', userName: 'piyu g', userComment: 'good luck' },
-    { userId: '3', userName: 'sushi s', userComment: 'yes, maam' },
-    { userId: '4', userName: 'hardy d', userComment: 'udya sagla ready pahije' },
-    { userId: '5', userName: 'athu b', userComment: 'good luck have fun' },
-    { userId: '6', userName: 'piyu g', userComment: 'good luck' },
-    { userId: '7', userName: 'sushi s', userComment: 'yes, maam' },
-    { userId: '8', userName: 'hardy d', userComment: 'udya sagla ready pahije' },
-];
 
 export default class Details extends Component {
 
@@ -39,15 +35,24 @@ export default class Details extends Component {
         this.state = {
             userId: '',
             userComment: '',
-            userName: ''
+            userName: '',
+            comments:[],
+            User: undefined,
+            post: undefined,
         };
         this.navigation = this.props.navigation;
+        
+        User.currentAsync().then(async(user)=>{
+            this.state.User=user;
+        }).catch((error)=>{
+            console.log("UnAuthorizedAccess");
+        })
     }
 
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('objectId') });
+            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
         }
         if (index == 1) {
             alert("Pressed Delete Post");
@@ -58,11 +63,58 @@ export default class Details extends Component {
             });
         }
         if (index == 3) {
-            this.navigation.navigate("ReferredPeople",{   jobId:this.navigation.getParam('jobId')} );
+            this.navigation.navigate("ReferredPeople",{   jobId:this.navigation.getParam('jobId')});
         }
     }
+    componentDidMount(){
+        const query = new Query('jobPosts');
+        console.log('Components Mounted:'+this.navigation.getParam('jobId'));
+        query.get(this.navigation.getParam('jobId')).then(async(job)=>{
+            this.state.post=job;
+            const relation = new Relation(job,'postComments');
+            const relatedQuery = relation.query();
+            const resultArray = await relatedQuery.find();
+            for(var i in resultArray){
+                console.log(resultArray[i].id);
+                this.state.comments.push(resultArray[i]);
+            }
+            this.setState(this.state);
+        }).catch((error)=>{
+            console.log("ERROR GETTING COMMENTS:"+error);
+        })
 
-    getHeader = () => {
+    }
+
+    onPress = () => {
+        if (this.state.userComment == '') {
+            alert("Can't post empty comment");
+        }
+        else {
+            var comment = new Object('comments',{
+                fromPost: this.state.post.toPointer(),
+                byUser: this.state.User.toPointer(),
+                content: this.state.userComment,
+            });
+            const relation = new Relation(this.state.post,'postComments');
+            comment.save().then(()=>{
+                ToastAndroid.show("Comment Posted",ToastAndroid.SHORT);
+                this.state.userComment='';
+                this.setState(this.state);
+            }).catch((error)=>{
+                alert("Can't post empty comment");
+            });
+        }
+    };
+
+    render() {
+        let comments = this.state.comments.map((val,key)=>{
+            return(<>
+                <View style={styles.jobcard_view}>
+                    <Text style={styles.jobcard_details}>{val.get('byUser').get('username')}</Text>
+                    <Text style={styles.jobcard_details}>{val.get('content')}</Text>
+                </View>
+            </>)
+        })
         return (
             <>
                 <View style={styles.jobcard_view}>
@@ -81,38 +133,9 @@ export default class Details extends Component {
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
-            </>
-        );
-    };
-
-    onPress = () => {
-        if (this.state.userComment == '') {
-            alert("Can't post empty comment");
-        }
-        else {
-            alert("Comment Posted!\nName:" +
-                this.state.userName + "\nId:" +
-                this.state.userId + "\nComment:" + this.state.userComment);
-        }
-    };
-
-    renderItem = ({ item }) => {
-        return (
-            <Comment
-                userName={item.userName}
-                userComment={item.userComment} />
-        );
-    };
-
-    render() {
-        return (
-            <>
-                <FlatList
-                    data={comments}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item) => item.userId}
-                    ListHeaderComponent={this.getHeader} />
-
+                
+                {comments}
+            
                 <TextInput
                     value={this.state.userComment}
                     onChangeText={(userComment) => this.setState({ userComment })}
