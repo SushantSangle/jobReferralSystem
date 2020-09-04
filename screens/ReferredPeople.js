@@ -12,10 +12,15 @@ import {
     View,
     Text,
     FlatList,
+    AsyncStorage,
     Dimensions
 } from 'react-native';
 import { Parse, Object, Query } from 'parse/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+Parse.User.enableUnsafeCurrentUser()
+Parse.setAsyncStorage(AsyncStorage);
+Parse.initialize('job-Referral-System');
+Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 const width = Dimensions.get("window").width;
 
@@ -28,32 +33,26 @@ export default class ReferredPeople extends Component {
         this.state = {
             data: [],
         }
+        console.log('started_0');
     }
-
-    ComponentDidMount() {
-        var query = new Query("referredPeople");
-        var eachPromise = query.each((result) => {
+    componentDidMount(){
+        console.log('components_mounted');
+        const query = new Query('referredPerson');
+        const jobNameQuery = new Query('jobPosts');
+        query.each((result)=>{
             this.state.data.push({
-                referJob: result.get("forJob").get("jobPosition"),
+                referJob : result.get('forJob').get('jobPosition'),
                 referName: result.get('name'),
-                referWorkExperience: result.get("workExperience"),
-                referLinkedin: result.get('link'),
-            });
-            this.setState({
-                data: this.state.data,
+                referWorkExperience: result.get('workExperience'),
+                referQualification: result.get('qualification'),
+                referLinkedin: result.get('email'),
             })
-            console.log("data read");
-        })
-        eachPromise.then((result) => {
-            console.log("data promise fulfilled");
-            console.log(this.state.data);
-        }, (errorin) => {
-            console.log("data Promise ERROR:" + error);
-        }).catch((errorin) => {
-            console.log("data Promise ERROR:" + error);
+        }).then(()=>{
+            this.setState(this.state);
+        }).catch((error)=>{
+            console.log('Error with referredPersonRetrival'+error);
         })
     }
-
     render() {
         let people = this.state.data.map((val, key) => {
             console.log(key);
@@ -63,7 +62,8 @@ export default class ReferredPeople extends Component {
                         <Text style={styles.jobcard_head}>{val.referJob}</Text>
                         <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
                         <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
-                        <Text style={styles.jobcard_details}>LikedIn Profile: {val.referLinkedin}</Text>
+                        <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
+                        <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
                     </View>
                 </>
             );

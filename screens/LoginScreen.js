@@ -24,7 +24,8 @@ export default class LoginScreen extends Component {
       username: '',
       password: '',
       loggedIn: true,
-      img: ""
+      img: "",
+      loading: true,
     };
 
     User.currentAsync().then((user) => {
@@ -35,11 +36,14 @@ export default class LoginScreen extends Component {
         },1000);
       }else{
         this.state.loggedIn=false;
+        this.state.loading=false;
         this.setState(this.state);
       }
     }, (error) => {
       console.log("Error with logging in" + error);
       this.state.loggedIn=false;
+      this.state.loading=false;
+      this.setState(this.state);
     });
   }
   onPress = () => {
@@ -69,7 +73,7 @@ export default class LoginScreen extends Component {
             source={require('../images/snack-icon.png')} 
             style={styles.logoContainer}
         />
-        {this.state.loggedIn && <ActivityIndicator 
+        {this.state.loading && <ActivityIndicator 
           size='large'
           color='#69a74e'
           />
