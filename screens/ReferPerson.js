@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     AsyncStorage,
 } from 'react-native';
-import { Parse } from "parse/react-native"
+import { Parse, Query, Relation } from "parse/react-native"
+import { ThemeColors } from 'react-navigation';
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
@@ -16,6 +17,9 @@ export default class ReferPerson extends Component {
 
     constructor(props) {
         super(props);
+        this.navigation = this.props.navigation;
+        console.log(this.navigation.getParam('jobId'));
+        const query = new Query('jobPosts');
         this.state = {
             name: '',
             Contact: '',
@@ -28,8 +32,17 @@ export default class ReferPerson extends Component {
             designation: '',
             description: '',
             status: '',
-            link: ''
+            link: '',
+            jobId: this.navigation.getParam('jobId'),
+            job: this.navigation.getParam('jobId'),
         };
+        query.get(this.navigation.getParam('jobId')).then((result)=>{
+            this.state.jobId=result.toPointer();
+            this.state.job=result;
+            console.log(this.state.jobId);
+        }).catch((error)=>{
+            console.log(error);
+        });
     }
 
     onPress = () => {
@@ -40,13 +53,32 @@ export default class ReferPerson extends Component {
             personDetails.save({
                 name: this.state.name,
                 workExperience: this.state.workexperience,
-                forJob: this.state.job,
+                forJob: this.state.jobId,
                 link: this.state.link,
-                Discription: this.state.Discription,
+                Discription: this.state.description,
                 qualification: this.state.qualification,
                 email: this.state.email
             }).then((postDetails) => {
                 alert('Person successfully referred');
+                const relation = new Relation(this.state.job,'referrals');
+                relation.add(personDetails);
+                this.state.job.save().catch((error)=>{console.log(error);});
+                this.setState({
+                    name: '',
+                    Contact: '',
+                    gender: '',
+                    email: '',
+                    workexperience: '',
+                    department: '',
+                    organization: '',
+                    qualification: '',
+                    designation: '',
+                    description: '',
+                    status: '',
+                    link: '',
+                    jobId: this.state.jobId,
+                    job: this.state.job,
+                });
 
             }, (error) => {
                 alert('Some error occurred. Please try again. ' + error);

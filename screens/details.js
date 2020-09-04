@@ -53,12 +53,13 @@ export default class Details extends Component {
             alert("Pressed Delete Post");
         }
         if (index == 2) {
-            this.navigation.navigate("ReferPerson");
+            this.navigation.navigate("ReferPerson",{
+                jobId:this.navigation.getParam('jobId'),
+            });
         }
         if (index == 3) {
-            this.navigation.navigate("ReferredPeople");
+            this.navigation.navigate("ReferredPeople",{   jobId:this.navigation.getParam('jobId')} );
         }
-
     }
 
     getHeader = () => {
@@ -125,26 +126,5 @@ export default class Details extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    jobcard_view: {
-        width: "95%",
-        backgroundColor: "#efefef",
-        alignSelf: "center",
-        padding: 10,
-        elevation: 10,
-        marginVertical: "1%"
-    },
-    jobcard_head: {
-        color: "#69a74e",
-        fontSize: width / 18,
-        fontWeight: "bold",
-        marginBottom: 5
-    },
-    jobcard_details: {
-        fontSize: width / 28,
-        fontWeight: "bold",
-        padding: 1,
-        color: "#606770"
-    }
-});
+const styles = require('../stylesheets/job_card_style');
 

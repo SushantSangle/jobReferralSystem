@@ -50,6 +50,8 @@ export default class Home extends Component {
                 jobLocation: result.get("location"),
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
+                jobWorkExperience:result.get("workEx"),
+                jobDescription: result.get('description'),
                 jobDate: date,
             });
             console.log("data read");
