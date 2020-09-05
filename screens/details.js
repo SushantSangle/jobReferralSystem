@@ -16,6 +16,7 @@ import {
     FlatList,
     ToastAndroid,
     Image,
+    ScrollView
 } from 'react-native';
 import PopupMenu from '../components/popup_menu';
 import Comment from '../components/comment';
@@ -27,6 +28,7 @@ import {
     Object
 } from 'parse/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import RoleManager from '../utils/RoleManager'
 
 
 const width = Dimensions.get("window").width;
@@ -44,9 +46,12 @@ export default class Details extends Component {
             comments:[],
             User: undefined,
             post: undefined,
+            actions:['Refer Person']
         };
         this.navigation = this.props.navigation;
-        
+        if(RoleManager.getLevel()<2){
+            this.state.actions=[...this.state.actions,...['Referred People','Edit', 'Remove',]];
+        }
         User.currentAsync().then(async(user)=>{
             this.state.User=user;
         }).catch((error)=>{
@@ -57,18 +62,18 @@ export default class Details extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
-        }
-        if (index == 1) {
-            alert("Pressed Delete Post");
-        }
-        if (index == 2) {
             this.navigation.navigate("ReferPerson",{
                 jobId:this.navigation.getParam('jobId'),
             });
         }
-        if (index == 3) {
+        if (index == 1) {
             this.navigation.navigate("ReferredPeople",{   jobId:this.navigation.getParam('jobId')});
+        }
+        if (index == 2) {
+            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
+        }
+        if (index == 3) {
+            alert("Pressed Delete Post");
         }
     }
     componentDidMount(){
@@ -98,6 +103,7 @@ export default class Details extends Component {
             var comment = new Object('comments',{
                 fromPost: this.state.post.toPointer(),
                 byUser: this.state.User.toPointer(),
+                byUsername: this.state.User.get('username'),
                 content: this.state.userComment,
             });
             const relation = new Relation(this.state.post,'postComments');
@@ -113,9 +119,10 @@ export default class Details extends Component {
 
     render() {
         let comments = this.state.comments.map((val,key)=>{
+            console.log(val);
             return(
-                <View style={styles.jobcard_view} key={key.toString()}>
-                    <Text style={styles.jobcard_details}>{val.get('byUser').get('username')}</Text>
+                <View style={styles.jobcard_view} key={key}>
+                    <Text style={styles.jobcard_details}>{val.get('byUsername')}</Text>
                     <Text style={styles.jobcard_details}>{val.get('content')}</Text>
                 </View>
             )
@@ -132,27 +139,28 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>Description: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <PopupMenu actions={['Edit', 'Remove', 'Refer Person', 'Referred People']}
+                        <PopupMenu actions={this.state.actions}
                             onPress={this.onPopupEvent} />
                         <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
-                
-                {comments}
-                <View style={commentStyle.commentBox}>
-                    <TextInput
-                        style={commentStyle.commentText}
-                        value={this.state.userComment}
-                        onChangeText={(userComment) => this.setState({ userComment })}
-                        label="userComment"
-                        placeholder='comment Here'
-                        placeholderTextColor='#606770'
-                    />
-                    <TouchableOpacity onPress={this.onPress}>
-                        <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
-                    </TouchableOpacity>
-                </View>
+                <ScrollView>
+                    {comments}
+                    <View style={commentStyle.commentBox}>
+                        <TextInput
+                            style={commentStyle.commentText}
+                            value={this.state.userComment}
+                            onChangeText={(userComment) => this.setState({ userComment })}
+                            label="userComment"
+                            placeholder='comment Here'
+                            placeholderTextColor='#606770'
+                        />
+                        <TouchableOpacity onPress={this.onPress}>
+                            <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </>
         );
     }

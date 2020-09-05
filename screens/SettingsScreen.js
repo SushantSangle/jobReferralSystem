@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions, ToastAndroid } from 'react-native';
 import { User } from 'parse/react-native'
 import RNRestart from 'react-native-restart';
+import RoleManager from '../utils/RoleManager'
 
 const width = Dimensions.get("window").width;
 
@@ -21,12 +22,12 @@ const SettingsScreen = ({ navigation }) => {
             console.log("ERROR Logging out:"+error);
             ToastAndroid.show('Error Logging out',ToastAndroid.SHORT);
         });
-        navigation.navigate('LoginScreen');
     }
 
     return (
 
         <View style={styles.settings_view}>
+            {RoleManager.getLevel()<1 && <>
             <TouchableOpacity onPress={onPressTheme}>
                 <Text style={styles.settings_head}>Change Theme</Text>
             </TouchableOpacity>
@@ -34,7 +35,7 @@ const SettingsScreen = ({ navigation }) => {
             <TouchableOpacity onPress={onPressLogo}>
                 <Text style={styles.settings_head}>Change Logo</Text>
             </TouchableOpacity>
-
+            </>}
             <TouchableOpacity onPress={onPressLogout}>
                 <Text style={styles.settings_head}>Log out</Text>
             </TouchableOpacity>

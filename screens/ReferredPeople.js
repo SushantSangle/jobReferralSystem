@@ -33,14 +33,15 @@ export default class ReferredPeople extends Component {
         this.navigation = this.props.navigation;
         this.state = {
             data: [],
+            jobId: undefined,
         }
     }
     componentDidMount(){
-        const jobId=this.navigation.getParam('jobId');
-        if(jobId){
-            console.log(jobId);
+        this.state.jobId=this.navigation.getParam('jobId');
+        if(this.state.jobId){
+            console.log(this.state.jobId);
             console.log("Referred person called for one job");
-            const jobQuery = new Query('jobPosts').get(jobId);
+            const jobQuery = new Query('jobPosts').get(this.state.jobId);
             jobQuery.then((job)=>{
                 const relation = new Relation(job,'referrals');
                 const relatedQuery = relation.query();
@@ -88,7 +89,7 @@ export default class ReferredPeople extends Component {
             console.log(key);
             return (
                     <View style={styles.jobcard_view} key={key.toString()}>
-                        <Text style={styles.jobcard_head}>{val.referJob}</Text>
+                        {!this.state.jobId && <Text style={styles.jobcard_head}>{val.referJob}</Text>}
                         <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
                         <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
                         <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
