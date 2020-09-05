@@ -87,6 +87,7 @@ export default class Details extends Component {
             for(var i in resultArray){
                 console.log(resultArray[i].id);
                 this.state.comments.push(resultArray[i]);
+                this.setState(this.state);
             }
             this.setState(this.state);
         }).catch((error)=>{
@@ -107,19 +108,20 @@ export default class Details extends Component {
                 content: this.state.userComment,
             });
             const relation = new Relation(this.state.post,'postComments');
-            comment.save().then(()=>{
+            comment.save().then((saved)=>{
+                this.state.comments=[saved,...this.state.comments];
                 ToastAndroid.show("Comment Posted",ToastAndroid.SHORT);
-                this.state.userComment='';
+                this.state.userComment="";
                 this.setState(this.state);
             }).catch((error)=>{
-                alert("Can't post empty comment");
+                console.log("ERROR COMMENTING:"+error);
+                ToastAndroid.show("Error posting comment",ToastAndroid.SHORT);
             });
         }
     };
 
     render() {
         let comments = this.state.comments.map((val,key)=>{
-            console.log(val);
             return(
                 <View style={styles.jobcard_view} key={key}>
                     <Text style={styles.jobcard_details}>{val.get('byUsername')}</Text>
