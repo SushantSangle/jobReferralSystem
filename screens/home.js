@@ -72,7 +72,6 @@ export default class Home extends Component {
         let posts = this.state.data.map((val, key) => {
             console.log(key);
             return (
-                <>
                     <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
                         onPress={() =>
                             this.navigation.navigate("Details", {
@@ -101,7 +100,6 @@ export default class Home extends Component {
                             </View>
                         </View>
                     </TouchableOpacity>
-                </>
             );
         });
         return (

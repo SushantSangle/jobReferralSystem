@@ -113,12 +113,12 @@ export default class Details extends Component {
 
     render() {
         let comments = this.state.comments.map((val,key)=>{
-            return(<>
-                <View style={styles.jobcard_view}>
+            return(
+                <View style={styles.jobcard_view} key={key.toString()}>
                     <Text style={styles.jobcard_details}>{val.get('byUser').get('username')}</Text>
                     <Text style={styles.jobcard_details}>{val.get('content')}</Text>
                 </View>
-            </>)
+            )
         })
         return (
             <>

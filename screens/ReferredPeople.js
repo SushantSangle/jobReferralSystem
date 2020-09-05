@@ -87,15 +87,13 @@ export default class ReferredPeople extends Component {
         let people = this.state.data.map((val, key) => {
             console.log(key);
             return (
-                <>
-                    <View style={styles.jobcard_view}>
+                    <View style={styles.jobcard_view} key={key.toString()}>
                         <Text style={styles.jobcard_head}>{val.referJob}</Text>
                         <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
                         <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
                         <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
                         <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
                     </View>
-                </>
             );
         });
         return (

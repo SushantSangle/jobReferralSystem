@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { withOrientation } from 'react-navigation';
 
 const newPost = StyleSheet.create({
     container: {
@@ -18,12 +19,14 @@ const newPost = StyleSheet.create({
         marginLeft: 10,
     },
     signin: {
+        alignSelf:'center',
         borderRadius: 20,
         backgroundColor: "#3ab795",
         height: 60, width: 200,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 20,
+        color: '#ffffff',
     },
     inputext: {
         width: '90%',

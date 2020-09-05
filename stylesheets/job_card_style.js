@@ -14,13 +14,12 @@ const job_card_style = StyleSheet.create({
     },
     jobcard_head: {
         color: "#69a74e",
-        fontSize: width / 18,
-        fontWeight: "bold",
+        fontSize: width/18,
+        fontWeight:'bold',
         marginBottom: 5
     },
     jobcard_details: {
-        fontSize: width / 28,
-        fontWeight: "bold",
+        fontSize: width/28,
         padding: 1,
         color: "#606770"
     }

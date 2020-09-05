@@ -153,8 +153,8 @@ export default class ReferPerson extends Component {
                         value={this.state.description}
                         onChangeText={text => this.setState({ description: text })}
                         label="description"
-                        style={styles.description}
                         placeholder={'Enter Description'}
+                        style={styles.inputext}
                     />
 
                     <Text style={styles.text}>Link</Text>
@@ -169,9 +169,9 @@ export default class ReferPerson extends Component {
 
                     <TouchableOpacity onPress={this.onPress} >
                         <View style={styles.signin}>
-                            <Text style={{ color: "#565656" }}>
-                                Post
-        </Text>
+                            <Text style={{color:'#ffffff'}}>
+                                Refer
+                            </Text>
                         </View>
                     </TouchableOpacity>
                 </ScrollView>
