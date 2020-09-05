@@ -10,7 +10,7 @@ const job_card_style = StyleSheet.create({
         alignSelf: "center",
         padding: 10,
         elevation: 10,
-        marginVertical: "1%"
+        marginVertical: "1%",
     },
     jobcard_head: {
         color: "#69a74e",

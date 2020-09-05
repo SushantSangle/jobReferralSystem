@@ -15,6 +15,7 @@ import {
     TextInput,
     FlatList,
     ToastAndroid,
+    Image,
 } from 'react-native';
 import PopupMenu from '../components/popup_menu';
 import Comment from '../components/comment';
@@ -25,8 +26,12 @@ import {
     User,
     Object
 } from 'parse/react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 const width = Dimensions.get("window").width;
+const commentWidth=width-20;
+const commentTextWidth=commentWidth-20-47;
 
 export default class Details extends Component {
 
@@ -135,19 +140,45 @@ export default class Details extends Component {
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
                 
                 {comments}
-            
-                <TextInput
-                    value={this.state.userComment}
-                    onChangeText={(userComment) => this.setState({ userComment })}
-                    label="userComment"
-                    style={styles.inputext}
-                    placeholder={'Enter Comment'}
-                />
-                <Button text="Post Comment" onPress={this.onPress} />
+                <View style={commentStyle.commentBox}>
+                    <TextInput
+                        style={commentStyle.commentText}
+                        value={this.state.userComment}
+                        onChangeText={(userComment) => this.setState({ userComment })}
+                        label="userComment"
+                        placeholder='comment Here'
+                        placeholderTextColor='#606770'
+                    />
+                    <TouchableOpacity onPress={this.onPress}>
+                        <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
+                    </TouchableOpacity>
+                </View>
             </>
         );
     }
 }
-
+const commentStyle = StyleSheet.create({
+    commentBox: {
+        width: commentWidth,
+        borderRadius: 5,
+        backgroundColor: "#222629",
+        alignSelf: "center",
+        padding: 10,
+        elevation: 10,
+        color: "#606770",
+        marginVertical: "1%",
+        flexDirection:'row' ,
+        flexWrap:'nowrap',
+        alignItems:'center',
+    },
+    commentText:{
+        color: "#606770",
+        width: commentTextWidth,
+    },
+    sendButton: {
+        width : 45,
+        height: 45,
+    }
+})
 const styles = require('../stylesheets/job_card_style');
 

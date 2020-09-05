@@ -73,7 +73,7 @@ export default class Home extends Component {
             console.log(key);
             return (
                 <>
-                    <TouchableOpacity style={{ elevation: 10 }} key={key}
+                    <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
                         onPress={() =>
                             this.navigation.navigate("Details", {
                                 jobHead: val.jobHead,
