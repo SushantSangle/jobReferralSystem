@@ -21,6 +21,7 @@ import {
 } from 'parse/react-native';
 import OptionsMenu from "react-native-options-menu";
 import { ScrollView } from 'react-native-gesture-handler';
+import RoleManager from '../utils/RoleManager'
 
 export default class Home extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ export default class Home extends Component {
             seed: 1,
             error: null,
             refreshing: false,
+            roleLevel: RoleManager.getLevel(),
         };
     }
     componentDidMount() {
@@ -107,7 +109,7 @@ export default class Home extends Component {
                 <ScrollView>
                     {posts}
                 </ScrollView>
-                <TouchableOpacity
+                {this.state.roleLevel<2 && <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
                     style={styles.TouchableOpacityStyle}>
@@ -115,7 +117,7 @@ export default class Home extends Component {
                         source={require('../images/add_icon.png')}
                         style={styles.FloatingButtonStyle}
                     />
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </>
         );
     }
