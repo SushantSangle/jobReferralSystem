@@ -49,6 +49,7 @@ export default class Home extends Component {
                 jobTechnology: result.get("technology"),
                 jobDate: result.get("createdAt"),
                 jobDescription: result.get("description"),
+                jobWorkExperience: result.get('workEx')
             });
             console.log("data read");
         })

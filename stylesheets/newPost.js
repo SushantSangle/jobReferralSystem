@@ -13,7 +13,7 @@ const newPost = StyleSheet.create({
         padding: 10,
     },
     text: {
-        fontSize: 10,
+        fontSize: 18,
         paddingLeft: 10,
         marginLeft: 10,
     },
