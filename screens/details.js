@@ -14,19 +14,26 @@ import {
     Dimensions,
     TextInput,
     FlatList,
+    ToastAndroid,
+    Image,
+    ScrollView
 } from 'react-native';
 import PopupMenu from '../components/popup_menu';
 import Comment from '../components/comment';
 import Button from '../components/button';
+import {
+    Query,
+    Relation,
+    User,
+    Object
+} from 'parse/react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import RoleManager from '../utils/RoleManager'
+
 
 const width = Dimensions.get("window").width;
-
-const comments = [
-    { userId: '1', userName: 'athu b', userComment: 'good luck have fun' },
-    { userId: '2', userName: 'piyu g', userComment: 'good luck' },
-    { userId: '3', userName: 'sushi s', userComment: 'yes, maam' },
-    { userId: '4', userName: 'hardy d', userComment: 'udya sagla ready pahije' },
-];
+const commentWidth=width-20;
+const commentTextWidth=commentWidth-20-47;
 
 export default class Details extends Component {
 
@@ -35,29 +42,93 @@ export default class Details extends Component {
         this.state = {
             userId: '',
             userComment: '',
-            userName: ''
+            userName: '',
+            comments:[],
+            User: undefined,
+            post: undefined,
+            actions:['Refer Person']
         };
         this.navigation = this.props.navigation;
+        if(RoleManager.getLevel()<2){
+            this.state.actions=[...this.state.actions,...['Referred People','Edit', 'Remove',]];
+        }
+        User.currentAsync().then(async(user)=>{
+            this.state.User=user;
+        }).catch((error)=>{
+            console.log("UnAuthorizedAccess");
+        })
     }
 
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditPost",{objectId: this.navigation.getParam('objectId')});
+            this.navigation.navigate("ReferPerson",{
+                jobId:this.navigation.getParam('jobId'),
+            });
         }
         if (index == 1) {
-            alert("Pressed Delete Post");
+            this.navigation.navigate("ReferredPeople",{   jobId:this.navigation.getParam('jobId')});
         }
         if (index == 2) {
-            this.navigation.navigate("ReferPerson");
+            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
         }
         if (index == 3) {
-            this.navigation.navigate("ReferredPeople");
+            alert("Pressed Delete Post");
         }
+    }
+    componentDidMount(){
+        const query = new Query('jobPosts');
+        console.log('Components Mounted:'+this.navigation.getParam('jobId'));
+        query.get(this.navigation.getParam('jobId')).then(async(job)=>{
+            this.state.post=job;
+            const relation = new Relation(job,'postComments');
+            const relatedQuery = relation.query();
+            const resultArray = await relatedQuery.find();
+            for(var i in resultArray){
+                console.log(resultArray[i].id);
+                this.state.comments.push(resultArray[i]);
+                this.setState(this.state);
+            }
+            this.setState(this.state);
+        }).catch((error)=>{
+            console.log("ERROR GETTING COMMENTS:"+error);
+        })
 
     }
 
-    getHeader = () => {
+    onPress = () => {
+        if (this.state.userComment == '') {
+            alert("Can't post empty comment");
+        }
+        else {
+            var comment = new Object('comments',{
+                fromPost: this.state.post.toPointer(),
+                byUser: this.state.User.toPointer(),
+                byUsername: this.state.User.get('username'),
+                content: this.state.userComment,
+            });
+            const relation = new Relation(this.state.post,'postComments');
+            comment.save().then((saved)=>{
+                this.state.comments=[saved,...this.state.comments];
+                ToastAndroid.show("Comment Posted",ToastAndroid.SHORT);
+                this.state.userComment="";
+                this.setState(this.state);
+            }).catch((error)=>{
+                console.log("ERROR COMMENTING:"+error);
+                ToastAndroid.show("Error posting comment",ToastAndroid.SHORT);
+            });
+        }
+    };
+
+    render() {
+        let comments = this.state.comments.map((val,key)=>{
+            return(
+                <View style={styles.jobcard_view} key={key}>
+                    <Text style={styles.jobcard_details}>{val.get('byUsername')}</Text>
+                    <Text style={styles.jobcard_details}>{val.get('content')}</Text>
+                </View>
+            )
+        })
         return (
             <>
                 <View style={styles.jobcard_view}>
@@ -70,77 +141,54 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>DESCRIPTION: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <PopupMenu actions={['Edit', 'Remove', 'Refer Person', 'Referred People']}
+                        <PopupMenu actions={this.state.actions}
                             onPress={this.onPopupEvent} />
                         <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
-            </>
-        );
-    };
-
-    onPress = () => {
-        if (this.state.userComment == '') {
-            alert("Can't post empty comment");
-        }
-        else {
-            alert("Comment Posted!\nName:" +
-                this.state.userName + "\nId:" +
-                this.state.userId + "\nComment:" + this.state.userComment);
-        }
-    };
-
-    renderItem = ({ item }) => {
-        return (
-            <Comment
-                userName={item.userName}
-                userComment={item.userComment} />
-        );
-    };
-
-    render() {
-        return (
-            <>
-                <FlatList
-                    data={comments}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item) => item.userId}
-                    ListHeaderComponent={this.getHeader} />
-
-                <TextInput
-                    value={this.state.userComment}
-                    onChangeText={(userComment) => this.setState({ userComment })}
-                    label="userComment"
-                    style={styles.inputext}
-                    placeholder={'Enter Comment'}
-                />
-                <Button text="Post Comment" onPress={this.onPress} />
+                <ScrollView>
+                    {comments}
+                    <View style={commentStyle.commentBox}>
+                        <TextInput
+                            style={commentStyle.commentText}
+                            value={this.state.userComment}
+                            onChangeText={(userComment) => this.setState({ userComment })}
+                            label="userComment"
+                            placeholder='comment Here'
+                            placeholderTextColor='#606770'
+                        />
+                        <TouchableOpacity onPress={this.onPress}>
+                            <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    jobcard_view: {
-        width: "95%",
-        backgroundColor: "#efefef",
+const commentStyle = StyleSheet.create({
+    commentBox: {
+        width: commentWidth,
+        borderRadius: 5,
+        backgroundColor: "#222629",
         alignSelf: "center",
         padding: 10,
         elevation: 10,
-        marginVertical: "1%"
+        color: "#606770",
+        marginVertical: "1%",
+        flexDirection:'row' ,
+        flexWrap:'nowrap',
+        alignItems:'center',
     },
-    jobcard_head: {
-        color: "#69a74e",
-        fontSize: width / 18,
-        fontWeight: "bold",
-        marginBottom: 5
+    commentText:{
+        color: "#606770",
+        width: commentTextWidth,
     },
-    jobcard_details: {
-        fontSize: width / 28,
-        fontWeight: "bold",
-        padding: 1,
-        color: "#606770"
+    sendButton: {
+        width : 45,
+        height: 45,
     }
-});
+})
+const styles = require('../stylesheets/job_card_style');
 

@@ -12,9 +12,16 @@ import {
     View,
     Text,
     FlatList,
-    Dimensions
+    AsyncStorage,
+    Dimensions,
+    ToastAndroid
 } from 'react-native';
-import{Parse,Object,Query} from 'parse/react-native';
+import { Parse, Object, Query, Relation } from 'parse/react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+Parse.User.enableUnsafeCurrentUser()
+Parse.setAsyncStorage(AsyncStorage);
+Parse.initialize('job-Referral-System');
+Parse.serverURL = 'https://parse.sushant.xyz:1304/';
 
 const width = Dimensions.get("window").width;
 
@@ -25,75 +32,79 @@ export default class ReferredPeople extends Component {
         super(props);
         this.navigation = this.props.navigation;
         this.state = {
-            data : [],
+            data: [],
+            jobId: undefined,
         }
     }
-
-    renderItem = ({ item }) => {
-        return (
-            <View style={styles.jobcard_view}>
-                <Text style={styles.jobcard_head}>{item.referJob}</Text>
-                <Text style={styles.jobcard_details}>Name: {item.referName}</Text>
-                <Text style={styles.jobcard_details}>Work Experience: {item.referWorkExperience}</Text>
-                <Text style={styles.jobcard_details}>LikedIn Profile: {item.referLinkedin}</Text>
-            </View>
-        );
-
-    }
-
-    ComponentDidMount(){
-        var query = new Query("referredPerson");
-        var eachPromise = query.each((result) => {
-            this.state.data.push({
-                referJob : result.get("forJob").get("jobPosition"),
-                referName : result.get('name'),
-                referWorkExperience : result.get("workExperience"),
-                referLinkedin : result.get('link'),
-            });
-            this.setState({
-                data : this.state.data,
+    componentDidMount(){
+        this.state.jobId=this.navigation.getParam('jobId');
+        if(this.state.jobId){
+            console.log(this.state.jobId);
+            console.log("Referred person called for one job");
+            const jobQuery = new Query('jobPosts').get(this.state.jobId);
+            jobQuery.then((job)=>{
+                const relation = new Relation(job,'referrals');
+                const relatedQuery = relation.query();
+                relatedQuery.find().then((resultArray)=>{
+                    for(var result  of resultArray){
+                        this.state.data.push({
+                            referJob : result.get('forJob').get('jobPosition'),
+                            referName: result.get('name'),
+                            referWorkExperience: result.get('workExperience'),
+                            referQualification: result.get('qualification'),
+                            referLinkedin: result.get('email'),
+                        });
+                    }
+                    this.setState(this.state);
+                })
+            }).catch((error)=>{
+                console.log("ERROR WITH PERSON RETRIVAL:"+error);
             })
-            console.log("data read");
-        })
-        eachPromise.then((result) => {
-            console.log("data promise fulfilled");
-            console.log(this.state.data);
-        }, (errorin) => {
-            console.log("data Promise ERROR:" + error);
-        }).catch((errorin) => {
-            console.log("data Promise ERROR:" + error);
+        }
+        else{
+            console.log("Referred person called directly");
+            const jobNameQuery = new Query('referredPerson');
+            this.searchAndDisplay(jobNameQuery);
+        }
+    }
+    searchAndDisplay(query){
+        console.log(query);
+        query.each((result)=>{
+            this.state.data.push({
+                referJob : result.get('forJob').get('jobPosition'),
+                referName: result.get('name'),
+                referWorkExperience: result.get('workExperience'),
+                referQualification: result.get('qualification'),
+                referLinkedin: result.get('email'),
+            })
+            this.setState(this.state);
+        }).then(()=>{
+            this.setState(this.state);
+        }).catch((error)=>{
+            console.log('Error with referredPersonRetrival:'+error);
         })
     }
-
     render() {
+        let people = this.state.data.map((val, key) => {
+            console.log(key);
+            return (
+                    <View style={styles.jobcard_view} key={key.toString()}>
+                        {!this.state.jobId && <Text style={styles.jobcard_head}>{val.referJob}</Text>}
+                        <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
+                        <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
+                        <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
+                        <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
+                    </View>
+            );
+        });
         return (
-            <FlatList
-                data={refs}
-                renderItem={this.renderItem}
-                keyExtractor={(item) => item.referId} />
+            <>
+                {<ScrollView>
+                    {people}
+                </ScrollView>}
+            </>
         );
     };
 }
 
-const styles = StyleSheet.create({
-    jobcard_view: {
-        width: "95%",
-        backgroundColor: "#efefef",
-        alignSelf: "center",
-        padding: 10,
-        elevation: 10,
-        marginVertical: "1%"
-    },
-    jobcard_head: {
-        color: "#69a74e",
-        fontSize: width / 18,
-        fontWeight: "bold",
-        marginBottom: 5
-    },
-    jobcard_details: {
-        fontSize: width / 28,
-        fontWeight: "bold",
-        padding: 1,
-        color: "#606770"
-    }
-});
+const styles = require('../stylesheets/job_card_style');

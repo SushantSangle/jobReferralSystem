@@ -9,18 +9,10 @@ import changeTheme from '../screens/changeTheme';
 
 import DynamicStyle from '../utils/DyamicStyle';
 
-// import ReferPerson from '../screens/ReferPerson';
-// import ReferredPeople from '../screens/ReferredPeople';
-
-
+import ReferPerson from '../screens/ReferPerson';
+import ReferredPeople from '../screens/ReferredPeople';
 
 const screens = {
-    LoginScreen: {
-        screen: LoginScreen,
-        navigationOptions: {
-            title: "Login"
-        }
-    },
     Home: {
         screen: Home,
         navigationOptions: {
@@ -46,18 +38,18 @@ const screens = {
             title: "Add New Post"
         }
     },
-    // ReferPerson: {
-    //     screen: ReferPerson,
-    //     navigationOptions: {
-    //         title: "Refer Person"
-    //     }
-    // },
-    // ReferredPeople: {
-    //     screen: ReferredPeople,
-    //     navigationOptions: {
-    //         title: "Referred People"
-    //     }
-    // },
+    ReferPerson: {
+        screen: ReferPerson,
+        navigationOptions: {
+            title: "Refer Person"
+        }
+    },
+    ReferredPeople: {
+        screen: ReferredPeople,
+        navigationOptions: {
+            title: "Referred People"
+        }
+    },
     Settings: {
         screen: SettingsScreen,
         navigationOptions: {

@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
   AsyncStorage,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
-import { Parse, User,Config } from 'parse/react-native';
+import { Parse, User,Config,Cloud } from 'parse/react-native';
+import Roles from '../utils/RoleManager';
+
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';
+
 
 export default class LoginScreen extends Component {
 
@@ -23,32 +27,48 @@ export default class LoginScreen extends Component {
       username: '',
       password: '',
       loggedIn: true,
-      img: ""
+      img: "",
+      loading: true,
+      roleLevel : 4,
     };
 
-    User.currentAsync().then((user) => {
+    User.currentAsync().then(async(user) => {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
+        roles = await Cloud.run('getRoles');
+        Roles.setRole(roles);
         setTimeout(async()=>{
           this.navigation.navigate("Home");
-        },500);
+        },1000);
       }else{
         this.state.loggedIn=false;
+        this.state.loading=false;
+        this.setState(this.state);
       }
     }, (error) => {
       console.log("Error with logging in" + error);
       this.state.loggedIn=false;
+      this.state.loading=false;
+      this.setState(this.state);
     });
   }
   onPress = () => {
     const user = User.logIn(this.state.username, this.state.password);
-
+    this.state.loggedIn=true;
+    this.state.loading=true;
+    this.setState(this.state);
+    var roles;
     user.then(
-      () => {
+      async() => {
+        roles = await Cloud.run('getRoles');
+        Roles.setRole(roles);
         this.navigation.navigate("Home");
-        alert('Signed In');
+        ToastAndroid.show('Signed In',ToastAndroid.SHORT);
       },
       () => {
+        this.state.loggedIn=false;
+        this.state.loading=false;
+        this.setState(this.state);
         ToastAndroid.show('Login failed', ToastAndroid.SHORT);
         this.state.password = '';
         this.state.username = '';
@@ -58,24 +78,7 @@ export default class LoginScreen extends Component {
     });
   };
   componentDidMount(){
-    Config.get().then((result)=>{
-      result.get("logo").getData().then((result)=>{
-        console.log(result);
-        this.renderBackupImg();       
-      }).catch((error)=>{
-        this.renderBackupImg();
-      })
-    }).catch((error)=>{
-        this.renderBackupImg();
-    })
-  }
-  renderBackupImg(){
-    this.setState({
-        password : '',
-        username : '',
-        loggedIn : this.state.loggedIn,
-        img : "" 
-    })
+    this.setState(this.state);
   }
   render() {
     return (
@@ -84,7 +87,11 @@ export default class LoginScreen extends Component {
             source={require('../images/snack-icon.png')} 
             style={styles.logoContainer}
         />
-
+        {this.state.loading && <ActivityIndicator 
+          size='large'
+          color='#69a74e'
+          />
+        }
         {!this.state.loggedIn && <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -114,4 +121,3 @@ export default class LoginScreen extends Component {
 }
 
 const styles = require('../stylesheets/loginScreen');
-
