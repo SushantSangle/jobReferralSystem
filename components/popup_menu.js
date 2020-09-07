@@ -9,11 +9,13 @@ export default class PopupMenu extends Component {
     static propTypes = {
         // array of strings, will be list items of Menu
         actions: PropTypes.arrayOf(PropTypes.string).isRequired,
-        onPress: PropTypes.func.isRequired
+        onPress: PropTypes.func.isRequired,
+        size: PropTypes.number
     }
-
+    static size;
     constructor(props) {
         super(props)
+        this.size=this.props.size?this.props.size:30;
         this.state = {
             icon: null
         }
@@ -40,7 +42,7 @@ export default class PopupMenu extends Component {
                 <TouchableOpacity onPress={this.onPress}>
                     <Icon
                         name='more-vert'
-                        size={ICON_SIZE}
+                        size={this.size}
                         color={'grey'}
                         ref={this.onRef} />
                 </TouchableOpacity>

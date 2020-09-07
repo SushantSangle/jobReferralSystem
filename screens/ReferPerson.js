@@ -5,10 +5,11 @@ import {
     ScrollView,
     TextInput,
     TouchableOpacity,
-    AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Parse, Query, Relation } from "parse/react-native"
 import { ThemeColors } from 'react-navigation';
+
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL = 'https://parse.sushant.xyz:1304/';

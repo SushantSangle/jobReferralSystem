@@ -5,12 +5,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  AsyncStorage,
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
 import { Parse, User,Config,Cloud } from 'parse/react-native';
 import Roles from '../utils/RoleManager';
+import AsyncStorage from '@react-native-community/async-storage';
 
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);

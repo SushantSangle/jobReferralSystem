@@ -1,8 +1,7 @@
 import { 
     StyleSheet,
-    AsyncStorage,
  } from 'react-native';
-
+ import AsyncStorage from '@react-native-community/async-storage';
 class DynamicStyle {
     //fill these colors accordingly
     static accentColor="";

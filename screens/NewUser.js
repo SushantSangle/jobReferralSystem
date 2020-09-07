@@ -5,8 +5,8 @@ import {
  ScrollView,
  TextInput,
  TouchableOpacity,
- AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Parse, User} from "parse/react-native"
 import FilePickerManager from 'react-native-file-picker';
 import {readString} from 'react-papaparse';

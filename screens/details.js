@@ -33,7 +33,7 @@ import RoleManager from '../utils/RoleManager'
 
 const width = Dimensions.get("window").width;
 const commentWidth=width-20;
-const commentTextWidth=commentWidth-20-47;
+const popupSize=20;
 
 export default class Details extends Component {
 
@@ -132,7 +132,15 @@ export default class Details extends Component {
         return (
             <>
                 <View style={styles.jobcard_view}>
-                    <Text style={styles.jobcard_head}>{this.navigation.getParam('jobHead')}</Text>
+                    <View style={{
+                        flexDirection:'row',
+                        justifyContent: 'space-between',
+                    }}>
+                        <Text style={styles.jobcard_head}>{this.navigation.getParam('jobHead')}</Text>
+                        <PopupMenu 
+                            actions={this.state.actions}
+                            onPress={this.onPopupEvent} />
+                    </View>
                     <Text style={styles.jobcard_details}>TYPE: {this.navigation.getParam('jobType')}</Text>
                     <Text style={styles.jobcard_details}>LOCATION: {this.navigation.getParam('jobLocation')}</Text>
                     <Text style={styles.jobcard_details}>POSTED BY: {this.navigation.getParam('jobAuthor')}</Text>
@@ -141,14 +149,13 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>DESCRIPTION: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <PopupMenu actions={this.state.actions}
-                            onPress={this.onPopupEvent} />
                         <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
                 <ScrollView>
                     {comments}
+                </ScrollView>
                     <View style={commentStyle.commentBox}>
                         <TextInput
                             style={commentStyle.commentText}
@@ -162,7 +169,7 @@ export default class Details extends Component {
                             <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
+                
             </>
         );
     }
@@ -180,10 +187,10 @@ const commentStyle = StyleSheet.create({
         flexDirection:'row' ,
         flexWrap:'nowrap',
         alignItems:'center',
+        justifyContent:'space-between',
     },
     commentText:{
         color: "#606770",
-        width: commentTextWidth,
     },
     sendButton: {
         width : 45,

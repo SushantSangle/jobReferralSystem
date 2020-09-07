@@ -44,7 +44,8 @@ export default class Home extends Component {
         this.setState({ loading: true });
         var query = new Query("jobPosts");
         var eachPromise = query.each((result) => {
-            const date=result.get("createdAt").toString().substring(0,24);
+            var date=result.get("createdAt");
+            const det = ""+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
             this.state.data.push({
                 jobId: result.id,
                 jobHead: result.get('jobPosition'),
@@ -55,7 +56,7 @@ export default class Home extends Component {
 
                 jobWorkExperience:result.get("workEx"),
                 jobDescription: result.get('description'),
-                jobDate: date,
+                jobDate: det,
 
             });
             this.setState(this.state);
@@ -98,8 +99,6 @@ export default class Home extends Component {
                             <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
                             <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
                             <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
-
-
                             <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
                                 <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
                             </View>

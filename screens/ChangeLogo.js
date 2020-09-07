@@ -13,7 +13,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL='https://parse.sushant.xyz:1304/';
-Parse.masterKey = false;
 export default class ChangeLogo extends Component {
 
   constructor(props) {
