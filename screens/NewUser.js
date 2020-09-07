@@ -1,162 +1,160 @@
 import React, { Component } from 'react';
 import {
-    Text,
-    View,
-    ScrollView,
-    TextInput,
-    Image,
-    TouchableOpacity,
-    AsyncStorage,
-    ToastAndroid,
+ Text,
+ View,
+ ScrollView,
+ TextInput,
+ TouchableOpacity,
+ AsyncStorage,
 } from 'react-native';
-
-
+import {Parse, User} from "parse/react-native"
+import FilePickerManager from 'react-native-file-picker';
+import {readString} from 'react-papaparse';
+Parse.setAsyncStorage(AsyncStorage);
+Parse.initialize('job-Referral-System');
+Parse.serverURL='https://parse.sushant.xyz:1304/';
 
 export default class NewUser extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    name: '',
+    password:'',
+    address: ''
+  };
+ }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            id: '',
-            post: '',
-            workexperience: '',
-            password: '',
-            gender: '',
-            dateofbirth: '',
-            mobile: '',
-            address: '',
-        };
+ setDetails(name,password,address){
+  if(name == '' || password == '' || address == ''){
+    alert('Please Enter all the fields.');
+    return false;
+  }else{
+    var user = new Parse.User();    
+    user.set('username',name);
+    user.set('password',password);
+    user.set('email',address);
+    try{
+      user.save()
+      .then(()=>{
+        this.setState({
+          name: '',
+          password:'',
+          address: ''
+         });
+         return true;
+      },(error) =>{
+        return false;
+      });
+    }catch(error){
+      return false;
     }
-
-    onPress = () => {
-        if (this.state.name == ''
-            || this.state.id == ''
-            || this.state.post == ''
-            || this.state.workexperience == ''
-            || this.state.password == ''
-            || this.state.gender == ''
-            || this.state.dateofbirth == ''
-            || this.state.mobile == ''
-            || this.state.address == '') {
-            alert('Please enter all the feilds');
-        }
-        else {
-            alert('Done');
-        }
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <ScrollView style={styles.scrollView}>
-
-                    <Text style={styles.text}>Name*</Text>
-                    <TextInput
-                        value={this.state.name}
-                        onChangeText={(name) => this.setState({ name })}
-                        label="name"
-                        style={styles.inputext}
-                        placeholder={'Enter Name'}
-                    />
-
-                    <Text style={styles.text}>ID*</Text>
-                    <TextInput
-                        value={this.state.id}
-                        onChangeText={(id) => this.setState({ id })}
-                        label="id"
-                        style={styles.inputext}
-                        placeholder={'Enter ID'}
-                    />
-
-                    <Text style={styles.text}>Post*</Text>
-                    <TextInput
-                        value={this.state.post}
-                        onChangeText={(post) => this.setState({ post })}
-                        label="post"
-                        style={styles.inputext}
-                        placeholder={'Enter Post'}
-                    />
-
-
-                    <Text style={styles.text}>Work Experience*</Text>
-                    <TextInput
-                        value={this.state.workexperience}
-                        onChangeText={(workexperience) => this.setState({ workexperience })}
-                        label="workexperience"
-                        style={styles.inputext}
-                        placeholder={'Enter Work Experience'}
-                    />
-
-
-                    <Text style={styles.text}>Password*</Text>
-                    <TextInput
-                        value={this.state.password}
-                        onChangeText={(password) => this.setState({ password })}
-                        label="password"
-                        style={styles.inputext}
-                        placeholder={'Enter Password'}
-                        secureTextEntry={true}
-                    />
-
-
-                    <Text style={styles.text}>Gender*</Text>
-                    <TextInput
-                        value={this.state.gender}
-                        onChangeText={(gender) => this.setState({ gender })}
-                        label="gender"
-                        style={styles.inputext}
-                        placeholder={'Enter Gender'}
-                    />
-
-                    <Text style={styles.text}>Date of Birth*</Text>
-                    <TextInput
-                        value={this.state.dateofbirth}
-                        onChangeText={(dateofbirth) => this.setState({ dateofbirth })}
-                        label="dateofbirth"
-                        style={styles.inputext}
-                        placeholder={'Enter Date of Birth'}
-                    />
-
-                    <Text style={styles.text}>Mobile*</Text>
-                    <TextInput
-                        value={this.state.mobile}
-                        onChangeText={(mobile) => this.setState({ mobile })}
-                        label="mobile"
-                        style={styles.inputext}
-                        placeholder={'Enter Mobile Number'}
-                    />
-
-
-                    <Text style={styles.text}>Address*</Text>
-                    <TextInput
-                        value={this.state.address}
-                        onChangeText={(address) => this.setState({ address })}
-                        label="address"
-                        style={styles.inputext}
-                        placeholder={'Enter Address'}
-                    />
-                </ScrollView>
-
-                <TouchableOpacity onPress={this.onPress} >
-                    <View style={styles.signin}>
-                        <Text style={{ color: "#ffffff" }}>
-                            Update
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={this.onPress} >
-                    <View style={styles.signin}>
-                        <Text style={{ color: "#ffffff" }}>
-                            Upload Users in Bulk
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-            </View>
-        );
-    }
+  }
+ }
+ onPressSingleUser = () => {
+   if(this.setDetails(this.state.name,this.state.password,this.state.address)){
+    alert('New user has been created.');
+   }else{
+    alert('Some error occurred. Please try again');
+   }
 }
 
+onPressBulkUser = () => {
+  FilePickerManager.showFilePicker(null,(responseFile)=>{
+      
+    if(responseFile.didCancel){
+      console.log('Cancelled file picking');
+    }else if(responseFile.error){
+      alert('Some error occurred.Please try again.' + responseFile.error);
+    }else{
+      if(responseFile.type == 'text/comma-separated-values'){
+        alert('File selected.Uploading the users.');
+        var fRead = require('react-native-fs');
+        try{
+          fRead.readFile(responseFile.path,'utf8')
+          .then((fData) =>{
+
+            var PapaData = readString(fData,{
+              header:true,
+              skipEmptyLines:true,
+              worker:true,
+              complete:(results) => {
+                var count=0;
+                var rows = results.data;
+                for(var i=0;i<rows.length;i++){
+                  console.log(rows[i]['username']+"**"+rows[i]['password']+"**"+rows[i]['address']);
+                 if(this.setDetails(rows[i]['username'],rows[i]['password'],rows[i]['address'])){
+                  count++;
+                  }                  
+                }
+                alert(count+' Users have been created.');              }
+            })
+
+          },(error)=>{
+            alert('Some error occurred. Please try again.');
+          });
+
+        }catch(error){
+          alert('Some error occurred.Please try again.'+error);
+        }
+      }else{
+        alert('Please select a CSV file.');
+      }
+    }
+  });
+}
+
+  render() {
+    return (
+      <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+      
+      <Text style={styles.text}>Name*</Text>
+      <TextInput 
+      value={this.state.name}
+      onChangeText={(name) => this.setState({ name })}
+      label="name"
+      style={styles.inputext}
+      placeholder={'Enter Name'} 
+      />
+  
+      <Text style={styles.text}>Password*</Text>
+      <TextInput 
+      value={this.state.password}
+      onChangeText={(password) => this.setState({ password })}
+      label="password"
+      style={styles.inputext}
+      placeholder={'Enter Password'}
+      secureTextEntry={true} 
+      />
+  
+      <Text style={styles.text}>Email Address*</Text>
+      <TextInput
+      value={this.state.address}
+      onChangeText={(address)=>this.setState({address})}
+      label="address"
+      style={styles.inputext}
+      placeholder={'Enter Address'}
+      />
+  
+  
+      <TouchableOpacity onPress={this.onPressSingleUser} >
+      <View style={styles.signin}>
+      <Text style={{ color: "#ffffff" }}>
+      Upload 
+      </Text>
+      </View>
+      </TouchableOpacity>
+  
+      <TouchableOpacity onPress={this.onPressBulkUser} >
+      <View style={styles.signin}>
+      <Text style={{ color: "#ffffff" }}>
+      Upload Users using CSV
+      </Text>
+      </View>
+      </TouchableOpacity>
+      </ScrollView>
+      </View>
+    );
+    }
+}
 const styles = require('../stylesheets/newPost');

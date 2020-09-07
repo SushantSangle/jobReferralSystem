@@ -52,9 +52,11 @@ export default class Home extends Component {
                 jobLocation: result.get("location"),
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
+
                 jobWorkExperience:result.get("workEx"),
                 jobDescription: result.get('description'),
                 jobDate: date,
+
             });
             this.setState(this.state);
             console.log("data read");
@@ -96,6 +98,7 @@ export default class Home extends Component {
                             <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
                             <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
                             <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
+
 
                             <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
                                 <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>

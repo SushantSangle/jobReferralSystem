@@ -136,9 +136,9 @@ export default class Details extends Component {
                     <Text style={styles.jobcard_details}>TYPE: {this.navigation.getParam('jobType')}</Text>
                     <Text style={styles.jobcard_details}>LOCATION: {this.navigation.getParam('jobLocation')}</Text>
                     <Text style={styles.jobcard_details}>POSTED BY: {this.navigation.getParam('jobAuthor')}</Text>
-                    <Text style={styles.jobcard_details}>Technology: {this.navigation.getParam('jobTechnology')}</Text>
-                    <Text style={styles.jobcard_details}>Work Experience: {this.navigation.getParam('jobWorkExperience')}</Text>
-                    <Text style={styles.jobcard_details}>Description: {this.navigation.getParam('jobDescription')}</Text>
+                    <Text style={styles.jobcard_details}>TECHNOLOGY: {this.navigation.getParam('jobTechnology')}</Text>
+                    <Text style={styles.jobcard_details}>WORK EXPERIENCE: {this.navigation.getParam('jobWorkExperience')}</Text>
+                    <Text style={styles.jobcard_details}>DESCRIPTION: {this.navigation.getParam('jobDescription')}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
                         <PopupMenu actions={this.state.actions}
