@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import SettingsScreen from '../screens/SettingsScreen';
 import changeTheme from '../screens/changeTheme';
+import ChangeLogo from '../screens/ChangeLogo';
 
 const screens = {
     Settings: {
@@ -15,6 +16,12 @@ const screens = {
             title: "Change Theme"
         }
     },
+    ChangeLogo: {
+        screen: ChangeLogo,
+        navigationOptions: {
+            title: "Change Logo"
+        }
+    }
 }
 
 const SettingsStack = createStackNavigator(screens, {

@@ -12,7 +12,7 @@ import { ThemeColors } from 'react-navigation';
 
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
-Parse.serverURL = 'https://parse.sushant.xyz:1304/';
+Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 
 export default class ReferPerson extends Component {
 

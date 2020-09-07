@@ -12,7 +12,7 @@ const SettingsScreen = ({ navigation }) => {
         navigation.navigate("changeTheme");
     }
     const onPressLogo = () => {
-        alert('Logo!');
+        navigation.navigate("ChangeLogo");
     }
     const onPressLogout = () => {
         User.logOut().then(()=>{

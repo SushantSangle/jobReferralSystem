@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
-Parse.serverURL = 'https://parse.sushant.xyz:1304/';
+Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 
 
 export default class LoginScreen extends Component {
@@ -29,13 +29,13 @@ export default class LoginScreen extends Component {
       loggedIn: true,
       img: "",
       loading: true,
-      roleLevel : 4,
+      roleLevel : 3,
     };
 
     User.currentAsync().then(async(user) => {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
-        roles = await Cloud.run('getRoles');
+        const roles = await Cloud.run('getRoles');
         Roles.setRole(roles);
         setTimeout(async()=>{
           this.navigation.navigate("Home");
@@ -45,7 +45,7 @@ export default class LoginScreen extends Component {
         this.state.loading=false;
         this.setState(this.state);
       }
-    }, (error) => {
+    }).catch((error) => {
       console.log("Error with logging in" + error);
       this.state.loggedIn=false;
       this.state.loading=false;
@@ -57,10 +57,9 @@ export default class LoginScreen extends Component {
     this.state.loggedIn=true;
     this.state.loading=true;
     this.setState(this.state);
-    var roles;
     user.then(
       async() => {
-        roles = await Cloud.run('getRoles');
+        const roles = await Cloud.run('getRoles');
         Roles.setRole(roles);
         this.navigation.navigate("Home");
         ToastAndroid.show('Signed In',ToastAndroid.SHORT);
