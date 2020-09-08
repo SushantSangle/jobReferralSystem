@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -16,8 +8,9 @@ import {
     Dimensions,
     ToastAndroid
 } from 'react-native';
-import { Parse, Object, Query, Relation } from 'parse/react-native';
+import { Parse,Query, Relation } from 'parse/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import PopupMenu from '../components/popup_menu';
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
@@ -93,7 +86,25 @@ export default class ReferredPeople extends Component {
                         <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
                         <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
                         <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
-                        <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
+                    
+                        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                            <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
+
+                            <PopupMenu 
+                                actions={['Download referral','Remove referral']}
+                                onPress={(eventName,index)=>{
+                                    if (eventName !== 'itemSelected') return
+                                    if (index == 0) {
+                                        //downloads
+                                        ToastAndroid.show("Download Clicked for referral :"+val.referName,ToastAndroid.SHORT);
+                                    }
+                                    if (index == 1) {
+                                        //delete
+                                    }
+                                }} 
+                                
+                            />
+                        </View>
                     </View>
             );
         });
