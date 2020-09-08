@@ -19,7 +19,6 @@ import {
 import {
     Query
 } from 'parse/react-native';
-import OptionsMenu from "react-native-options-menu";
 import { ScrollView } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager'
 
@@ -44,7 +43,7 @@ export default class Home extends Component {
         this.setState({ loading: true });
         var query = new Query("jobPosts");
         var eachPromise = query.each((result) => {
-            const date=result.get("createdAt").toString().substring(0,24);
+            const date = result.get("createdAt").toString().substring(0, 24);
             this.state.data.push({
                 jobId: result.id,
                 jobHead: result.get('jobPosition'),
@@ -52,7 +51,7 @@ export default class Home extends Component {
                 jobLocation: result.get("location"),
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
-                jobWorkExperience:result.get("workEx"),
+                jobWorkExperience: result.get("workEx"),
                 jobDescription: result.get('description'),
                 jobDate: date,
             });
@@ -74,34 +73,34 @@ export default class Home extends Component {
         let posts = this.state.data.map((val, key) => {
             console.log(key);
             return (
-                    <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
-                        onPress={() =>
-                            this.navigation.navigate("Details", {
-                                jobHead: val.jobHead,
-                                jobType: val.jobType,
-                                jobLocation: val.jobLocation,
-                                jobAuthor: val.jobAuthor,
-                                jobTechnology: val.jobTechnology,
-                                jobWorkExperience: val.jobWorkExperience,
-                                jobDescription: val.jobDescription,
-                                jobDate: val.jobDate.toString(),
-                                jobId: val.jobId
-                            })
-                        }
-                    >
-                        <View style={styles1.jobcard_view}>
+                <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
+                    onPress={() =>
+                        this.navigation.navigate("Details", {
+                            jobHead: val.jobHead,
+                            jobType: val.jobType,
+                            jobLocation: val.jobLocation,
+                            jobAuthor: val.jobAuthor,
+                            jobTechnology: val.jobTechnology,
+                            jobWorkExperience: val.jobWorkExperience,
+                            jobDescription: val.jobDescription,
+                            jobDate: val.jobDate.toString(),
+                            jobId: val.jobId
+                        })
+                    }
+                >
+                    <View style={styles1.jobcard_view}>
 
-                            <Text style={styles1.jobcard_head}>{val.jobHead}</Text>
-                            <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
-                            <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
-                            <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
-                            <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
+                        <Text style={styles1.jobcard_head}>{val.jobHead}</Text>
+                        <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
+                        <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
+                        <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
+                        <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
 
-                            <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                                <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
-                            </View>
+                        <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
+                            <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
             );
         });
         return (
@@ -109,7 +108,7 @@ export default class Home extends Component {
                 <ScrollView>
                     {posts}
                 </ScrollView>
-                {this.state.roleLevel<2 && <TouchableOpacity
+                {this.state.roleLevel < 2 && <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
                     style={styles.TouchableOpacityStyle}>

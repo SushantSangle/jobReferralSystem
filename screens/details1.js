@@ -63,14 +63,14 @@ export default class Details extends Component {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
             this.navigation.navigate("ReferPerson", {
-                jobId: this.navigation.getParam('jobId'),
+                jobId: this.props.route.params.jobId,
             });
         }
         if (index == 1) {
-            this.navigation.navigate("ReferredPeople", { jobId: this.navigation.getParam('jobId') });
+            this.navigation.navigate("ReferredPeople", { jobId: this.props.route.params.jobId });
         }
         if (index == 2) {
-            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
+            this.navigation.navigate("EditPost", { objectId: this.props.route.params.jobId });
         }
         if (index == 3) {
             alert("Pressed Delete Post");
@@ -78,8 +78,8 @@ export default class Details extends Component {
     }
     componentDidMount() {
         const query = new Query('jobPosts');
-        console.log('Components Mounted:' + this.navigation.getParam('jobId'));
-        query.get(this.navigation.getParam('jobId')).then(async (job) => {
+        console.log('Components Mounted:' + this.props.route.params.jobId);
+        query.get(this.props.route.params.jobId).then(async (job) => {
             this.state.post = job;
             const relation = new Relation(job, 'postComments');
             const relatedQuery = relation.query();
@@ -130,18 +130,18 @@ export default class Details extends Component {
         return (
             <>
                 <View style={styles.jobcard_view}>
-                    <Text style={styles.jobcard_head}>{this.navigation.getParam('jobHead')}</Text>
-                    <Text style={styles.jobcard_details}>TYPE: {this.navigation.getParam('jobType')}</Text>
-                    <Text style={styles.jobcard_details}>LOCATION: {this.navigation.getParam('jobLocation')}</Text>
-                    <Text style={styles.jobcard_details}>POSTED BY: {this.navigation.getParam('jobAuthor')}</Text>
-                    <Text style={styles.jobcard_details}>Technology: {this.navigation.getParam('jobTechnology')}</Text>
-                    <Text style={styles.jobcard_details}>Work Experience: {this.navigation.getParam('jobWorkExperience')}</Text>
-                    <Text style={styles.jobcard_details}>Description: {this.navigation.getParam('jobDescription')}</Text>
+                    <Text style={styles.jobcard_head}>{this.props.route.params.jobHead}</Text>
+                    <Text style={styles.jobcard_details}>TYPE: {this.props.route.params.jobType}</Text>
+                    <Text style={styles.jobcard_details}>LOCATION: {this.props.route.params.jobLocation}</Text>
+                    <Text style={styles.jobcard_details}>POSTED BY: {this.props.route.params.jobAuthor}</Text>
+                    <Text style={styles.jobcard_details}>Technology: {this.props.route.params.jobTechnology}</Text>
+                    <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.jobWorkExperience}</Text>
+                    <Text style={styles.jobcard_details}>Description: {this.props.route.params.jobDescription}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
                         <PopupMenu actions={this.state.actions}
                             onPress={this.onPopupEvent} />
-                        <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
+                        <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.props.route.params.jobDate}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
