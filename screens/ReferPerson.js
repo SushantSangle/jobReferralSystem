@@ -11,14 +11,14 @@ import { Parse, Query, Relation } from "parse/react-native"
 import { ThemeColors } from 'react-navigation';
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
-Parse.serverURL = 'https://parse.sushant.xyz:1304/';
+Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 
 export default class ReferPerson extends Component {
 
     constructor(props) {
         super(props);
         this.navigation = this.props.navigation;
-        console.log(this.navigation.getParam('jobId'));
+        console.log(this.props.route.params.jobId);
         const query = new Query('jobPosts');
         this.state = {
             name: '',
@@ -33,14 +33,14 @@ export default class ReferPerson extends Component {
             description: '',
             status: '',
             link: '',
-            jobId: this.navigation.getParam('jobId'),
-            job: this.navigation.getParam('jobId'),
+            jobId: this.props.route.params.jobId,
+            job: this.props.route.params.jobId,
         };
-        query.get(this.navigation.getParam('jobId')).then((result)=>{
-            this.state.jobId=result.toPointer();
-            this.state.job=result;
+        query.get(this.props.route.params.jobId).then((result) => {
+            this.state.jobId = result.toPointer();
+            this.state.job = result;
             console.log(this.state.jobId);
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error);
         });
     }
@@ -60,9 +60,9 @@ export default class ReferPerson extends Component {
                 email: this.state.email
             }).then((postDetails) => {
                 alert('Person successfully referred');
-                const relation = new Relation(this.state.job,'referrals');
+                const relation = new Relation(this.state.job, 'referrals');
                 relation.add(personDetails);
-                this.state.job.save().catch((error)=>{console.log(error);});
+                this.state.job.save().catch((error) => { console.log(error); });
                 this.setState({
                     name: '',
                     Contact: '',
@@ -169,7 +169,7 @@ export default class ReferPerson extends Component {
 
                     <TouchableOpacity onPress={this.onPress} >
                         <View style={styles.signin}>
-                            <Text style={{color:'#ffffff'}}>
+                            <Text style={{ color: '#ffffff' }}>
                                 Refer
                             </Text>
                         </View>
