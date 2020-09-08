@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions, ToastAndroid } from 'react-native';
 import { User } from 'parse/react-native'
 import RNRestart from 'react-native-restart';
-import RoleManager from '../utils/RoleManager'
+import RoleManager from '../utils/RoleManager';
 
 const width = Dimensions.get("window").width;
 
@@ -15,8 +15,9 @@ const SettingsScreen = ({ navigation }) => {
         navigation.navigate("ChangeLogo");
     }
     const onPressLogout = () => {
-        User.logOut().then(()=>{
+        User.logOut().then(async()=>{
             ToastAndroid.show('Logged Out Successfully',ToastAndroid.SHORT);
+            await RoleManager.setRole();
             RNRestart.Restart();
         }).catch((error)=>{
             console.log("ERROR Logging out:"+error);

@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Parse, User,Config,Cloud } from 'parse/react-native';
-import Roles from '../utils/RoleManager';
+import RoleManager from '../utils/RoleManager';
 import AsyncStorage from '@react-native-community/async-storage';
 
 Parse.User.enableUnsafeCurrentUser()
@@ -35,11 +35,10 @@ export default class LoginScreen extends Component {
     User.currentAsync().then(async(user) => {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
-        const roles = await Cloud.run('getRoles');
-        Roles.setRole(roles);
+        this.roleLevel = await RoleManager.setRole();
         setTimeout(async()=>{
           this.navigation.navigate("Home");
-        },1000);
+        },300);
       }else{
         this.state.loggedIn=false;
         this.state.loading=false;
@@ -59,19 +58,18 @@ export default class LoginScreen extends Component {
     this.setState(this.state);
     user.then(
       async() => {
-        const roles = await Cloud.run('getRoles');
-        Roles.setRole(roles);
+        this.roleLevel = await RoleManager.setRole();
         this.navigation.navigate("Home");
         ToastAndroid.show('Signed In',ToastAndroid.SHORT);
       },
-      () => {
+      async() => {
         this.state.loggedIn=false;
         this.state.loading=false;
         this.setState(this.state);
         ToastAndroid.show('Login failed', ToastAndroid.SHORT);
         this.state.password = '';
         this.state.username = '';
-      },
+      }
     ).catch((error)=>{
       console.log("Error Loggin IN:"+error);
     });
