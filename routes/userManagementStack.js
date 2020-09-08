@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import NewUser from '../screens/NewUser';
 import EditUser from '../screens/EditUser';
+import UserDetails from '../screens/userdetails';
 import UserManagement from '../screens/UserManagement';
 
 const screens = {
@@ -20,6 +21,12 @@ const screens = {
         screen: EditUser,
         navigationOptions: {
             title: "Edit User Details"
+        }
+    },
+    UserDetails: {
+        screen: UserDetails,
+        navigationOptions: {
+            title: "User Details"
         }
     },
 }
