@@ -22,7 +22,24 @@ const job_card_style = StyleSheet.create({
         fontSize: width/28,
         padding: 1,
         color: "#606770"
-    }
+    },
+    fontSize: width/28,
+    headSize: width/18,
+    TouchableOpacityStyle: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+    },
+
+    FloatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+    },
 });
 
 module.exports = job_card_style;

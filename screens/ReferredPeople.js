@@ -6,11 +6,13 @@ import {
     FlatList,
     AsyncStorage,
     Dimensions,
-    ToastAndroid
+    ToastAndroid,
+    TouchableOpacity,
 } from 'react-native';
 import { Parse,Query, Relation } from 'parse/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import PopupMenu from '../components/popup_menu';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
@@ -87,21 +89,18 @@ export default class ReferredPeople extends Component {
                         <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
                         <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
                     
-                        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                             <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
 
                             <PopupMenu 
-                                actions={['Download referral','Remove referral']}
+                                actions={['Remove referral']}
                                 onPress={(eventName,index)=>{
                                     if (eventName !== 'itemSelected') return
                                     if (index == 0) {
-                                        //downloads
-                                        ToastAndroid.show("Download Clicked for referral :"+val.referName,ToastAndroid.SHORT);
-                                    }
-                                    if (index == 1) {
                                         //delete
                                     }
-                                }} 
+                                }}
+                                size={styles.fontSize} 
                                 
                             />
                         </View>
@@ -109,13 +108,29 @@ export default class ReferredPeople extends Component {
             );
         });
         return (
-            <>
+            <>  
+                {!this.state.data.length && <Text style={[styles.jobcard_details,{alignSelf:'center',padding:10}]}>
+                    No referrals yet for this post.
+                    </Text>}
                 {<ScrollView>
                     {people}
                 </ScrollView>}
+                {this.state.data.length>0 && <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={this.downloadHandler}
+                    style={styles.TouchableOpacityStyle}>
+                    <Icon
+                        name='download-circle'
+                        size={53}
+                        color={'#df75a8'}
+                    />
+                </TouchableOpacity>}
             </>
         );
-    };
+    }
+    downloadHandler(){
+        ToastAndroid.show("Download all",ToastAndroid.SHORT);
+    }
 }
 
 const styles = require('../stylesheets/job_card_style');

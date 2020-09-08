@@ -29,6 +29,7 @@ import {
 } from 'parse/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager'
+import { stopUpload } from 'react-native-fs';
 
 
 const width = Dimensions.get("window").width;
@@ -138,6 +139,7 @@ export default class Details extends Component {
                     }}>
                         <Text style={styles.jobcard_head}>{this.navigation.getParam('jobHead')}</Text>
                         <PopupMenu 
+                            size={styles.headSize}
                             actions={this.state.actions}
                             onPress={this.onPopupEvent} />
                     </View>

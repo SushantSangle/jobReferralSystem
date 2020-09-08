@@ -109,6 +109,9 @@ export default class Home extends Component {
         return (
             <>
                 <ScrollView>
+                {!this.state.data.length && <Text style={[styles.jobcard_details,{alignSelf:'center',padding:10}]}>
+                        No Job Posts yet, please check you internet connection.
+                    </Text>}
                     {posts}
                 </ScrollView>
                 {this.state.roleLevel<2 && <TouchableOpacity
