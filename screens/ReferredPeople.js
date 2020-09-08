@@ -12,7 +12,9 @@ import {
 import { Parse,Query, Relation } from 'parse/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import PopupMenu from '../components/popup_menu';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {jsonToCSV} from 'react-papaparse';
+
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
@@ -128,8 +130,24 @@ export default class ReferredPeople extends Component {
             </>
         );
     }
-    downloadHandler(){
+    downloadHandler=()=> {
         ToastAndroid.show("Download all",ToastAndroid.SHORT);
+        
+        //console.log(this.state.data);
+        const csv = jsonToCSV(this.state.data);
+        console.log(csv);
+        var RNFS = require('react-native-fs');
+        var path = '/storage/emulated/0/Download' + '/Referred_People.csv';
+        console.log(path);
+        RNFS.writeFile(path, csv , 'utf8')
+        .then((success) => {
+            console.log('FILE WRITTEN!');
+            alert('File saved in Internal Storage->Downloads.');
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+
     }
 }
 
