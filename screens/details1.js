@@ -122,7 +122,7 @@ export default class Details extends Component {
             console.log(val);
             return (
                 <View style={styles.jobcard_view} key={key}>
-                    <Text style={styles.jobcard_details}>{val.get('byUsername')}</Text>
+                    <Text style={styles.jobcard_details && { fontWeight: "bold" }}>{val.get('byUsername')}</Text>
                     <Text style={styles.jobcard_details}>{val.get('content')}</Text>
                 </View>
             )

@@ -7,48 +7,68 @@ import RoleManager from '../utils/RoleManager';
 const width = Dimensions.get("window").width;
 
 
-const SettingsScreen = ({ navigation }) => {
-    const onPressTheme = () => {
-        navigation.navigate("changeTheme");
+export default class SettingsScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.navigation = this.props.navigation;
     }
-    const onPressLogo = () => {
-        navigation.navigate("ChangeLogo");
+    onPressTheme = () => {
+        RoleManager.invert_dark();
+        console.log("In Settings: ", RoleManager.get_dark());
+        alert("Theme Changed. Restart App.");
+        this.forceUpdate();
     }
-    const onPressLogout = () => {
-        User.logOut().then(async()=>{
-            ToastAndroid.show('Logged Out Successfully',ToastAndroid.SHORT);
+    onPressLogo = () => {
+        this.navigation.navigate("ChangeLogo");
+    }
+    onPressLogout = () => {
+        User.logOut().then(async () => {
+            ToastAndroid.show('Logged Out Successfully', ToastAndroid.SHORT);
             await RoleManager.setRole();
             RNRestart.Restart();
-        }).catch((error)=>{
-            console.log("ERROR Logging out:"+error);
-            ToastAndroid.show('Error Logging out',ToastAndroid.SHORT);
+        }).catch((error) => {
+            console.log("ERROR Logging out:" + error);
+            ToastAndroid.show('Error Logging out', ToastAndroid.SHORT);
         });
     }
 
-    return (
-
-        <View style={styles.settings_view}>
-            {RoleManager.getLevel()<1 && <>
-            <TouchableOpacity onPress={onPressTheme}>
-                <Text style={styles.settings_head}>Change Theme</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={onPressLogo}>
-                <Text style={styles.settings_head}>Change Logo</Text>
-            </TouchableOpacity>
-            </>}
-            <TouchableOpacity onPress={onPressLogout}>
-                <Text style={styles.settings_head}>Log out</Text>
-            </TouchableOpacity>
-        </View>
-
-    );
+    render() {
+        return (
+            <View style={styles.settings_view}>
+                {RoleManager.getLevel() < 1 && <>
+                    <TouchableOpacity onPress={this.onPressTheme}>
+                        <Text style={styles.settings_head}>Change Theme</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: 5,
+                            marginVertical: '2.5%'
+                        }}
+                    />
+                    <TouchableOpacity onPress={this.onPressLogo}>
+                        <Text style={styles.settings_head}>Change Logo</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: 5,
+                            marginVertical: '2.5%'
+                        }}
+                    />
+                </>}
+                <TouchableOpacity onPress={this.onPressLogout}>
+                    <Text style={styles.settings_head}>Log out</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
     settings_view: {
         width: "100%",
-        backgroundColor: "#efefef",
         alignSelf: "center",
         padding: 10,
         elevation: 10,
@@ -62,4 +82,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SettingsScreen;

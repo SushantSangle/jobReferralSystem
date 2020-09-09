@@ -22,7 +22,6 @@ Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 export default class LoginScreen extends Component {
 
   constructor(props) {
-    User.logOut();
     super(props);
     this.navigation = this.props.navigation;
     this.state = {
@@ -31,25 +30,25 @@ export default class LoginScreen extends Component {
       loggedIn: true,
       img: "",
       loading: true,
-      roleLevel : 3,
+      roleLevel: 3,
     };
 
-    User.currentAsync().then(async(user) => {
-      try{
-        this.state.img=await ConfigLoader.getLogoFromAsync();
+    User.currentAsync().then(async (user) => {
+      try {
+        this.state.img = await ConfigLoader.getLogoFromAsync();
         this.setState(this.state);
-      }catch(error){
-        console.log("NO LOGO FOUND ERROR:"+error);
+      } catch (error) {
+        console.log("NO LOGO FOUND ERROR:" + error);
       }
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
         this.roleLevel = await RoleManager.setRole();
-        setTimeout(async()=>{
+        setTimeout(async () => {
           this.navigation.navigate("Home");
-        },300);
-      }else{
-        this.state.loggedIn=false;
-        this.state.loading=false;
+        }, 300);
+      } else {
+        this.state.loggedIn = false;
+        this.state.loading = false;
         this.setState(this.state);
       }
     }).catch((error) => {
@@ -65,21 +64,21 @@ export default class LoginScreen extends Component {
     this.state.loading = true;
     this.setState(this.state);
     user.then(
-      async() => {
+      async () => {
         this.roleLevel = await RoleManager.setRole();
         this.navigation.navigate("Home");
         ToastAndroid.show('Signed In', ToastAndroid.SHORT);
       },
-      async() => {
-        this.state.loggedIn=false;
-        this.state.loading=false;
+      async () => {
+        this.state.loggedIn = false;
+        this.state.loading = false;
         this.setState(this.state);
         ToastAndroid.show('Login failed', ToastAndroid.SHORT);
         this.state.password = '';
         this.state.username = '';
       }
-    ).catch((error)=>{
-      console.log("Error Loggin IN:"+error);
+    ).catch((error) => {
+      console.log("Error Loggin IN:" + error);
     });
   };
   componentDidMount() {
@@ -89,8 +88,8 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Image
-            source= {{uri: `data:${this.state.img.mime};base64,${this.state.img.data}`}}
-            style={styles.logoContainer}
+          source={{ uri: `data:${this.state.img.mime};base64,${this.state.img.data}` }}
+          style={styles.logoContainer}
         />
         {this.state.loading && <ActivityIndicator
           size='large'

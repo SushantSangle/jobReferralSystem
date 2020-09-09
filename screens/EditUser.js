@@ -108,7 +108,7 @@ export default class NewUser extends Component {
                     <View style={styles.signin}>
                         <Text style={{ color: "#ffffff" }}>
                             Update
-        </Text>
+                        </Text>
                     </View>
                 </TouchableOpacity>
             </View>

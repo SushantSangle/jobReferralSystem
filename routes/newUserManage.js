@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NewUser from '../screens/NewUser';
 import EditUser from '../screens/EditUser';
 import UserManagement from '../screens/UserManagement';
+import userdetails from '../screens/userdetails';
 
 const UStack = createStackNavigator();
 const UserStack = () => {
@@ -12,6 +13,7 @@ const UserStack = () => {
             <UStack.Screen name="UserManagement" component={UserManagement} />
             <UStack.Screen name="NewUser" component={NewUser} />
             <UStack.Screen name="EditUser" component={EditUser} />
+            <UStack.Screen name="UserDetails" component={userdetails} />
         </UStack.Navigator>
     );
 }

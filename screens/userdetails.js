@@ -23,7 +23,7 @@ export default class UserDetails extends Component {
         super(props);
         this.navigation = this.props.navigation;
         this.state = {
-            actions:['Edit', 'Remove'],
+            actions: ['Edit', 'Remove'],
         };
     }
 
@@ -42,24 +42,24 @@ export default class UserDetails extends Component {
         return (
             <>
                 <View style={styles.jobcard_view}>
-                    
-                    <View style={{
-                            flexDirection:'row',
-                            justifyContent: 'space-between',
-                        }}>
-                        <Text style={styles.jobcard_head}>{this.navigation.getParam('userName')}</Text>
-                            <PopupMenu 
-                                actions={this.state.actions}
-                                onPress={this.onPopupEvent} />
-                        </View>
 
-                        
-                        <Text style={styles.jobcard_details}>ID: {this.navigation.getParam('userId')}</Text>
-                        <Text style={styles.jobcard_details}>Post: {this.navigation.getParam('userPost')}</Text>
-                        <Text style={styles.jobcard_details}>Gender: {this.navigation.getParam('userGender')}</Text>
-                        <Text style={styles.jobcard_details}>Mobile: {this.navigation.getParam('userMobile')}</Text>
-                        <Text style={styles.jobcard_details}>Work Experience: {this.navigation.getParam('userWorkExperience')}</Text>
-                        <Text style={styles.jobcard_details}>Address: {this.navigation.getParam('userAddress')}</Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}>
+                        <Text style={styles.jobcard_head}>{this.props.route.params.userName}</Text>
+                        <PopupMenu
+                            actions={this.state.actions}
+                            onPress={this.onPopupEvent} />
+                    </View>
+
+
+                    <Text style={styles.jobcard_details}>ID: {this.props.route.params.userId}</Text>
+                    <Text style={styles.jobcard_details}>Post: {this.props.route.params.userPost}</Text>
+                    <Text style={styles.jobcard_details}>Gender: {this.props.route.params.userGender}</Text>
+                    <Text style={styles.jobcard_details}>Mobile: {this.props.route.params.userMobile}</Text>
+                    <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.userWorkExperience}</Text>
+                    <Text style={styles.jobcard_details}>Address: {this.props.route.params.userAddress}</Text>
                 </View>
             </>
         );

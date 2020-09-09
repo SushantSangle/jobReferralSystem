@@ -34,7 +34,7 @@ export default class EditPost extends Component {
         var PostDetails = Parse.Object.extend('jobPosts');
         var query = new Parse.Query(PostDetails);
 
-        query.get(this.navigation.getParam('objectId'))
+        query.get(this.props.route.params.objectId)
             .then((postDetails) => {
 
                 this.setState({
@@ -55,7 +55,7 @@ export default class EditPost extends Component {
         var PostDetails = Parse.Object.extend('jobPosts');
         var query = new Parse.Query(PostDetails);
         var user = Parse.User.current();
-        query.get(this.navigation.getParam('objectId'))
+        query.get(this.props.route.params.objectId)
             .then((postDetails) => {
 
                 postDetails.save({
