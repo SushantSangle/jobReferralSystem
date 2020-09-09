@@ -8,7 +8,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import { Parse, User,Config,Cloud } from 'parse/react-native';
+import { Parse, User } from 'parse/react-native';
 import RoleManager from '../utils/RoleManager';
 import AsyncStorage from '@react-native-community/async-storage';
 import ConfigLoader from '../utils/ConfigLoader';
@@ -22,6 +22,7 @@ Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 export default class LoginScreen extends Component {
 
   constructor(props) {
+    User.logOut();
     super(props);
     this.navigation = this.props.navigation;
     this.state = {
@@ -53,21 +54,21 @@ export default class LoginScreen extends Component {
       }
     }).catch((error) => {
       console.log("Error with logging in" + error);
-      this.state.loggedIn=false;
-      this.state.loading=false;
+      this.state.loggedIn = false;
+      this.state.loading = false;
       this.setState(this.state);
     });
   }
   onPress = () => {
     const user = User.logIn(this.state.username, this.state.password);
-    this.state.loggedIn=true;
-    this.state.loading=true;
+    this.state.loggedIn = true;
+    this.state.loading = true;
     this.setState(this.state);
     user.then(
       async() => {
         this.roleLevel = await RoleManager.setRole();
         this.navigation.navigate("Home");
-        ToastAndroid.show('Signed In',ToastAndroid.SHORT);
+        ToastAndroid.show('Signed In', ToastAndroid.SHORT);
       },
       async() => {
         this.state.loggedIn=false;
@@ -81,7 +82,7 @@ export default class LoginScreen extends Component {
       console.log("Error Loggin IN:"+error);
     });
   };
-  componentDidMount(){
+  componentDidMount() {
     this.setState(this.state);
   }
   render() {
@@ -91,10 +92,10 @@ export default class LoginScreen extends Component {
             source= {{uri: `data:${this.state.img.mime};base64,${this.state.img.data}`}}
             style={styles.logoContainer}
         />
-        {this.state.loading && <ActivityIndicator 
+        {this.state.loading && <ActivityIndicator
           size='large'
           color='#69a74e'
-          />
+        />
         }
         {!this.state.loggedIn && <TextInput
           value={this.state.username}

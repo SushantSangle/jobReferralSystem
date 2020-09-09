@@ -4,8 +4,8 @@ import {
 } from 'parse/react-native';
 import { ToastAndroid } from 'react-native';
 class RoleManager {
-    static  roleLevel=3;
-    static getLevel(){
+    static roleLevel = 3;
+    static getLevel() {
         return this.roleLevel;
     }
     static setRole(){
@@ -56,4 +56,4 @@ class RoleManager {
         })
     }
 }
-export {RoleManager as default}
+export { RoleManager as default }

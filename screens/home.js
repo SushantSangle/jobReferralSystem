@@ -20,7 +20,6 @@ import {
 import {
     Query, Config
 } from 'parse/react-native';
-import OptionsMenu from "react-native-options-menu";
 import { ScrollView } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager';
 import ConfigLoader from '../utils/ConfigLoader';
@@ -84,33 +83,34 @@ export default class Home extends Component {
         let posts = this.state.data.map((val, key) => {
             console.log(key);
             return (
-                    <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
-                        onPress={() =>
-                            this.navigation.navigate("Details", {
-                                jobHead: val.jobHead,
-                                jobType: val.jobType,
-                                jobLocation: val.jobLocation,
-                                jobAuthor: val.jobAuthor,
-                                jobTechnology: val.jobTechnology,
-                                jobWorkExperience: val.jobWorkExperience,
-                                jobDescription: val.jobDescription,
-                                jobDate: val.jobDate.toString(),
-                                jobId: val.jobId
-                            })
-                        }
-                    >
-                        <View style={styles1.jobcard_view}>
+                <TouchableOpacity style={{ elevation: 10 }} key={val.jobId}
+                    onPress={() =>
+                        this.navigation.navigate("Details", {
+                            jobHead: val.jobHead,
+                            jobType: val.jobType,
+                            jobLocation: val.jobLocation,
+                            jobAuthor: val.jobAuthor,
+                            jobTechnology: val.jobTechnology,
+                            jobWorkExperience: val.jobWorkExperience,
+                            jobDescription: val.jobDescription,
+                            jobDate: val.jobDate.toString(),
+                            jobId: val.jobId
+                        })
+                    }
+                >
+                    <View style={styles1.jobcard_view}>
 
-                            <Text style={styles1.jobcard_head}>{val.jobHead}</Text>
-                            <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
-                            <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
-                            <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
-                            <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
-                            <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                                <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
-                            </View>
+                        <Text style={styles1.jobcard_head}>{val.jobHead}</Text>
+                        <Text style={styles1.jobcard_details}>TYPE: {val.jobType}</Text>
+                        <Text style={styles1.jobcard_details}>LOCATION: {val.jobLocation}</Text>
+                        <Text style={styles1.jobcard_details}>POSTED BY: {val.jobAuthor}</Text>
+                        <Text style={styles1.jobcard_details}>Technology: {val.jobTechnology}</Text>
+
+                        <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
+                            <Text style={{ color: "#606770" }}>{val.jobDate.toString()}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
             );
         });
         return (
@@ -121,7 +121,7 @@ export default class Home extends Component {
                     </Text>}
                     {posts}
                 </ScrollView>
-                {this.state.roleLevel<2 && <TouchableOpacity
+                {this.state.roleLevel < 2 && <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
                     style={styles.TouchableOpacityStyle}>

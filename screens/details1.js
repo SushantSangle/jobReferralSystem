@@ -29,12 +29,11 @@ import {
 } from 'parse/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager'
-import { stopUpload } from 'react-native-fs';
 
 
 const width = Dimensions.get("window").width;
-const commentWidth=width-20;
-const popupSize=20;
+const commentWidth = width - 20;
+const commentTextWidth = commentWidth - 20 - 47;
 
 export default class Details extends Component {
 
@@ -64,14 +63,14 @@ export default class Details extends Component {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
             this.navigation.navigate("ReferPerson", {
-                jobId: this.navigation.getParam('jobId'),
+                jobId: this.props.route.params.jobId,
             });
         }
         if (index == 1) {
-            this.navigation.navigate("ReferredPeople", { jobId: this.navigation.getParam('jobId') });
+            this.navigation.navigate("ReferredPeople", { jobId: this.props.route.params.jobId });
         }
         if (index == 2) {
-            this.navigation.navigate("EditPost", { objectId: this.navigation.getParam('jobId') });
+            this.navigation.navigate("EditPost", { objectId: this.props.route.params.jobId });
         }
         if (index == 3) {
             alert("Pressed Delete Post");
@@ -79,8 +78,8 @@ export default class Details extends Component {
     }
     componentDidMount() {
         const query = new Query('jobPosts');
-        console.log('Components Mounted:' + this.navigation.getParam('jobId'));
-        query.get(this.navigation.getParam('jobId')).then(async (job) => {
+        console.log('Components Mounted:' + this.props.route.params.jobId);
+        query.get(this.props.route.params.jobId).then(async (job) => {
             this.state.post = job;
             const relation = new Relation(job, 'postComments');
             const relatedQuery = relation.query();
@@ -88,7 +87,6 @@ export default class Details extends Component {
             for (var i in resultArray) {
                 console.log(resultArray[i].id);
                 this.state.comments.push(resultArray[i]);
-                this.setState(this.state);
             }
             this.setState(this.state);
         }).catch((error) => {
@@ -108,22 +106,21 @@ export default class Details extends Component {
                 byUsername: this.state.User.get('username'),
                 content: this.state.userComment,
             });
-            const relation = new Relation(this.state.post,'postComments');
-            comment.save().then((saved)=>{
-                this.state.comments=[saved,...this.state.comments];
-                ToastAndroid.show("Comment Posted",ToastAndroid.SHORT);
-                this.state.userComment="";
+            const relation = new Relation(this.state.post, 'postComments');
+            comment.save().then(() => {
+                ToastAndroid.show("Comment Posted", ToastAndroid.SHORT);
+                this.state.userComment = '';
                 this.setState(this.state);
-            }).catch((error)=>{
-                console.log("ERROR COMMENTING:"+error);
-                ToastAndroid.show("Error posting comment",ToastAndroid.SHORT);
+            }).catch((error) => {
+                alert("Can't post empty comment");
             });
         }
     };
 
     render() {
-        let comments = this.state.comments.map((val,key)=>{
-            return(
+        let comments = this.state.comments.map((val, key) => {
+            console.log(val);
+            return (
                 <View style={styles.jobcard_view} key={key}>
                     <Text style={styles.jobcard_details}>{val.get('byUsername')}</Text>
                     <Text style={styles.jobcard_details}>{val.get('content')}</Text>
@@ -133,31 +130,23 @@ export default class Details extends Component {
         return (
             <>
                 <View style={styles.jobcard_view}>
-                    <View style={{
-                        flexDirection:'row',
-                        justifyContent: 'space-between',
-                    }}>
-                        <Text style={styles.jobcard_head}>{this.navigation.getParam('jobHead')}</Text>
-                        <PopupMenu 
-                            size={styles.headSize}
-                            actions={this.state.actions}
-                            onPress={this.onPopupEvent} />
-                    </View>
-                    <Text style={styles.jobcard_details}>TYPE: {this.navigation.getParam('jobType')}</Text>
-                    <Text style={styles.jobcard_details}>LOCATION: {this.navigation.getParam('jobLocation')}</Text>
-                    <Text style={styles.jobcard_details}>POSTED BY: {this.navigation.getParam('jobAuthor')}</Text>
-                    <Text style={styles.jobcard_details}>TECHNOLOGY: {this.navigation.getParam('jobTechnology')}</Text>
-                    <Text style={styles.jobcard_details}>WORK EXPERIENCE: {this.navigation.getParam('jobWorkExperience')}</Text>
-                    <Text style={styles.jobcard_details}>DESCRIPTION: {this.navigation.getParam('jobDescription')}</Text>
+                    <Text style={styles.jobcard_head}>{this.props.route.params.jobHead}</Text>
+                    <Text style={styles.jobcard_details}>TYPE: {this.props.route.params.jobType}</Text>
+                    <Text style={styles.jobcard_details}>LOCATION: {this.props.route.params.jobLocation}</Text>
+                    <Text style={styles.jobcard_details}>POSTED BY: {this.props.route.params.jobAuthor}</Text>
+                    <Text style={styles.jobcard_details}>Technology: {this.props.route.params.jobTechnology}</Text>
+                    <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.jobWorkExperience}</Text>
+                    <Text style={styles.jobcard_details}>Description: {this.props.route.params.jobDescription}</Text>
 
                     <View style={{ flexDirection: "row-reverse", alignContent: "center" }}>
-                        <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.navigation.getParam('jobDate')}</Text>
+                        <PopupMenu actions={this.state.actions}
+                            onPress={this.onPopupEvent} />
+                        <Text style={{ color: "#606770", marginHorizontal: '5%' }}>{this.props.route.params.jobDate}</Text>
                     </View>
                 </View>
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
                 <ScrollView>
                     {comments}
-                </ScrollView>
                     <View style={commentStyle.commentBox}>
                         <TextInput
                             style={commentStyle.commentText}
@@ -171,7 +160,7 @@ export default class Details extends Component {
                             <Image style={commentStyle.sendButton} source={require('../images/send.png')}></Image>
                         </TouchableOpacity>
                     </View>
-                
+                </ScrollView>
             </>
         );
     }
@@ -186,13 +175,13 @@ const commentStyle = StyleSheet.create({
         elevation: 10,
         color: "#606770",
         marginVertical: "1%",
-        flexDirection:'row' ,
-        flexWrap:'nowrap',
-        alignItems:'center',
-        justifyContent:'space-between',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
     },
     commentText: {
         color: "#606770",
+        width: commentTextWidth,
     },
     sendButton: {
         width: 45,
