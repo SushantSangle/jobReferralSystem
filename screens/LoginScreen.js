@@ -11,6 +11,7 @@ import {
 import { Parse, User,Config,Cloud } from 'parse/react-native';
 import RoleManager from '../utils/RoleManager';
 import AsyncStorage from '@react-native-community/async-storage';
+import ConfigLoader from '../utils/ConfigLoader';
 
 Parse.User.enableUnsafeCurrentUser()
 Parse.setAsyncStorage(AsyncStorage);
@@ -33,6 +34,12 @@ export default class LoginScreen extends Component {
     };
 
     User.currentAsync().then(async(user) => {
+      try{
+        this.state.img=await ConfigLoader.getLogoFromAsync();
+        this.setState(this.state);
+      }catch(error){
+        console.log("NO LOGO FOUND ERROR:"+error);
+      }
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
         this.roleLevel = await RoleManager.setRole();
@@ -81,7 +88,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Image
-            source={require('../images/snack-icon.png')} 
+            source= {{uri: `data:${this.state.img.mime};base64,${this.state.img.data}`}}
             style={styles.logoContainer}
         />
         {this.state.loading && <ActivityIndicator 

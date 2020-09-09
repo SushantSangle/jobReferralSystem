@@ -9,6 +9,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import {Parse,Cloud} from 'parse/react-native'
 import ImagePicker from 'react-native-image-crop-picker';
+import ConfigLoader from '../utils/ConfigLoader';
 
 Parse.setAsyncStorage(AsyncStorage);
 Parse.serverURL='https://parse.sushant.xyz:1304/parse';
@@ -36,18 +37,18 @@ export default class ChangeLogo extends Component {
       console.log(config);
       const image = config.get('logo');
       console.log(image);
-      var imageData = await image.getData();
+      var imageData = ConfigLoader.getLogo();
       this.setState({
         companyName: config.get('CompanyName'),
         companyAbout: config.get('CompanyAbout'),
         img: {
           mime: image.metadata(),
-          data: imageData,
+          data: imageData.data,
         }
       });
-    }, function(error) {
-     console.log('Some error occurred. Please try again.' + error);
-    });
+    }).catch(function(error) {
+      console.log('Some error occurred. Please try again.' + error);
+     });
   }
 
   onPressSelectImage = () =>{

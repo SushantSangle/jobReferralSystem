@@ -14,14 +14,16 @@ import {
     Button, TouchableOpacity,
     Image,
     ActivityIndicator,
-    scrollView
+    scrollView,
+    ToastAndroid
 } from 'react-native';
 import {
-    Query
+    Query, Config
 } from 'parse/react-native';
 import OptionsMenu from "react-native-options-menu";
 import { ScrollView } from 'react-native-gesture-handler';
-import RoleManager from '../utils/RoleManager'
+import RoleManager from '../utils/RoleManager';
+import ConfigLoader from '../utils/ConfigLoader';
 
 export default class Home extends Component {
     constructor(props) {
@@ -36,6 +38,11 @@ export default class Home extends Component {
             refreshing: false,
             roleLevel: RoleManager.getLevel(),
         };
+        ConfigLoader.pullConfig().then(async(value)=>{
+            if(value==1){
+                ToastAndroid.show("new Logo pulled from server, it will be loaded on login screen once you reload",ToastAndroid.SHORT);
+            }
+        })
     }
     componentDidMount() {
         this.makeRemoteRequest();
