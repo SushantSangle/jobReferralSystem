@@ -7,14 +7,14 @@ const newPost = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
+        padding: 10,  
     },
     scrollView: {
         width: '100%',
         padding: 10,
     },
     text: {
-        fontSize: 18,
+        color: '#586776',
         paddingLeft: 10,
         marginLeft: 10,
     },
@@ -31,11 +31,15 @@ const newPost = StyleSheet.create({
     inputext: {
         width: '90%',
         padding: 10,
-        marginBottom: 20,
+        marginTop: 8,
+        marginBottom: 8,
         marginHorizontal: 20,
         paddingLeft: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
+        borderWidth: 1,
+        borderColor: '#606770',
+        borderRadius: 15,
+        color: '#535C68',
+   
     },
 });
 
