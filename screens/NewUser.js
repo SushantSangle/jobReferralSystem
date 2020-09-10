@@ -5,6 +5,7 @@ import {
  ScrollView,
  TextInput,
  TouchableOpacity,
+ ToastAndroid,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Parse, User} from "parse/react-native"
@@ -18,35 +19,73 @@ Parse.serverURL='https://parse.sushant.xyz:1304/parse';
 export default class NewUser extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    name: '',
-    Username:'',
-    password:'',
-    address: '',
-    designation:'',
-    phone:'',
-    qualifications:'',
-    department:'',
-    status:'',
-    organization:'',
-    ResidentialAddress:'',
-    description:'',
-    link:'',
-    workExperience:'',
-    dob:'',
-    gender:'',
-    auth:''
-  };
- }
+    if(this.props.route.params.edit){
+      const employeeData = this.props.route.params.user;
+      const date = employeeData.get('EmpDOB');
+      console.log(date);
+      const month=date.getMonth()<10?('0'+date.getMonth()):date.getMonth();
+      const day=date.getDate()<10?('0'+date.getDate()):date.getDate();
+      const dobb=""+date.getFullYear()+"-"+month+"-"+day;
+      this.state = {
+        newUser:false,
+        name: employeeData.get('firstName')+" "+employeeData.get("fathersName")+" "+employeeData.get("lastName"),
+        Username: employeeData.get('EmpUname'),
+        password: '',
+        address: employeeData.get('email'),
+        designation: employeeData.get('Designation'),
+        department: employeeData.get("Department"),
+        phone: employeeData.get("EmpPhone"),
+        qualifications: employeeData.get("qualification"),
+        status:employeeData.get('status'),
+        organization:employeeData.get('organization'),
+        ResidentialAddress:employeeData.get('EmpAddress'),
+        description:employeeData.get('description'),
+        link:employeeData.get('link'),
+        workExperience:employeeData.get('workExperience'),
+        dob:dobb,
+        gender:employeeData.get('gender'),
+        employeeData: employeeData,
+      }
+    }else{
+      this.state = {
+        newUser:true,
+        name: '',
+        Username:'',
+        password:'',
+        address: '',
+        designation:'',
+        phone:'',
+        qualifications:'',
+        department:'',
+        status:'',
+        organization:'',
+        ResidentialAddress:'',
+        description:'',
+        link:'',
+        workExperience:'',
+        dob:'',
+        gender:'',
+        employeeData:'',
+      };
+    } 
+  }
 
  setDetails(){
     var Name = this.state.name.split(' ');
-    var user = new User();    
-    user.set('username',this.state.Username);
-    user.set('password',this.state.password);
-    user.set('email',this.state.address);
-    user.set('name',this.state.name)
+    var user;
+    if(this.state.newUser){
+      user = new User(); 
+    }else{
+      user = this.state.employeeData.get('UserPointer');
+    }
+    
     try{
+      user.set('username',this.state.Username);
+      if(this.state.password.length){
+        user.set('password',this.state.password);
+      }
+      user.set('email',this.state.address);
+      user.set('name',this.state.name)
       user.save()
       .then((UserResult)=>{
         this.uploadIntoEmployeeData(UserResult);
@@ -68,13 +107,16 @@ export default class NewUser extends Component {
           workExperience:'',
           dob:'',
           gender:'',
-          auth:''
+          newUser: this.state.newUser,
+          employeeData:this.state.employeeData,
          });
         
       },(error) =>{
         return false;
       });
     }catch(error){
+      ToastAndroid.show("Cannot create/modify user right now please try restarting app.",ToastAndroid.LONG);
+      this.props.navigation.goBack();
       return false;
     }
     return true;
@@ -85,8 +127,12 @@ export default class NewUser extends Component {
     var Name = this.state.name.split(' ');
 
     var EmployeeDetails = Parse.Object.extend("employeeData");
-    var employeeDetails = new EmployeeDetails();
-
+    var employeeDetails;
+    if(this.state.newUser){
+      employeeDetails = new EmployeeDetails();
+    }else{
+      employeeDetails = this.state.employeeData;
+    }
     console.log(user);
 
     employeeDetails.save({
@@ -108,19 +154,28 @@ export default class NewUser extends Component {
       EmpDOB: new Date(this.state.dob),
       gender: this.state.gender,
       UserPointer: user.toPointer(),
+      EmpUname: this.state.Username,
     }).then((result) => {
       console.log(result);
+      if(!this.state.newUser){
+        ToastAndroid.show("User details updated,will show up next time you load stuff",ToastAndroid.LONG);
+        this.props.navigation.goBack();
+      }
     },(error) => {
       console.log('Error in employee Data:' + error);
-      user.destroy().catch((error)=>{});
+      // user.destroy().catch((error)=>{});
     });
  }
  onPressSingleUser = () => {
-   var count=0;
-   if(this.setDetails()){
-    count++;
-   }
-   alert(count+ " user has been created.")
+  var count=0;
+  if(this.setDetails()){
+  count++;
+  }
+  if(this.state.newUser){
+  alert(count+ " user has been created.")
+  }else{
+    ToastAndroid.show("Changes are being applied.",ToastAndroid.SHORT);
+  }
 }
 
 onPressBulkUser = () => {
@@ -162,8 +217,8 @@ onPressBulkUser = () => {
                     link:rows[i]['link'],
                     workExperience:rows[i]['workExperience'],
                     dob:rows[i]['dob'],
-                    gender:rows[i]['gender']
-                    
+                    gender:rows[i]['gender'],
+                    employeeData:this.state.employeeData,
                     
                   })
                  if(this.setDetails()){
@@ -203,7 +258,7 @@ onPressBulkUser = () => {
 
     <Text style={styles.text}>Username*</Text>
       <TextInput 
-      value={this.state.username}
+      value={this.state.Username}
       onChangeText={(Username) => this.setState({ Username })}
       label="username"
       style={styles.inputext}
@@ -216,7 +271,7 @@ onPressBulkUser = () => {
       onChangeText={(password) => this.setState({ password })}
       label="password"
       style={styles.inputext}
-      placeholder={'Enter Password'}
+      placeholder={'if editing, change if necessary'}
       secureTextEntry={true} 
       />
   
@@ -349,13 +404,13 @@ onPressBulkUser = () => {
       </View>
       </TouchableOpacity>
   
-      <TouchableOpacity onPress={this.onPressBulkUser} >
-      <View style={styles.signin}>
-      <Text style={{ color: "#ffffff" }}>
-      Upload Users using CSV
-      </Text>
-      </View>
-      </TouchableOpacity>
+        {this.state.newUser && <TouchableOpacity onPress={this.onPressBulkUser} >
+          <View style={styles.signin}>
+            <Text style={{ color: "#ffffff" }}>
+              Upload Users using CSV
+            </Text>
+          </View>
+        </TouchableOpacity>}
       </ScrollView>
       </View>
     );

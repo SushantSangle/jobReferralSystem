@@ -31,13 +31,16 @@ export default class UserDetails extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("EditUser",this.props.route.params);
+            this.navigation.navigate("NewUser",{
+                edit:true,
+                user:this.props.route.params,
+            });
         }
         if (index == 1) {
             const boop = this.props.route.params.destroy();
             boop.then(()=>{
                 ToastAndroid.show("User deleted",ToastAndroid.SHORT);
-                
+                this.navigation.goBack();
             })
         }
     }
