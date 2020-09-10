@@ -3,6 +3,7 @@ import {
     Cloud
 } from 'parse/react-native';
 import { ToastAndroid } from 'react-native';
+import { createSwitchNavigator } from 'react-navigation';
 class RoleManager {
     static roleLevel = 3;
     static dark_theme = true;
@@ -11,6 +12,12 @@ class RoleManager {
     }
     static invert_dark() {
         this.dark_theme = !this.dark_theme;
+        const themeVal = this.dark_theme?'true':'false';
+        AsyncStorage.setItem("dark_theme_value",themeVal).then(()=>{
+            ToastAndroid.show("Theme changed",ToastAndroid.SHORT);
+        }).catch((error)=>{
+            console.log("ERROR setting theme");
+        });
     }
     static getLevel() {
         return this.roleLevel;
@@ -18,6 +25,12 @@ class RoleManager {
     static setRole() {
         return new Promise(async (resolve, reject) => {
             var roles;
+            try{
+                const themeVal = await AsyncStorage.getItem("dark_theme_value");
+                this.dark_theme = (themeVal=='true'?true:false);
+            }catch{
+                this.dark_theme = true;
+            }
             try {
                 roles = await Cloud.run('getRoles');
             } catch (error) {

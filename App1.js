@@ -42,7 +42,7 @@ export default class App1 extends React.Component {
             this.state.Home = true;
             this.state.User = false;
             this.state.Post = true;
-            this.state.Settings = false;
+            this.state.Settings = true;
             this.state.Refresh = true;
         }
         if (RoleManager.getLevel() >= 2) {
@@ -51,7 +51,7 @@ export default class App1 extends React.Component {
             this.state.Home = true;
             this.state.User = false;
             this.state.Post = false;
-            this.state.Settings = false;
+            this.state.Settings = true;
             this.state.Refresh = true;
         }
         this.setState(this.state);
