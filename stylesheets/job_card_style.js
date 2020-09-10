@@ -10,7 +10,6 @@ const job_card_style = StyleSheet.create({
         marginVertical: "1%",
         borderColor:'#777E8B',
         borderWidth: 2,
-        elevation: 10
     },
     jobcard_head: {
         color: '#69a74e',
