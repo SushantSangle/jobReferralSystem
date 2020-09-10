@@ -36,8 +36,9 @@ export default class UserDetails extends Component {
             alert("Pressed Delete User");
         }
     }
+
+
     render() {
-        const date = 1;
         return (
             <>
                 <View style={styles.jobcard_view}>
@@ -46,11 +47,10 @@ export default class UserDetails extends Component {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}>
-                        <Text style={styles.jobcard_head}>{this.props.route.params.get('firstName')+this.props.route.params.get('lastName')}</Text>
+                        <Text style={styles.jobcard_head}>{this.props.route.params.userName}</Text>
                         <PopupMenu
                             actions={this.state.actions}
                             onPress={this.onPopupEvent} />
-                            
                     </View>
 
 
@@ -58,11 +58,8 @@ export default class UserDetails extends Component {
                     <Text style={styles.jobcard_details}>Post: {this.props.route.params.userPost}</Text>
                     <Text style={styles.jobcard_details}>Gender: {this.props.route.params.userGender}</Text>
                     <Text style={styles.jobcard_details}>Mobile: {this.props.route.params.userMobile}</Text>
-                    <Text style={styles.jobcard_details}>DOB: {this.props.route.params.userDateofbirth}</Text>
                     <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.userWorkExperience}</Text>
                     <Text style={styles.jobcard_details}>Address: {this.props.route.params.userAddress}</Text>
-                    
-
                 </View>
             </>
         );
