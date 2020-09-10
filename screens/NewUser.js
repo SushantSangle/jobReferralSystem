@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Parse, User} from "parse/react-native"
 import FilePickerManager from 'react-native-file-picker';
 import {readString} from 'react-papaparse';
-
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
 Parse.serverURL='https://parse.sushant.xyz:1304/parse';
@@ -35,8 +34,7 @@ export default class NewUser extends Component {
     workExperience:'',
     dob:'',
     gender:'',
-    auth:'',
-    role:''
+    auth:''
   };
  }
 
@@ -44,9 +42,8 @@ export default class NewUser extends Component {
     var Name = this.state.name.split(' ');
   if(Name.length != 3 || this.state.Username == '' || this.state.password == '' || this.state.address == '' ||
   this.state.designation == '' || this.state.phone == ''|| this.state.qualifications == '' ||this.state.status == '' ||  this.state.organization == '' || 
-  this.state.ResidentialAddress == '' || this.state.description == '' || this.state.link== '' || this.state.workExperience == '' || this.state.dob== ''||
-  this.state.role != '0' || this.state.role != '1' || this.state.role != '2'){
-    alert('Please Enter all the fields correctly.');
+  this.state.ResidentialAddress == '' || this.state.description == '' || this.state.link== '' || this.state.workExperience == '' || this.state.dob== ''){
+    alert('Please Enter all the fields.');
     return false;
   }else{
     var user = new Parse.User();    
@@ -57,7 +54,9 @@ export default class NewUser extends Component {
     try{
       user.save()
       .then((UserResult)=>{
-        this.uploadIntoEmployeeData(UserResult);
+        console.log(UserResult);
+
+        this.uploadIntoEmployeeData();
 
         this.setState({
           name: '',       
@@ -76,8 +75,7 @@ export default class NewUser extends Component {
           workExperience:'',
           dob:'',
           gender:'',
-          auth:'',
-          role:''
+          auth:''
          });
         
       },(error) =>{
@@ -90,40 +88,38 @@ export default class NewUser extends Component {
   return true;
  }
 
- uploadIntoEmployeeData(user){
+ uploadIntoEmployeeData(){
 
     var Name = this.state.name.split(' ');
 
+    console.log(this.state)
     var EmployeeDetails = Parse.Object.extend("employeeData");
     var employeeDetails = new EmployeeDetails();
-
-    console.log(user);
-
+    var user = Parse.User.current();
     employeeDetails.save({
 
       firstName: Name[0],
       fathersName: Name[1],
       lastName: Name[2],
       email: this.state.address,
-      EmpPhone:this.state.phone,
+      phone:this.state.phone,
       qualification:this.state.qualifications,
       Department:this.state.department,
       status:this.state.status,
       organization:this.state.organization,
-      EmpAddress:this.state.ResidentialAddress,
+      address:this.state.ResidentialAddress,
       Designation:this.state.designation,
       description:this.state.description,
       link:this.state.link,
       workExperience:this.state.workExperience,
+      dob:this.state.dob,
       gender:this.state.gender,
-      auth:user,
-      role:this.state.role,
-      EmpDOB: new Date(this.state.dob),
-      UserPointer: user.toPointer(),
+      auth:user
+
     }).then((result) => {
       console.log(result);
     },(error) => {
-      console.log('Error in employee Data:' + error);
+      console.log('Error in employee Data' + error);
     });
  }
  onPressSingleUser = () => {
@@ -173,8 +169,7 @@ onPressBulkUser = () => {
                     link:rows[i]['link'],
                     workExperience:rows[i]['workExperience'],
                     dob:rows[i]['dob'],
-                    gender:rows[i]['gender'],
-                    role:rows[i]['role']
+                    gender:rows[i]['gender']
                     
                     
                   })
@@ -304,15 +299,6 @@ onPressBulkUser = () => {
       label="status"
       style={styles.inputext}
       placeholder={'Enter status'}
-      />
-
-    <Text style={styles.text}>Role*</Text>
-      <TextInput
-      value={this.state.role}
-      onChangeText={(role)=>this.setState({role})}
-      label="role"
-      style={styles.inputext}
-      placeholder={'0- Employee 1-Recruiter 2-superAdmin'}
       />
 
       
