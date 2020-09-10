@@ -116,7 +116,7 @@ export default class Home extends Component {
         return (
             <>
                 <ScrollView>
-                {!this.state.data.length && <Text style={[styles.jobcard_details,{alignSelf:'center',padding:10}]}>
+                {!this.state.data.length && <Text style={[styles1.jobcard_details,{alignSelf:'center',padding:10}]}>
                         No Job Posts yet, please check you internet connection.
                     </Text>}
                     {posts}
@@ -124,10 +124,10 @@ export default class Home extends Component {
                 {this.state.roleLevel < 2 && <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={this.clickHandler}
-                    style={styles.TouchableOpacityStyle}>
+                    style={styles1.TouchableOpacityStyle}>
                     <Image
                         source={require('../images/add_icon.png')}
-                        style={styles.FloatingButtonStyle}
+                        style={styles1.FloatingButtonStyle}
                     />
                 </TouchableOpacity>}
             </>
@@ -141,21 +141,4 @@ export default class Home extends Component {
 
 const styles1 = require('../stylesheets/job_card_style');
 
-const styles = StyleSheet.create({
-    TouchableOpacityStyle: {
-        position: 'absolute',
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        right: 30,
-        bottom: 30,
-    },
-
-    FloatingButtonStyle: {
-        resizeMode: 'contain',
-        width: 50,
-        height: 50,
-    },
-});
 

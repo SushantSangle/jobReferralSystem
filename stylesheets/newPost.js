@@ -38,7 +38,7 @@ const newPost = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#606770',
         borderRadius: 15,
-        color: '#535C68',
+        color: '#586776',
    
     },
 });
