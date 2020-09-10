@@ -36,9 +36,8 @@ export default class UserDetails extends Component {
             alert("Pressed Delete User");
         }
     }
-
-
     render() {
+        const date = 1;
         return (
             <>
                 <View style={styles.jobcard_view}>
@@ -47,19 +46,20 @@ export default class UserDetails extends Component {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}>
-                        <Text style={styles.jobcard_head}>{this.props.route.params.userName}</Text>
+                        <Text style={styles.jobcard_head}>{this.props.route.params.get('firstName')+this.props.route.params.get('lastName')}</Text>
                         <PopupMenu
                             actions={this.state.actions}
                             onPress={this.onPopupEvent} />
                     </View>
 
 
-                    <Text style={styles.jobcard_details}>ID: {this.props.route.params.userId}</Text>
-                    <Text style={styles.jobcard_details}>Post: {this.props.route.params.userPost}</Text>
-                    <Text style={styles.jobcard_details}>Gender: {this.props.route.params.userGender}</Text>
-                    <Text style={styles.jobcard_details}>Mobile: {this.props.route.params.userMobile}</Text>
-                    <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.userWorkExperience}</Text>
-                    <Text style={styles.jobcard_details}>Address: {this.props.route.params.userAddress}</Text>
+                    <Text style={styles.jobcard_details}>ID: {this.props.route.params.id}</Text>
+                    <Text style={styles.jobcard_details}>Post: {this.props.route.params.get('Designation')}</Text>
+                    <Text style={styles.jobcard_details}>Gender: {this.props.route.params.get('gender')}</Text>
+                    <Text style={styles.jobcard_details}>Mobile: {this.props.route.params.get('aakade')}</Text>
+                    <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.get('workExperience')}</Text>
+                    <Text style={styles.jobcard_details}>Address: {this.props.route.params.get('placeToLive')}</Text>
+                <Text style={styles.jobcard_details}>Date of Birth:{}</Text>
                 </View>
             </>
         );
