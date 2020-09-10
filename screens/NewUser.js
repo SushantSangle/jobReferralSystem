@@ -41,7 +41,6 @@ export default class NewUser extends Component {
 
  setDetails(){
     var Name = this.state.name.split(' ');
-  {
     var user = new User();    
     user.set('username',this.state.Username);
     user.set('password',this.state.password);
@@ -78,8 +77,7 @@ export default class NewUser extends Component {
     }catch(error){
       return false;
     }
-  }
-  return true;
+    return true;
  }
 
  uploadIntoEmployeeData(user){
@@ -97,23 +95,24 @@ export default class NewUser extends Component {
       fathersName: Name[1],
       lastName: Name[2],
       email: this.state.address,
-      aakade:this.state.phone,
+      EmpPhone:this.state.phone,
       qualification:this.state.qualifications,
       Department:this.state.department,
       status:this.state.status,
       organization:this.state.organization,
-      placeToLive:this.state.ResidentialAddress,
+      EmpAddress:this.state.ResidentialAddress,
       Designation:this.state.designation,
       description:this.state.description,
       link:this.state.link,
       workExperience:this.state.workExperience,
-      dateOfSpawn: new Date(this.state.dob),
+      EmpDOB: new Date(this.state.dob),
       gender: this.state.gender,
       UserPointer: user.toPointer(),
     }).then((result) => {
       console.log(result);
     },(error) => {
       console.log('Error in employee Data:' + error);
+      user.destroy().catch((error)=>{});
     });
  }
  onPressSingleUser = () => {

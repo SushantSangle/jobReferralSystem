@@ -50,9 +50,9 @@ export default class UserManagement extends Component {
                 userPost: result.get("Designation"),
                 userWorkExperience: result.get("workExperience"),
                 userGender: result.get('gender'),
-                userDateofbirth: result.get('dateOfSpawn'),
-                userMobile: result.get('aakade'),
-                userAddress: result.get('placeToLive'),
+                userDateofbirth: result.get('EmpDOB'),
+                userMobile: result.get('EmpPhone'),
+                userAddress: result.get('EmpAddress'),
                 user:result,
             });
             this.setState(this.state);
