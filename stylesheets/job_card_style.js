@@ -3,17 +3,17 @@ const width = Dimensions.get("window").width;
 
 const job_card_style = StyleSheet.create({
     jobcard_view: {
-        shadowColor : "#020202",
-        width: "95%",
-        borderRadius: 5,
-        backgroundColor: "#222629",
+        width: "90%",
+        borderRadius: 10,
         alignSelf: "center",
         padding: 10,
-        elevation: 10,
         marginVertical: "1%",
+        borderColor:'#777E8B',
+        borderWidth: 2,
+        elevation: 10
     },
     jobcard_head: {
-        color: "#69a74e",
+        color: '#69a74e',
         fontSize: width/18,
         fontWeight:'bold',
         marginBottom: 5
@@ -21,7 +21,7 @@ const job_card_style = StyleSheet.create({
     jobcard_details: {
         fontSize: width/28,
         padding: 1,
-        color: "#606770"
+        color: '#586776'
     },
     fontSize: width/28,
     headSize: width/18,
@@ -33,6 +33,7 @@ const job_card_style = StyleSheet.create({
         justifyContent: 'center',
         right: 30,
         bottom: 30,
+
     },
 
     FloatingButtonStyle: {
