@@ -119,7 +119,7 @@ export default class ReferPerson extends Component {
                         placeholder={'22-09-1999'}
                     />
 
-                    <Text style={styles.text}>e-mail*</Text>
+                    <Text style={styles.text}>Email*</Text>
                     <TextInput
                         value={this.state.email}
                         onChangeText={(email) => this.setState({ email })}

@@ -41,6 +41,7 @@ const newPost = StyleSheet.create({
         color: '#535C68',
    
     },
+
 });
 
 module.exports = newPost;
