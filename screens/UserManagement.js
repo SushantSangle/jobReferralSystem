@@ -43,16 +43,17 @@ export default class UserManagement extends Component {
         this.setState({ loading: true });
         var query = new Query("employeeData");
         var eachPromise = query.each((result) => {
-
+            
             this.state.data.push({
                 userId: result.id,
                 userName: result.get('firstName') + " " + result.get('lastName'),
                 userPost: result.get("Designation"),
                 userWorkExperience: result.get("workExperience"),
                 userGender: result.get('gender'),
-                userDateofbirth: result.get('dob'),
-                userMobile: result.get('phone'),
-                userAddress: result.get('address'),
+                userDateofbirth: result.get('dateOfSpawn'),
+                userMobile: result.get('aakade'),
+                userAddress: result.get('placeToLive'),
+                user:result,
             });
             this.setState(this.state);
             console.log("data read");
@@ -72,21 +73,12 @@ export default class UserManagement extends Component {
             console.log(key);
             return (
                 <TouchableOpacity style={{ elevation: 10 }}
+                    key={key}
                     onPress={() =>
-                        this.navigation.navigate("UserDetails", {
-                            userName: val.userName,
-                            userId: val.userId,
-                            userPost: val.userPost,
-                            userWorkExperience: val.userWorkExperience,
-                            userGender: val.userGender,
-                            userDateofbirth: val.userDateofbirth,
-                            userMobile: val.userMobile,
-                            userAddress: val.userAddress,
-                        })
+                        this.navigation.navigate("UserDetails", val.user)
                     } >
 
                     <View style={styles1.jobcard_view}>
-
                         <Text style={styles1.jobcard_head}>{val.userName}</Text>
                         <Text style={styles1.jobcard_details}>ID: {val.userId}</Text>
                         <Text style={styles1.jobcard_details}>POST: {val.userPost}</Text>
