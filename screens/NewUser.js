@@ -155,6 +155,7 @@ export default class NewUser extends Component {
       gender: this.state.gender,
       UserPointer: user.toPointer(),
       EmpUname: this.state.Username,
+      
     }).then((result) => {
       console.log(result);
       if(!this.state.newUser){
@@ -162,8 +163,9 @@ export default class NewUser extends Component {
         this.props.navigation.goBack();
       }
     },(error) => {
+      ToastAndroid.show("Error creating user",ToastAndroid.SHORT);
       console.log('Error in employee Data:' + error);
-      // user.destroy().catch((error)=>{});
+      if(this.state.newUser) user.destroy().catch((error)=>{});
     });
  }
  onPressSingleUser = () => {

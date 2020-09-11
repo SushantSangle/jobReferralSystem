@@ -43,9 +43,15 @@ export default class LoginScreen extends Component {
       if (user != null) {
         ToastAndroid.show("Logged In", ToastAndroid.LONG);
         this.roleLevel = await RoleManager.setRole();
-        setTimeout(async () => {
-          this.navigation.navigate("Home");
-        }, 300);
+        if(this.roleLevel==100){
+          this.state.loggedIn = false;
+          this.state.loading = false;
+          this.setState(this.state);
+        }else{
+          setTimeout(async () => {
+            this.navigation.navigate("Home");
+          }, 300);
+        }
       } else {
         this.state.loggedIn = false;
         this.state.loading = false;

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {
-    Cloud
+    Cloud,
+    User,
 } from 'parse/react-native';
 import { ToastAndroid } from 'react-native';
 import { createSwitchNavigator } from 'react-navigation';
@@ -34,6 +35,12 @@ class RoleManager {
             try {
                 roles = await Cloud.run('getRoles');
             } catch (error) {
+                if(error.code==209){
+                    ToastAndroid.show('Your session has expired, Please re-login.',ToastAndroid.SHORT);
+                    User.logOut().catch((error)=>{console.log(error)});
+                    resolve(100);
+                    return;
+                }
                 ToastAndroid.show("Please Check your internet connection, Unable to connect to server", ToastAndroid.LONG);
                 try {
                     const userPriv = await AsyncStorage.getItem('userPriv');
