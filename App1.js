@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { Button, View, Text, SafeAreaView,Image } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import HomeStack from './routes/newHomeStack';
 import UserStack from './routes/newUserManage';
-import PostStack from './routes/newPostManage';
 import SettingsStack from './routes/newSettingsStack';
-import LoginScreen from './screens/LoginScreen';
 import RoleManager from './utils/RoleManager';
 
 const Drawer = createDrawerNavigator();
