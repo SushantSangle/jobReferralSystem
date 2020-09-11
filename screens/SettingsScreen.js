@@ -36,17 +36,18 @@ export default class SettingsScreen extends React.Component {
     render() {
         return (
             <View style={styles.settings_view}>
+                
+                <TouchableOpacity onPress={this.onPressTheme}>
+                    <Text style={styles.settings_head}>Change Theme</Text>
+                </TouchableOpacity>
+                <View
+                    style={{
+                        borderBottomColor: 'gray',
+                        borderBottomWidth: 5,
+                        marginVertical: '2.5%'
+                    }}
+                />
                 {RoleManager.getLevel() < 1 && <>
-                    <TouchableOpacity onPress={this.onPressTheme}>
-                        <Text style={styles.settings_head}>Change Theme</Text>
-                    </TouchableOpacity>
-                    <View
-                        style={{
-                            borderBottomColor: 'gray',
-                            borderBottomWidth: 5,
-                            marginVertical: '2.5%'
-                        }}
-                    />
                     <TouchableOpacity onPress={this.onPressLogo}>
                         <Text style={styles.settings_head}>Change Logo</Text>
                     </TouchableOpacity>
