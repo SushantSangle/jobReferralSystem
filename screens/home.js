@@ -64,6 +64,7 @@ export default class Home extends Component {
                 jobDescription: result.get('description'),
                 jobDate: det,
 
+                jobPost: result,
             });
             this.setState(this.state);
             console.log("data read");
@@ -94,7 +95,8 @@ export default class Home extends Component {
                             jobWorkExperience: val.jobWorkExperience,
                             jobDescription: val.jobDescription,
                             jobDate: val.jobDate.toString(),
-                            jobId: val.jobId
+                            jobId: val.jobId,
+                            jobPost: val.jobPost,
                         })
                     }
                 >

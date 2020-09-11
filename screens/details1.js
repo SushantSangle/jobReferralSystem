@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { Component } from 'react';
 import {
     StyleSheet,
@@ -19,8 +11,6 @@ import {
     ScrollView
 } from 'react-native';
 import PopupMenu from '../components/popup_menu';
-import Comment from '../components/comment';
-import Button from '../components/button';
 import {
     Query,
     Relation,
@@ -73,7 +63,11 @@ export default class Details extends Component {
             this.navigation.navigate("EditPost", { objectId: this.props.route.params.jobId });
         }
         if (index == 3) {
-            alert("Pressed Delete Post");
+            const jobPost = this.props.route.params.jobPost;
+            jobPost.destroy().then(()=>{
+                ToastAndroid.show("Post deleted for all other users, it will vanish from your list when you restart app",ToastAndroid.SHORT);
+                this.navigation.goBack();
+            })
         }
     }
     componentDidMount() {
