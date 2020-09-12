@@ -95,10 +95,10 @@ export default class ReferredPeople extends Component {
                             onPress={(eventName, index) => {
                                 if (eventName !== 'itemSelected') return
                                 if (index == 0) {
-                                    val.person.destroy().then(()=>{
-                                        ToastAndroid.show("Referral Deleted.",ToastAndroid.SHORT);
-                                    }).catch((error)=>{
-                                        ToastAndroid.show("Error deleting referral",ToastAndroid.SHORT);
+                                    val.person.destroy().then(() => {
+                                        ToastAndroid.show("Referral Deleted.", ToastAndroid.SHORT);
+                                    }).catch((error) => {
+                                        ToastAndroid.show("Error deleting referral", ToastAndroid.SHORT);
                                     })
                                 }
                             }}

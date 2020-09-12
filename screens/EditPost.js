@@ -70,7 +70,7 @@ export default class EditPost extends Component {
                     editedBy: user
 
                 }).then((postDetails) => {
-                    alert('Post Successfully Updated.');
+                    alert('Post Successfully Updated. Restart App.');
                 }, (error) => {
                     alert('Some error occurred. Please try again. ' + error);
                 });
