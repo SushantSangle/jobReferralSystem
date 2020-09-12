@@ -98,7 +98,8 @@ export default class ReferPerson extends Component {
                         onChangeText={(name) => this.setState({ name })}
                         label="name"
                         style={styles.inputext}
-                        placeholder={'First Middle Last'}
+                        placeholder={'FirstName MiddleName LastName'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <Text style={styles.text}>Contact*</Text>
@@ -107,7 +108,8 @@ export default class ReferPerson extends Component {
                         onChangeText={(Contact) => this.setState({ Contact })}
                         label="Contact"
                         style={styles.inputext}
-                        placeholder={'Enter Contact'}
+                        placeholder={'Enter Mobile Number'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <Text style={styles.text}>Date of Birth*</Text>
@@ -116,7 +118,8 @@ export default class ReferPerson extends Component {
                         onChangeText={(dob) => this.setState({ dob })}
                         label="dob"
                         style={styles.inputext}
-                        placeholder={'22-09-1999'}
+                        placeholder={'YYYY-MM-DD'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <Text style={styles.text}>Email*</Text>
@@ -125,7 +128,8 @@ export default class ReferPerson extends Component {
                         onChangeText={(email) => this.setState({ email })}
                         label="email"
                         style={styles.inputext}
-                        placeholder={'Enter email'}
+                        placeholder={'Enter e-mail address'}
+                        placeholderTextColor={styles.input_text_dark.color}
 
                     />
 
@@ -136,6 +140,7 @@ export default class ReferPerson extends Component {
                         label="qualification"
                         style={styles.inputext}
                         placeholder={'Enter Qualification'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     < Text style={styles.text}>Work Experience*</Text>
@@ -145,6 +150,7 @@ export default class ReferPerson extends Component {
                         label="workexperience"
                         style={styles.inputext}
                         placeholder={'Enter Work Experience'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <Text style={styles.text}>Description*</Text>
@@ -155,6 +161,7 @@ export default class ReferPerson extends Component {
                         onChangeText={text => this.setState({ description: text })}
                         label="description"
                         placeholder={'Enter Description'}
+                        placeholderTextColor={styles.input_text_dark.color}
                         style={styles.inputext}
                     />
 
@@ -166,6 +173,7 @@ export default class ReferPerson extends Component {
                         label="link"
                         style={styles.inputext}
                         placeholder={'Enter an optional link (LinkedIn),(gitHub)'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <TouchableOpacity onPress={this.onPress} >

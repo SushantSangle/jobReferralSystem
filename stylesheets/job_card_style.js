@@ -8,31 +8,30 @@ const job_card_style = StyleSheet.create({
         alignSelf: "center",
         padding: 10,
         marginVertical: "1%",
-        borderColor:'#777E8B',
+        borderColor: '#777E8B',
         borderWidth: 2,
     },
     jobcard_head: {
         color: '#69a74e',
-        fontSize: width/18,
-        fontWeight:'bold',
+        fontSize: width / 18,
+        fontWeight: 'bold',
         marginBottom: 5
     },
     jobcard_details: {
-        fontSize: width/28,
+        fontSize: width / 28,
         padding: 1,
         color: '#586776'
     },
-    fontSize: width/28,
-    headSize: width/18,
+    fontSize: width / 28,
+    headSize: width / 18,
     TouchableOpacityStyle: {
         position: 'absolute',
         width: 50,
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        right: 30,
-        bottom: 30,
-
+        right: '5%',
+        bottom: '5%',
     },
 
     FloatingButtonStyle: {

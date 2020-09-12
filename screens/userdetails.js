@@ -31,15 +31,15 @@ export default class UserDetails extends Component {
     onPopupEvent = (eventName, index) => {
         if (eventName !== 'itemSelected') return
         if (index == 0) {
-            this.navigation.navigate("NewUser",{
-                edit:true,
-                user:this.props.route.params,
+            this.navigation.navigate("NewUser", {
+                edit: true,
+                user: this.props.route.params,
             });
         }
         if (index == 1) {
             const boop = this.props.route.params.destroy();
-            boop.then(()=>{
-                ToastAndroid.show("User deleted",ToastAndroid.SHORT);
+            boop.then(() => {
+                ToastAndroid.show("User deleted", ToastAndroid.SHORT);
                 this.navigation.goBack();
             })
         }
@@ -54,7 +54,7 @@ export default class UserDetails extends Component {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}>
-                        <Text style={styles.jobcard_head}>{this.props.route.params.get('firstName')+" s"+this.props.route.params.get('lastName')}</Text>
+                        <Text style={styles.jobcard_head}>{this.props.route.params.get('firstName') + " s" + this.props.route.params.get('lastName')}</Text>
                         <PopupMenu
                             actions={this.state.actions}
                             onPress={this.onPopupEvent} />
@@ -67,7 +67,7 @@ export default class UserDetails extends Component {
                     <Text style={styles.jobcard_details}>Mobile: {this.props.route.params.get('EmpPhone')}</Text>
                     <Text style={styles.jobcard_details}>Work Experience: {this.props.route.params.get('workExperience')}</Text>
                     <Text style={styles.jobcard_details}>Address: {this.props.route.params.get('EmpAddress')}</Text>
-                <Text style={styles.jobcard_details}>Date of Birth:{""+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()}</Text>
+                    <Text style={styles.jobcard_details}>Date of Birth:{"" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()}</Text>
                 </View>
             </>
         );
