@@ -169,4 +169,3 @@ const commentStyle = StyleSheet.create({
     }
 })
 const styles = require('../stylesheets/job_card_style');
-

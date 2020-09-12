@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Parse, User} from "parse/react-native"
 import FilePickerManager from 'react-native-file-picker';
 import {readString} from 'react-papaparse';
+import DatePicker from 'react-native-datepicker';
 
 Parse.setAsyncStorage(AsyncStorage);
 Parse.initialize('job-Referral-System');
@@ -305,12 +306,17 @@ onPressBulkUser = () => {
       />
 
     <Text style={styles.text}>Date of Birth*</Text>
-      <TextInput
-      value={this.state.dob}
-      onChangeText={(dob)=>this.setState({dob})}
-      label="dob"
-      style={styles.inputext}
-      placeholder={'Enter dob'}
+      <DatePicker
+        style={styles.inputext}
+        date={this.state.dob}
+        mode='date'
+        placeholder='select date'
+        format='YYYY-MM-DD'
+        confirmBtnText="confirm"
+        cancelBtnText="Cancel"
+        userNativeDriver={true}
+        showIcon={false}
+        onDateChange={(date)=>{this.setState({dob:date})}}
       />
 
     <Text style={styles.text}>Gender*</Text>
