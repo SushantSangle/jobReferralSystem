@@ -50,6 +50,7 @@ export default class ReferredPeople extends Component {
                             referWorkExperience: result.get('workExperience'),
                             referQualification: result.get('qualification'),
                             referLinkedin: result.get('email'),
+                            person: result,
                         });
                     }
                     this.setState(this.state);
@@ -98,11 +99,14 @@ export default class ReferredPeople extends Component {
                             onPress={(eventName, index) => {
                                 if (eventName !== 'itemSelected') return
                                 if (index == 0) {
-                                    //delete
+                                    val.person.destroy().then(()=>{
+                                        ToastAndroid.show("Referral Deleted.",ToastAndroid.SHORT);
+                                    }).catch((error)=>{
+                                        ToastAndroid.show("Error deleting referral",ToastAndroid.SHORT);
+                                    })
                                 }
                             }}
                             size={styles.fontSize}
-
                         />
                     </View>
                 </View>
