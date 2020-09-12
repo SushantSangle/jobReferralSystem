@@ -79,6 +79,7 @@ export default class NewPost extends Component {
                         label="position"
                         style={styles.inputext}
                         placeholder={'Enter Position'}
+                        placeholderTextColor={styles.input_text_dark.color}
                         require={true}
                     />
 
@@ -89,6 +90,7 @@ export default class NewPost extends Component {
                         label="technology"
                         style={styles.inputext}
                         placeholder={'Enter Technology'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <Text style={styles.text}>Type*</Text>
@@ -98,6 +100,7 @@ export default class NewPost extends Component {
                         label="type"
                         style={styles.inputext}
                         placeholder={'Enter Type'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
 
@@ -108,6 +111,7 @@ export default class NewPost extends Component {
                         label="location"
                         style={styles.inputext}
                         placeholder={'Enter Location'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
 
@@ -118,6 +122,7 @@ export default class NewPost extends Component {
                         label="qualification"
                         style={styles.inputext}
                         placeholder={'Enter Qualification'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
 
@@ -128,6 +133,7 @@ export default class NewPost extends Component {
                         label="workexperience"
                         style={styles.inputext}
                         placeholder={'Enter Work Experience'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
 
@@ -140,6 +146,7 @@ export default class NewPost extends Component {
                         label="description"
                         style={styles.inputext}
                         placeholder={'Enter Description'}
+                        placeholderTextColor={styles.input_text_dark.color}
                     />
 
                     <TouchableOpacity onPress={this.onPress} >

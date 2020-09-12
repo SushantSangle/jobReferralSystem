@@ -1,6 +1,4 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { SafeAreaView, ScrollView, View, Image } from 'react-native';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen';
