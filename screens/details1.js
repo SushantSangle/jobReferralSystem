@@ -141,7 +141,7 @@ export default class Details extends Component {
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
                 <ScrollView>
                     {comments}
-                    <View style={commentStyle.commentBox}>
+                    <View style={[styles.jobcard_view,{flexDirection:'row',justifyContent:'space-between'}]}>
                         <TextInput
                             style={commentStyle.commentText}
                             value={this.state.userComment}
@@ -160,22 +160,8 @@ export default class Details extends Component {
     }
 }
 const commentStyle = StyleSheet.create({
-    commentBox: {
-        width: commentWidth,
-        borderRadius: 5,
-        backgroundColor: "#222629",
-        alignSelf: "center",
-        padding: 10,
-        elevation: 10,
-        color: "#606770",
-        marginVertical: "1%",
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-    },
     commentText: {
         color: "#606770",
-        width: commentTextWidth,
     },
     sendButton: {
         width: 45,
