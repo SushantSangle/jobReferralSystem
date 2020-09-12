@@ -287,7 +287,7 @@ export default class NewUser extends Component {
             onChangeText={(address) => this.setState({ address })}
             label="address"
             style={styles.inputext}
-            placeholder={'Enter e-mail address'}
+            placeholder={'Enter E-mail address'}
             placeholderTextColor={styles.input_text_dark.color}
           />
 
@@ -400,7 +400,7 @@ export default class NewUser extends Component {
             onChangeText={(workExperience) => this.setState({ workExperience })}
             label="workExperience"
             style={styles.inputext}
-            placeholder={'Enter workExperience'}
+            placeholder={'Enter Work Experience'}
             placeholderTextColor={styles.input_text_dark.color}
           />
 
