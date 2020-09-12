@@ -7,7 +7,7 @@ const newPost = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,  
+        padding: 10,
     },
     scrollView: {
         width: '100%',
@@ -19,10 +19,10 @@ const newPost = StyleSheet.create({
         marginLeft: 10,
     },
     signin: {
-        alignSelf:'center',
+        alignSelf: 'center',
         borderRadius: 20,
         backgroundColor: "#3ab795",
-        height: 60, width: 200,
+        height: 60, width: '50%',
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 20,
@@ -39,9 +39,11 @@ const newPost = StyleSheet.create({
         borderColor: '#606770',
         borderRadius: 15,
         color: '#586776',
-   
-    },
 
+    },
+    input_text_dark: {
+        color: "#3f3f3f"
+    }
 });
 
 module.exports = newPost;

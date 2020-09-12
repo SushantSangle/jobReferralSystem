@@ -88,27 +88,30 @@ export default class ReferredPeople extends Component {
             return (
                 <View style={styles.jobcard_view} key={key.toString()}>
                     {!this.state.jobId && <Text style={styles.jobcard_head}>{val.referJob}</Text>}
-                    <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
-                    <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
-                    <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
-
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
+                        <Text style={styles.jobcard_details}>Name: {val.referName}</Text>
                         <PopupMenu
                             actions={['Remove referral']}
                             onPress={(eventName, index) => {
                                 if (eventName !== 'itemSelected') return
                                 if (index == 0) {
-                                    val.person.destroy().then(()=>{
-                                        ToastAndroid.show("Referral Deleted.",ToastAndroid.SHORT);
-                                    }).catch((error)=>{
-                                        ToastAndroid.show("Error deleting referral",ToastAndroid.SHORT);
+                                    val.person.destroy().then(() => {
+                                        ToastAndroid.show("Referral Deleted.", ToastAndroid.SHORT);
+                                    }).catch((error) => {
+                                        ToastAndroid.show("Error deleting referral", ToastAndroid.SHORT);
                                     })
                                 }
                             }}
                             size={styles.fontSize}
                         />
                     </View>
+                    <Text style={styles.jobcard_details}>Work Experience: {val.referWorkExperience}</Text>
+                    <Text style={styles.jobcard_details}>Qualification: {val.referQualification}</Text>
+
+
+                    <Text style={styles.jobcard_details}>Link: {val.referLinkedin}</Text>
+
+
                 </View>
             );
         });

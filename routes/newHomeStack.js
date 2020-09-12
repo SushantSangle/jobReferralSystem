@@ -16,28 +16,6 @@ import ReferredPeople from '../screens/ReferredPeople';
 import { NavigationContainer } from '@react-navigation/native';
 
 const HStack = createStackNavigator();
-
-const Homes = ({ navigation }) => {
-    return (
-        <>
-            <View>
-                <Text>HOMEEEEEEEEEEE</Text>
-            </View>
-            <Button
-                title="Goto detailss"
-                onPress={() => navigation.navigate("Details")} />
-        </>
-    );
-}
-
-const Detailss = ({ navigation }) => {
-    return (
-        <View>
-            <Text>Detailsssssssssss</Text>
-        </View>
-    );
-}
-
 const HomeStack = () => {
     return (
         <HStack.Navigator>

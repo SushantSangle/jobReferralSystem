@@ -23,6 +23,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager';
 import ConfigLoader from '../utils/ConfigLoader';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Home extends Component {
     constructor(props) {

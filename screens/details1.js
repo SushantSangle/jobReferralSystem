@@ -19,6 +19,7 @@ import {
 } from 'parse/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RoleManager from '../utils/RoleManager'
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 const width = Dimensions.get("window").width;
@@ -64,8 +65,8 @@ export default class Details extends Component {
         }
         if (index == 3) {
             const jobPost = this.props.route.params.jobPost;
-            jobPost.destroy().then(()=>{
-                ToastAndroid.show("Post deleted for all other users, it will vanish from your list when you restart app",ToastAndroid.SHORT);
+            jobPost.destroy().then(() => {
+                ToastAndroid.show("Post deleted for all other users, restart app to see updated list.", ToastAndroid.SHORT);
                 this.navigation.goBack();
             })
         }
@@ -116,7 +117,7 @@ export default class Details extends Component {
             console.log(val);
             return (
                 <View style={styles.jobcard_view} key={key}>
-                    <Text style={[styles.jobcard_details,{fontWeight:'bold'}]}>{val.get('byUsername')}</Text>
+                    <Text style={[styles.jobcard_details, { fontWeight: 'bold' }]}>{val.get('byUsername')}</Text>
                     <Text style={styles.jobcard_details}>{val.get('content')}</Text>
                 </View>
             )
