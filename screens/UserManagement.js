@@ -109,7 +109,9 @@ export default class UserManagement extends Component {
     }
     
     clickHandler = () => {
-        this.navigation.navigate("NewUser" );
+        this.navigation.navigate("NewUser",{
+            edit:false,
+        });
     };
 }
 

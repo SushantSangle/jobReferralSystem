@@ -19,7 +19,7 @@ Parse.serverURL='https://parse.sushant.xyz:1304/parse';
 export default class NewUser extends Component {
   constructor(props) {
     super(props);
-    if(this.props.route.params.edit){
+    if(this.props.route.params.edit==true){
       const employeeData = this.props.route.params.user;
       const date = employeeData.get('EmpDOB');
       console.log(date);
