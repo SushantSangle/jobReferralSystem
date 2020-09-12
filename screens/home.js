@@ -8,13 +8,11 @@
 
 import React, { Component } from 'react';
 import {
-    StyleSheet,
     View,
     Text,
-    Button, TouchableOpacity,
+    TouchableOpacity,
     Image,
-    ActivityIndicator,
-    scrollView,
+
     ToastAndroid
 } from 'react-native';
 import {
@@ -38,9 +36,9 @@ export default class Home extends Component {
             refreshing: false,
             roleLevel: RoleManager.getLevel(),
         };
-        ConfigLoader.pullConfig().then(async(value)=>{
-            if(value==1){
-                ToastAndroid.show("new Logo pulled from server, it will be loaded on login screen once you reload",ToastAndroid.SHORT);
+        ConfigLoader.pullConfig().then(async (value) => {
+            if (value == 1) {
+                ToastAndroid.show("new Logo pulled from server, it will be loaded on login screen once you reload", ToastAndroid.SHORT);
             }
         })
     }
@@ -51,8 +49,8 @@ export default class Home extends Component {
         this.setState({ loading: true });
         var query = new Query("jobPosts");
         var eachPromise = query.each((result) => {
-            var date=result.get("createdAt");
-            const det = ""+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
+            var date = result.get("createdAt");
+            const det = "" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
             this.state.data.push({
                 jobId: result.id,
                 jobHead: result.get('jobPosition'),
@@ -61,7 +59,7 @@ export default class Home extends Component {
                 jobAuthor: result.get("postedBy").get("username"),
                 jobTechnology: result.get("technology"),
 
-                jobWorkExperience:result.get("workEx"),
+                jobWorkExperience: result.get("workEx"),
                 jobDescription: result.get('description'),
                 jobDate: det,
 
@@ -119,7 +117,7 @@ export default class Home extends Component {
         return (
             <>
                 <ScrollView>
-                {!this.state.data.length && <Text style={[styles1.jobcard_details,{alignSelf:'center',padding:10}]}>
+                    {!this.state.data.length && <Text style={[styles1.jobcard_details, { alignSelf: 'center', padding: 10 }]}>
                         No Job Posts yet, please check you internet connection.
                     </Text>}
                     {posts}

@@ -142,7 +142,7 @@ export default class Details extends Component {
                 <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: '2.5%' }}>Comments</Text>
                 <ScrollView>
                     {comments}
-                    <View style={[styles.jobcard_view,{flexDirection:'row',justifyContent:'space-between'}]}>
+                    <View style={[styles.jobcard_view, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                         <TextInput
                             style={commentStyle.commentText}
                             value={this.state.userComment}
