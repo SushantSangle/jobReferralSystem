@@ -110,19 +110,7 @@ You can find more screenshots in **images** folder.
 5. Build the apk after proper configuration.
 
 # CONTRIBUTORS
-1. <a class='contrib_unit' href='https://github.com/atharva-borekar'><img src='https://github.com/atharva-borekar.png'> Atharva Borekar</a>
+1. <a class='contrib_unit' style='display:flex;align-items:center;' href='https://github.com/atharva-borekar'><img style='border-radius:15px;height:15px;width:15px' src='https://github.com/atharva-borekar.png'> Atharva Borekar</a>
 1. <a class='contrib_unit' href='https://github.com/priyaghayal'><img src='https://github.com/priyaghayal.png'> Priya Ghayal</a>
 1. <a class='contrib_unit' href='https://github.com/Hardika3'><img src='https://github.com/Hardika3.png'> Hardika Doshi</a>
 1. <a class='contrib_unit' href='https://github.com/SushantSangle'><img src='https://github.com/SushantSangle.png'> Sushant Sangle</a>
-<style>
-.contrib_unit{
-	display:flex;
-	flex-direction:row;
-	align-items:center;
-}
-.contrib_unit > img{
-	border-radius:15px;
-	height:30px;
-	width:30px;
-}
-</style>
