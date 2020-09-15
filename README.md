@@ -5,6 +5,15 @@ These referrals can be viewed by the Employer who will be able to make changes i
 
 This application is made using the react native development environment and is currently configured for android applications. The server side code has been developed on the Parse server using mongoDB database.
 
+## TABLE OF CONTENT
+1. [OBJECTIVES](#OBJECTIVES)
+1. [REQUIREMENTS](#REQUIREMENTS)
+1. [PRODUCT FEATURES](#FEATURES)
+1. [STRUCTURE OF APPLICATION](#STRUCTURE)
+1. [SCREENSHOTS](#SCREENSHOTS)
+1. [GETTING STARTED](#SETUP)
+1. [CONTRIBUTORS](#CONTRIBUTORS)
+
 ## OBJECTIVES
 1. Communicate in timely manner
 2. Allow more of the right people to make referrals
@@ -19,7 +28,7 @@ This application is made using the react native development environment and is c
 **SOFTWARE REQUIREMENTS FOR DEVELOPMENT**
 1. React Native Framework
 
-## PRODUCT FEATURES
+## FEATURES
 ### FUNCTIONAL
 1. Role Based Access Control System (RBAC)
 1. Upload Employee Data from CSV
@@ -41,7 +50,7 @@ The Application is deployable on open source Parse server
 1. Super Admin is able to Modify Company Logo
 1. User-friendly error messages as well as alerts appears on the screen wherever applicable
 
-## STRUCTURE OF APPLICATION
+## STRUCTURE
 ### NAVIGATION
 ![navigation](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/navigation_structure.png?raw=true)
 
@@ -96,13 +105,13 @@ The Application is deployable on open source Parse server
 ![home_dark](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/home_dark.png?raw=true)
 
 ![details](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/details_light.png?raw=true)
-![details_dark](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/details_dark.png?raw=true)
+![userList_dark](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/user_list_dark.png?raw=true)
 
 ![editPost_light](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/editPost_light.png?raw=true)
 ![ediPost_dark](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/new_post_dark.png?raw=true)
 
 You can find more screenshots in **images** folder.
-## GETTING STARTED
+## SETUP
 1. Create a parse server from [here](https://github.com/SushantSangle/jobReferralSystem_server/).
 2. replace the link inside *Parse.serverURL* from screens/LoginScreen.js.
 3. type `npm install` to install all the required dependencies.
@@ -110,10 +119,6 @@ You can find more screenshots in **images** folder.
 5. Build the apk after proper configuration.
 
 ## CONTRIBUTORS
-![](https://github.com/atharva-borekar.png?size=60)
-![](https://github.com/priyaghayal.png?size=60)
-![](https://github.com/Hardika3.png?size=60)
-![](https://github.com/SushantSangle.png?size=60)
 1. [Atharva Borekar](https://github.com/atharva-borekar)
 1. [Priya Ghayal](https://github.com/priyaghayal
 1. [Hardika Doshi](https://github.com/Hardika3)
