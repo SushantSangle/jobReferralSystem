@@ -5,22 +5,22 @@ These referrals can be viewed by the Employer who will be able to make changes i
 
 This application is made using the react native development environment and is currently configured for android applications. The server side code has been developed on the Parse server using mongoDB database.
 
-# OBJECTIVES
+## OBJECTIVES
 1. Communicate in timely manner
 2. Allow more of the right people to make referrals
 3. Proactively encourage referrals.
 4. Keep employees updates on available job openings.
 5. Give exaustive job requirements description.
 
-# REQUIREMENTS
-## HARDWARE REQUIREMENTS FOR DEPLOYMENT
+## REQUIREMENTS
+**HARDWARE REQUIREMENTS FOR DEPLOYMENT**
 1. Android mobile device/emulator.
 
-## SOFTWARE REQUIREMENTS FOR DEVELOPMENT
+**SOFTWARE REQUIREMENTS FOR DEVELOPMENT**
 1. React Native Framework
 
-# PRODUCT FEATURES
-## FUNCTIONAL
+## PRODUCT FEATURES
+### FUNCTIONAL
 1. Role Based Access Control System (RBAC)
 1. Upload Employee Data from CSV
 1. Add/View/Modify/Delete User data
@@ -30,7 +30,7 @@ This application is made using the react native development environment and is c
 1. An Email Notification can be sent to Users when new Job is posted
 1. Super admin can Download Referrals into CSV
 
-## NON FUNCTIONAL
+### NON FUNCTIONAL
 1. The data can be stored in a MongoDB database
 The Application is deployable on open source Parse server
 1. The Application supports on latest Android Platform
@@ -41,11 +41,11 @@ The Application is deployable on open source Parse server
 1. Super Admin is able to Modify Company Logo
 1. User-friendly error messages as well as alerts appears on the screen wherever applicable
 
-# STRUCTURE OF APPLICATION
-## NAVIGATION
+## STRUCTURE OF APPLICATION
+### NAVIGATION
 ![navigation](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/navigation_structure.png?raw=true)
 
-## LAYOUTS
+### LAYOUTS
 1. **Login Page**
 	- For the end-user to access the application functions, the user is expected to login/sign-in into the application. This is done by acquiring the login credentials (username and password) of the user. To verify the login session of the user we compare the above login credentials with the database. The authentication factors are:
 		1. Username - provided by the company
@@ -88,7 +88,7 @@ The Application is deployable on open source Parse server
 	- The theme gets changed when clicked on the option. This option toggles between the light and the dark theme.
 	- Logout option logs the user out and returns to the sign in page.
 
-# SCREENSHOTS
+## SCREENSHOTS
 ![login1](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/login_page1.png?raw=true)
 ![login2](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/login_page2.png?raw=true)
 
@@ -102,15 +102,19 @@ The Application is deployable on open source Parse server
 ![ediPost_dark](https://github.com/SushantSangle/jobReferralSystem/blob/main/images/new_post_dark.png?raw=true)
 
 You can find more screenshots in **images** folder.
-# GETTING STARTED
+## GETTING STARTED
 1. Create a parse server from [here](https://github.com/SushantSangle/jobReferralSystem_server/).
 2. replace the link inside *Parse.serverURL* from screens/LoginScreen.js.
 3. type `npm install` to install all the required dependencies.
 4. type `npx react-native run-android` to install it onto your system and try it out.
 5. Build the apk after proper configuration.
 
-# CONTRIBUTORS
-1. <a class='contrib_unit' style='display:flex;align-items:center;' href='https://github.com/atharva-borekar'><img style='border-radius:15px;height:15px;width:15px' src='https://github.com/atharva-borekar.png'> Atharva Borekar</a>
-1. <a class='contrib_unit' href='https://github.com/priyaghayal'><img src='https://github.com/priyaghayal.png'> Priya Ghayal</a>
-1. <a class='contrib_unit' href='https://github.com/Hardika3'><img src='https://github.com/Hardika3.png'> Hardika Doshi</a>
-1. <a class='contrib_unit' href='https://github.com/SushantSangle'><img src='https://github.com/SushantSangle.png'> Sushant Sangle</a>
+## CONTRIBUTORS
+![](https://github.com/atharva-borekar.png?size=60)
+![](https://github.com/priyaghayal.png?size=60)
+![](https://github.com/Hardika3.png?size=60)
+![](https://github.com/SushantSangle.png?size=60)
+1. [Atharva Borekar](https://github.com/atharva-borekar)
+1. [Priya Ghayal](https://github.com/priyaghayal
+1. [Hardika Doshi](https://github.com/Hardika3)
+1. [Sushant Sangle](https://github.com/SushantSangle)
