@@ -120,6 +120,6 @@ You can find more screenshots in **images** folder.
 
 ## CONTRIBUTORS
 1. [Atharva Borekar](https://github.com/atharva-borekar)
-1. [Priya Ghayal](https://github.com/priyaghayal
+1. [Priya Ghayal](https://github.com/priyaghayal)
 1. [Hardika Doshi](https://github.com/Hardika3)
 1. [Sushant Sangle](https://github.com/SushantSangle)
