@@ -13,9 +13,6 @@ import FilePickerManager from 'react-native-file-picker';
 import {readString} from 'react-papaparse';
 import DatePicker from 'react-native-datepicker';
 
-Parse.setAsyncStorage(AsyncStorage);
-Parse.initialize('job-Referral-System');
-Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
 
 export default class NewUser extends Component {
   constructor(props) {

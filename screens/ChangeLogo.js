@@ -11,9 +11,6 @@ import {Parse,Cloud} from 'parse/react-native'
 import ImagePicker from 'react-native-image-crop-picker';
 import ConfigLoader from '../utils/ConfigLoader';
 
-Parse.setAsyncStorage(AsyncStorage);
-Parse.serverURL='https://parse.sushant.xyz:1304/parse';
-Parse.initialize('job-Referral-System');
 
 
 export default class ChangeLogo extends Component {

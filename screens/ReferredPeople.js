@@ -15,10 +15,7 @@ import PopupMenu from '../components/popup_menu';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { jsonToCSV } from 'react-papaparse';
 
-Parse.User.enableUnsafeCurrentUser()
-Parse.setAsyncStorage(AsyncStorage);
-Parse.initialize('job-Referral-System');
-Parse.serverURL = 'https://parse.sushant.xyz:1304/parse';
+
 
 const width = Dimensions.get("window").width;
 
